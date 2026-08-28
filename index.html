@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <title>Aperture // Orbit</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#07090e">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: #10141e;
+      --card-border: #1e2433;
+      --card-sub: #141926;
+      --text: #f8fafc;
+      --text-muted: #8e9bb0;
+      --accent: #fb923c;
+      --accent-glow: rgba(251, 146, 60, 0.25);
+      --btn-bg: #161c2b;
+      --btn-border: #232b40;
+      --btn-hover: #1f273d;
+      --radius: 18px;
+      --gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f6fa;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --card-sub: #f8fafc;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --accent: #65a30d;
+      --accent-glow: rgba(101, 163, 13, 0.2);
+      --btn-bg: #f1f5f9;
+      --btn-border: #cbd5e1;
+      --btn-hover: #e2e8f0;
+    }
+
+    [data-nightvision="true"] {
+      --bg: #050000 !important;
+      --card-bg: #120000 !important;
+      --card-border: #330000 !important;
+      --card-sub: #1a0000 !important;
+      --text: #ff4d4d !important;
+      --text-muted: #992222 !important;
+      --accent: #ff2200 !important;
+      --accent-glow: rgba(255, 34, 0, 0.4) !important;
+      --btn-bg: #220000 !important;
+      --btn-border: #440000 !important;
+      --btn-hover: #330000 !important;
+      --gold: #ff3300 !important;
+      --green: #cc2200 !important;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 95px; transition: background 0.25s ease, color 0.25s ease; }
+
+    header {
+      padding: 16px 20px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .app-title { font-size: 1.15rem; font-weight: 850; letter-spacing: 0.5px; text-transform: uppercase; }
+    .header-btns { display: flex; gap: 8px; }
+
+    .btn-icon-round {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.15s ease;
+    }
+    .btn-icon-round:active { transform: scale(0.9); }
+    .btn-icon-round.nv-active { color: #ff2200; border-color: #ff2200; }
+
+    .theme-icon-container { display: flex; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    [data-theme="light"] .theme-icon-container { transform: rotate(180deg); }
+
+    .view-panel { display: none; padding: 16px; }
+    .view-panel.active { display: block; }
+
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+
+    .filter-chip {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .filter-chip.active {
+      background: var(--accent);
+      color: #07090e;
+      border-color: var(--accent);
+      font-weight: 700;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+
+    .section-header {
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin: 16px 0 10px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .event-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .event-card.starred-card {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: linear-gradient(180deg, var(--card-bg) 0%, rgba(245, 158, 11, 0.04) 100%);
+    }
+
+    .card-top { display: flex; gap: 12px; align-items: center; }
+
+    .event-icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--card-sub);
+      border: 1px solid var(--btn-border);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+    .card-title-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .card-title { font-size: 0.95rem; font-weight: 750; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-subtext { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    .peak-strip {
+      background: var(--card-sub);
+      border: 1px solid var(--card-border);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.76rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .card-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+    .meta-item { display: flex; align-items: center; gap: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .card-action-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding-top: 8px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .btn-action-cell {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--text);
+      padding: 8px 4px;
+      border-radius: 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-action-cell:active { background: var(--btn-hover); transform: scale(0.95); }
+    .btn-action-cell.active-star { color: var(--gold); border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); }
+
+    .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .deck-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .deck-title { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
+    .deck-val { font-size: 1.15rem; font-weight: 800; color: var(--accent); }
+    .deck-desc { font-size: 0.74rem; color: var(--text-muted); }
+
+    .calc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .calc-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
+    .calc-result {
+      background: var(--card-sub);
+      border: 1px solid var(--card-border);
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .settings-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .settings-title { font-size: 0.88rem; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--card-border);
+      font-size: 0.85rem;
+    }
+    .setting-item:last-child { border-bottom: none; }
+
+    .color-swatches { display: flex; gap: 8px; }
+    .swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .swatch.active { border-color: #fff; transform: scale(1.2); }
+
+    .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--btn-border);
+      transition: 0.25s;
+      border-radius: 30px;
+    }
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.25s;
+      border-radius: 50%;
+    }
+    input:checked + .toggle-slider { background-color: var(--accent); }
+    input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+    select, input[type="number"] {
+      background: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+    }
+    .modal-backdrop.open { display: flex; }
+
+    .modal-sheet {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      width: 100%;
+      max-height: 85vh;
+      padding: 20px 20px 30px;
+      overflow-y: auto;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .modal-grid-item {
+      background: var(--card-sub);
+      border: 1px solid var(--card-border);
+      padding: 12px;
+      border-radius: 12px;
+    }
+    .modal-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+    .modal-val { font-size: 0.88rem; font-weight: 750; color: var(--accent); margin-top: 2px; }
+
+    .handbook-section {
+      background: var(--card-sub);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 12px;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+    .handbook-subtitle {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .handbook-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 800;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--bg);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 16px;
+      z-index: 100;
+    }
+    .nav-tab {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .nav-tab.active { color: var(--accent); font-weight: 700; }
+  </style>
+</head>
+<body data-theme="dark">
+
+  <header>
+    <div class="app-title">Aperture // Orbit</div>
+    <div class="header-btns">
+      <button class="btn-icon-round" id="nv-btn" onclick="toggleNightVision()" title="Toggle Red Night Vision">
+        <i data-lucide="eye"></i>
+      </button>
+      <button class="btn-icon-round" id="theme-btn" aria-label="Toggle Theme">
+        <div class="theme-icon-container">
+          <i id="theme-icon" data-lucide="moon"></i>
+        </div>
+      </button>
+    </div>
+  </header>
+
+  <!-- TAB 1: LIST / FEED -->
+  <main id="tab-list" class="view-panel active">
+    <div class="filter-scroll">
+      <button class="filter-chip active" onclick="setFilter('all')"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> All</button>
+      <button class="filter-chip" onclick="setFilter('lunar')"><i data-lucide="moon" style="width:14px;height:14px;"></i> Lunar</button>
+      <button class="filter-chip" onclick="setFilter('solar')"><i data-lucide="sun" style="width:14px;height:14px;"></i> Solar</button>
+      <button class="filter-chip" onclick="setFilter('meteor')"><i data-lucide="flame" style="width:14px;height:14px;"></i> Meteors</button>
+      <button class="filter-chip" onclick="setFilter('aurora')"><i data-lucide="waves" style="width:14px;height:14px;"></i> Aurora</button>
+      <button class="filter-chip" onclick="setFilter('milkyway')"><i data-lucide="stars" style="width:14px;height:14px;"></i> Milky Way</button>
+      <button class="filter-chip" onclick="setFilter('planet')"><i data-lucide="orbit" style="width:14px;height:14px;"></i> Planets</button>
+    </div>
+
+    <div id="events-feed"></div>
+  </main>
+
+  <!-- TAB 2: LIVE OBSERVER DECK -->
+  <main id="tab-deck" class="view-panel">
+    <div class="section-header"><i data-lucide="activity" style="width:14px;height:14px;"></i> Live Sky Conditions</div>
+    <div class="deck-grid">
+      <div class="deck-card">
+        <div class="deck-title">Moon Phase</div>
+        <div class="deck-val" id="deck-moon-phase">Waxing Gibbous</div>
+        <div class="deck-desc" id="deck-moon-illum">~78% Illumination</div>
+      </div>
+      <div class="deck-card">
+        <div class="deck-title">Aurora Activity</div>
+        <div class="deck-val" style="color:var(--green);">Kp 3.3 (Active)</div>
+        <div class="deck-desc">Substorm visible at 50°N</div>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <div style="font-size:0.92rem; font-weight:800; text-transform:uppercase;">Pinpoint Star Exposure Calc</div>
+      <div style="font-size:0.78rem; color:var(--text-muted);">Calculates max shutter duration before stars begin trailing (500 Rule & NPF).</div>
+      
+      <div class="calc-row">
+        <span>Lens Focal Length (mm)</span>
+        <input type="number" id="calc-focal" value="14" style="width:75px;" oninput="recalcShutter()">
+      </div>
+
+      <div class="calc-row">
+        <span>Camera Sensor Type</span>
+        <select id="calc-crop" onchange="recalcShutter()">
+          <option value="1.0" selected>Full Frame (1.0x)</option>
+          <option value="1.5">APS-C / Crop (1.5x)</option>
+          <option value="2.0">Micro Four Thirds (2.0x)</option>
+        </select>
+      </div>
+
+      <div class="calc-result">
+        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Max Recommended Shutter</div>
+        <div style="font-size:1.3rem; font-weight:850; color:var(--accent); margin-top:2px;" id="calc-output">35.7 seconds</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TAB 3: YOU / SETTINGS -->
+  <main id="tab-you" class="view-panel">
+    <div class="settings-card">
+      <div class="settings-title">Documentation & Credits</div>
+      <div class="setting-item">
+        <div>
+          <div style="font-weight:700;">Field Handbook & Guide</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">How to install, get .ics feeds, & shoot targets</div>
+        </div>
+        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="openHandbookModal()">
+          <i data-lucide="book-open" style="width:14px;height:14px;"></i> Open Guide
+        </button>
+      </div>
+    </div>
+
+    <!-- Direct .ICS File Ingestion & Backup Engine -->
+    <div class="settings-card">
+      <div class="settings-title">Data Ingestion (.ICS & JSON)</div>
+      
+      <div class="setting-item">
+        <div>
+          <div style="font-weight:700;">Import & Load .ICS File</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Parse any downloaded .ics file into your active targets</div>
+        </div>
+        <div>
+          <input type="file" id="ics-file-input" accept=".ics,text/calendar" style="display:none;" onchange="handleICSImport(event)">
+          <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="document.getElementById('ics-file-input').click()">
+            <i data-lucide="file-down" style="width:14px;height:14px;"></i> Import .ICS
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div style="font-weight:700;">App Event Backup (JSON)</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Export or restore your custom starred & edited targets</div>
+        </div>
+        <div style="display:flex; gap:6px;">
+          <input type="file" id="json-file-input" accept=".json,application/json" style="display:none;" onchange="handleJSONImport(event)">
+          <button class="btn-action-cell" style="width:auto; padding:8px 10px; flex-direction:row;" onclick="exportAppJSON()">
+            <i data-lucide="download" style="width:14px;height:14px;"></i> Backup
+          </button>
+          <button class="btn-action-cell" style="width:auto; padding:8px 10px; flex-direction:row;" onclick="document.getElementById('json-file-input').click()">
+            <i data-lucide="upload" style="width:14px;height:14px;"></i> Restore
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div style="font-weight:700;">NASA SkyCal Source</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Official NASA sky event dates and source data</div>
+        </div>
+        <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;">
+          <i data-lucide="external-link" style="width:14px;height:14px;"></i> NASA SkyCal ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <div class="settings-title">Visuals & Palettes</div>
+      <div class="setting-item">
+        <span>Accent Palette</span>
+        <div class="color-swatches">
+          <div class="swatch active" style="background:#fb923c;" onclick="setCustomAccent('#fb923c', this)" title="Warm Amber"></div>
+          <div class="swatch" style="background:#65a30d;" onclick="setCustomAccent('#65a30d', this)" title="Sage Green"></div>
+          <div class="swatch" style="background:#eab308;" onclick="setCustomAccent('#eab308', this)" title="Solar Gold"></div>
+          <div class="swatch" style="background:#8b5cf6;" onclick="setCustomAccent('#8b5cf6', this)" title="Deep Violet"></div>
+          <div class="swatch" style="background:#38bdf8;" onclick="setCustomAccent('#38bdf8', this)" title="Ice Blue"></div>
+        </div>
+      </div>
+      <div class="setting-item">
+        <span>Time Display Format</span>
+        <select id="cfg-time-fmt" onchange="setTimeFormat(this.value)">
+          <option value="12h">12-Hour Local (AM/PM)</option>
+          <option value="24h">24-Hour Military</option>
+          <option value="utc">UTC / Zulu Standard</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <div class="settings-title">Push Alerts & Timing</div>
+      <div class="setting-item">
+        <span>System Push Alerts</span>
+        <label class="toggle">
+          <input type="checkbox" id="notif-toggle" onchange="toggleNotifications(this.checked)">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="setting-item">
+        <span>Advance Reminder Lead</span>
+        <select id="cfg-lead" onchange="saveSetting('lead_time', this.value)">
+          <option value="1">1 Day Prior</option>
+          <option value="3">3 Days Prior</option>
+          <option value="7" selected>1 Week Prior</option>
+          <option value="14">2 Weeks Prior</option>
+          <option value="30">1 Month Prior</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-card">
+      <div class="settings-title">Storage & Event Cache</div>
+      <div class="setting-item">
+        <span>Restore Dismissed Targets</span>
+        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="restoreAllDismissed()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Restore All</button>
+      </div>
+      <div class="setting-item">
+        <span>Reset Starred Targets</span>
+        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="clearAllStarred()"><i data-lucide="trash-2" style="width:14px;height:14px;"></i> Reset Stars</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL 1: CAMERA SPECS -->
+  <div class="modal-backdrop" id="target-modal" onclick="closeModal(event)">
+    <div class="modal-sheet">
+      <div style="width:36px; height:4px; background:var(--card-border); border-radius:99px; margin:0 auto 12px;"></div>
+      <div style="font-size:1.2rem; font-weight:800;" id="m-title">Target Title</div>
+      <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;" id="m-desc">Optimum exposure settings for this event.</div>
+
+      <div class="modal-grid">
+        <div class="modal-grid-item">
+          <div class="modal-label">Recommended Shutter</div>
+          <div class="modal-val" id="m-shutter">15s - 25s</div>
+        </div>
+        <div class="modal-grid-item">
+          <div class="modal-label">Optimal ISO</div>
+          <div class="modal-val" id="m-iso">1600 - 3200</div>
+        </div>
+        <div class="modal-grid-item">
+          <div class="modal-label">Aperture Setting</div>
+          <div class="modal-val" id="m-aperture">f/1.8 - f/2.8</div>
+        </div>
+        <div class="modal-grid-item">
+          <div class="modal-label">Peak Time Window</div>
+          <div class="modal-val" id="m-window">01:30 - 03:45 AM</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px;">
+        <button class="btn-action-cell" onclick="closeModalDirect('target-modal')" style="width:100%; padding:12px; font-weight:700;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: FIELD HANDBOOK & GUIDE -->
+  <div class="modal-backdrop" id="handbook-modal" onclick="closeModal(event)">
+    <div class="modal-sheet" id="handbook-scroll-container">
+      <div style="width:36px; height:4px; background:var(--card-border); border-radius:99px; margin:0 auto 12px;"></div>
+      
+      <div style="font-size:1.15rem; font-weight:850; letter-spacing:0.4px;">Aperture // Orbit</div>
+      <div style="font-size:0.75rem; color:var(--accent); font-weight:700; margin-bottom:8px;">v1.4.3 • Public Beta</div>
+      <div style="font-size:0.82rem; margin-bottom:14px;">
+        Made by: <b><a href="https://instagram.com/27ozig" target="_blank" rel="noopener" class="handbook-link">@27ozig</a></b>
+      </div>
+
+      <!-- How to Install -->
+      <div class="handbook-section">
+        <div class="handbook-subtitle"><i data-lucide="download" style="width:14px;height:14px;"></i> How to Install on Your Phone</div>
+        <b>iPhone / iOS:</b><br>
+        1. Open this website link in <b>Safari</b>.<br>
+        2. Tap the <b>Share</b> button (square with the arrow pointing up).<br>
+        3. Scroll down and tap <b>Add to Home Screen</b>.<br><br>
+        <b>Android:</b><br>
+        1. Open the link in <b>Chrome</b>.<br>
+        2. Tap the <b>3 dots menu</b> in the top right corner.<br>
+        3. Tap <b>Install app</b> or <b>Add to Home screen</b>.
+      </div>
+
+      <!-- Where to Find ICS Files -->
+      <div class="handbook-section">
+        <div class="handbook-subtitle"><i data-lucide="file-down" style="width:14px;height:14px;"></i> How to Get .ICS Event Files</div>
+        You can download free <code>.ics</code> calendar files and load them straight into the app via <b>Import .ICS</b> in Settings:<br><br>
+        1. <b>NASA SkyCal:</b> Go to <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="handbook-link">NASA SkyCal</a>, pick your year & events (eclipses, moon phases), and download the generated calendar file.<br>
+        2. <b>International Meteor Organization (IMO):</b> Download meteor shower peak schedules at <a href="https://www.imo.net" target="_blank" rel="noopener" class="handbook-link">imo.net</a>.<br>
+        3. <b>SeaSky Astronomy Calendar:</b> Free sky event feeds at <a href="http://www.seasky.org/astronomy/astronomy-calendar-2026.html" target="_blank" rel="noopener" class="handbook-link">seasky.org</a>.<br><br>
+        Once downloaded to your device, tap <b>Import .ICS</b> in Settings to automatically map and populate your feed.
+      </div>
+
+      <!-- Quick Phone Guide -->
+      <div class="handbook-section">
+        <div class="handbook-subtitle"><i data-lucide="smartphone" style="width:14px;height:14px;"></i> Shooting on Your Phone</div>
+        <b>1. Keep it totally still:</b> Put your phone on a tripod or lean it against something sturdy. Holding it in your hands will blur the stars or turn off Astro mode.<br><br>
+        <b>2. Camera modes:</b>
+        <ul style="padding-left:18px; margin:4px 0 8px;">
+          <li><b>Pixel:</b> Switch to Night Sight and keep it still—it automatically triggers Astrophotography mode.</li>
+          <li><b>iPhone:</b> Turn on Night Mode and slide the timer to Max (10s–30s).</li>
+          <li><b>Samsung:</b> Use Expert RAW or Night Mode.</li>
+        </ul>
+        <b>3. Set a 3-second timer:</b> This stops the camera from shaking when your finger taps the screen.<br>
+        <a href="#post-notes-anchor" onclick="scrollToPostNotes()" style="color:var(--accent); text-decoration:underline; font-weight:700; display:inline-block; margin-top:6px;">* How to use the Deck with your phone</a>
+      </div>
+
+      <!-- Quick Camera Guide -->
+      <div class="handbook-section">
+        <div class="handbook-subtitle"><i data-lucide="camera" style="width:14px;height:14px;"></i> Shooting on a DSLR / Mirrorless</div>
+        <b>1. Focus manually:</b> Switch your lens to MF (Manual Focus). Zoom in on the brightest star on your screen and turn the focus ring until the star looks as tiny and sharp as possible.<br><br>
+        <b>2. Aperture (f-stop):</b> Pick your lowest f-number (like f/1.8 or f/2.8) so the lens lets in the most light.<br><br>
+        <b>3. Shutter speed:</b> Check the <b>Observer Deck</b> tab to see how many seconds you can shoot before the stars start stretching into lines.
+      </div>
+
+      <!-- Post Notes -->
+      <div class="handbook-section" id="post-notes-anchor">
+        <div class="handbook-subtitle"><i data-lucide="file-text" style="width:14px;height:14px;"></i> Notes & Deck Tips (*)</div>
+        • <b>Checking your phone's lens info:</b> If you look at photo details in your gallery and see something like <i>24mm</i>, just type <b>24</b> into the Deck calculator and leave the sensor setting on <b>1.0x</b>.<br><br>
+        • <b>How phones capture stars:</b> Phones don't take one giant 30-second picture. They shoot lots of quick 4-second shots and stack them together automatically so stars stay sharp.
+      </div>
+
+      <button class="btn-action-cell" onclick="closeModalDirect('handbook-modal')" style="width:100%; padding:12px; font-weight:700; margin-top:8px;">Close Handbook</button>
+    </div>
+  </div>
+
+  <!-- NAVIGATION -->
+  <nav class="bottom-nav">
+    <button class="nav-tab active" onclick="switchTab('tab-list', this)">
+      <i data-lucide="list"></i>
+      Targets
+    </button>
+    <button class="nav-tab" onclick="switchTab('tab-deck', this)">
+      <i data-lucide="compass"></i>
+      Observer Deck
+    </button>
+    <button class="nav-tab" onclick="switchTab('tab-you', this)">
+      <i data-lucide="sliders"></i>
+      Settings
+    </button>
+  </nav>
+
+  <script>
+    const categoryIcons = {
+      lunar: 'moon',
+      solar: 'sun',
+      meteor: 'flame',
+      aurora: 'waves',
+      milkyway: 'stars',
+      planet: 'orbit'
+    };
+
+    const astroEvents = [
+      {
+        id: 'evt-1',
+        title: 'Total Lunar Eclipse (Blood Moon)',
+        category: 'lunar',
+        date: '2026-09-03T02:45:00',
+        peakStart: '01:30',
+        peakEnd: '03:45',
+        siteName: 'Direct Overhead Zenith',
+        lat: 47.6797,
+        lng: -80.2644,
+        articleUrl: 'https://eclipse.gsfc.nasa.gov/',
+        bortle: 'Class 2 (Pristine)',
+        shutter: '1/2s – 2s',
+        iso: '800 – 1600',
+        aperture: 'f/2.8 – f/4.0',
+        starred: true,
+        dismissed: false
+      },
+      {
+        id: 'evt-2',
+        title: 'Geomagnetic Storm (Aurora G2+)',
+        category: 'aurora',
+        date: '2026-09-14T23:00:00',
+        peakStart: '22:30',
+        peakEnd: '02:00',
+        siteName: 'Northern Lake Shore Clearing',
+        lat: 47.8500,
+        lng: -80.1200,
+        articleUrl: 'https://www.swpc.noaa.gov/',
+        bortle: 'Class 2 (High Aurora Index)',
+        shutter: '4s – 8s',
+        iso: '1600 – 3200',
+        aperture: 'f/1.8 – f/2.8',
+        starred: true,
+        dismissed: false
+      },
+      {
+        id: 'evt-3',
+        title: 'Perseid Meteor Shower Peak',
+        category: 'meteor',
+        date: '2026-08-12T23:30:00',
+        peakStart: '23:00',
+        peakEnd: '04:00',
+        siteName: 'Open Country Ridge Clearing',
+        lat: 47.6000,
+        lng: -80.3500,
+        articleUrl: 'https://www.imo.net/',
+        bortle: 'Class 2',
+        shutter: '15s – 20s (Intervalometer)',
+        iso: '3200 – 6400',
+        aperture: 'f/1.4 – f/2.0',
+        starred: false,
+        dismissed: false
+      },
+      {
+        id: 'evt-4',
+        title: 'Milky Way Galactic Core Window',
+        category: 'milkyway',
+        date: '2026-09-08T21:15:00',
+        peakStart: '21:00',
+        peakEnd: '23:30',
+        siteName: 'South Horizon Dark Clearing',
+        lat: 47.5000,
+        lng: -80.2000,
+        articleUrl: 'https://darksitefinder.com/',
+        bortle: 'Class 3',
+        shutter: '20s – 25s',
+        iso: '3200',
+        aperture: 'f/1.8 – f/2.8',
+        starred: false,
+        dismissed: false
+      },
+      {
+        id: 'evt-5',
+        title: 'Jupiter-Saturn Conjunction Peak',
+        category: 'planet',
+        date: '2026-09-21T20:45:00',
+        peakStart: '20:15',
+        peakEnd: '21:45',
+        siteName: 'Western Evening Horizon',
+        lat: 47.6797,
+        lng: -80.2644,
+        articleUrl: 'https://in-the-sky.org/',
+        bortle: 'Visible Anywhere',
+        shutter: '1/60s – 1/125s',
+        iso: '200 – 400',
+        aperture: 'f/5.6 – f/8.0',
+        starred: false,
+        dismissed: false
+      },
+      {
+        id: 'evt-6',
+        title: 'Torrance Barrens Deep Sky Window',
+        category: 'milkyway',
+        date: '2026-09-12T22:00:00',
+        peakStart: '22:00',
+        peakEnd: '03:00',
+        siteName: 'Torrance Barrens Dark-Sky Preserve',
+        lat: 44.9500,
+        lng: -79.5167,
+        articleUrl: 'https://rasc.ca/dark-sky-sites',
+        bortle: 'Class 2 (True Dark)',
+        shutter: '25s (Tracked)',
+        iso: '1600',
+        aperture: 'f/2.8',
+        starred: false,
+        dismissed: false
+      }
+    ];
+
+    let state = {
+      events: JSON.parse(localStorage.getItem('aperture_events_clean')) || astroEvents,
+      activeFilter: 'all',
+      theme: localStorage.getItem('app_theme') || 'dark',
+      customAccent: localStorage.getItem('app_accent') || '#fb923c',
+      timeFormat: localStorage.getItem('app_time_fmt') || '12h',
+      leadTime: localStorage.getItem('app_lead_time') || '7',
+      notifEnabled: localStorage.getItem('app_notif_enabled') === 'true',
+      calcFocal: localStorage.getItem('app_calc_focal') || '14',
+      calcCrop: localStorage.getItem('app_calc_crop') || '1.0',
+      nightVision: false
+    };
+
+    function saveState() {
+      localStorage.setItem('aperture_events_clean', JSON.stringify(state.events));
+    }
+
+    function saveSetting(key, val) {
+      state[key] = val;
+      localStorage.setItem('app_' + key, val);
+    }
+
+    function setCustomAccent(color, elem) {
+      state.customAccent = color;
+      document.documentElement.style.setProperty('--accent', color);
+      document.documentElement.style.setProperty('--accent-glow', color + '35');
+      saveSetting('accent', color);
+
+      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
+      if(elem) elem.classList.add('active');
+    }
+
+    function toggleNightVision() {
+      state.nightVision = !state.nightVision;
+      document.body.setAttribute('data-nightvision', state.nightVision);
+      document.getElementById('nv-btn').classList.toggle('nv-active', state.nightVision);
+    }
+
+    function setFilter(cat) {
+      state.activeFilter = cat;
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      renderEvents();
+    }
+
+    function setTimeFormat(fmt) {
+      state.timeFormat = fmt;
+      saveSetting('time_fmt', fmt);
+      renderEvents();
+    }
+
+    function formatTimeString(hour24, minute) {
+      const h = parseInt(hour24, 10);
+      const m = String(minute).padStart(2, '0');
+      if (state.timeFormat === '24h' || state.timeFormat === 'utc') {
+        return `${String(h).padStart(2, '0')}:${m}`;
+      }
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      return `${String(h12).padStart(2, '0')}:${m} ${ampm}`;
+    }
+
+    function formatTime(isoStr) {
+      const d = new Date(isoStr);
+      if (state.timeFormat === 'utc') {
+        return d.toUTCString().slice(0, 22) + ' UTC';
+      }
+      return d.toLocaleDateString(undefined, {
+        weekday: 'short', month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit',
+        hour12: state.timeFormat === '12h'
+      });
+    }
+
+    function getFormattedWindow(evt) {
+      if (evt.peakStart && evt.peakEnd) {
+        const [sH, sM] = evt.peakStart.split(':');
+        const [eH, eM] = evt.peakEnd.split(':');
+        const d = new Date(evt.date);
+        const peakFormatted = formatTimeString(d.getHours(), d.getMinutes());
+        return `${formatTimeString(sH, sM)} – ${formatTimeString(eH, eM)} (Peak ${peakFormatted})`;
+      }
+      return formatTime(evt.date);
+    }
+
+    function openTravelMaps(lat, lng, siteName) {
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const url = isIOS 
+        ? `maps://maps.apple.com/?daddr=${lat},${lng}&q=${encodeURIComponent(siteName)}`
+        : `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&query=${encodeURIComponent(siteName)}`;
+      window.open(url, '_blank');
+    }
+
+    function renderEvents() {
+      const container = document.getElementById('events-feed');
+      container.innerHTML = '';
+
+      const filtered = state.events.filter(e => {
+        if (e.dismissed) return false;
+        if (state.activeFilter === 'all') return true;
+        return e.category === state.activeFilter;
+      });
+
+      const starredEvents = filtered.filter(e => e.starred);
+      const regularEvents = filtered.filter(e => !e.starred);
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted);">No targets found for this filter.</div>`;
+        return;
+      }
+
+      if (starredEvents.length > 0) {
+        renderGroup(container, "Pinned & Starred Targets", starredEvents, true);
+      }
+
+      if (regularEvents.length > 0) {
+        renderGroup(container, "Upcoming Sky Targets", regularEvents, false);
+      }
+
+      lucide.createIcons();
+    }
+
+    function renderGroup(container, title, events, isStarredGroup) {
+      const heading = document.createElement('div');
+      heading.className = 'section-header';
+      heading.innerHTML = `<span>${title}</span> (${events.length})`;
+      container.appendChild(heading);
+
+      events.forEach(evt => {
+        const iconName = categoryIcons[evt.category] || 'sparkles';
+        const displayWindow = getFormattedWindow(evt);
+
+        const card = document.createElement('div');
+        card.className = `event-card ${isStarredGroup ? 'starred-card' : ''}`;
+        card.innerHTML = `
+          <div class="card-top">
+            <div class="event-icon-badge">
+              <i data-lucide="${iconName}"></i>
+            </div>
+            <div class="card-info">
+              <div class="card-title-row">
+                <div class="card-title">${evt.title}</div>
+              </div>
+              <div class="card-subtext">${evt.bortle} • <span style="color:var(--text-muted); font-size:0.72rem;">Routes to site coords</span></div>
+            </div>
+          </div>
+
+          <div class="peak-strip">
+            <i data-lucide="clock" style="width:14px;height:14px;"></i>
+            <span>${displayWindow}</span>
+          </div>
+
+          <div class="card-meta-grid">
+            <div class="meta-item"><i data-lucide="map-pin" style="width:13px;height:13px;"></i> ${evt.siteName}</div>
+            <div class="meta-item"><i data-lucide="calendar" style="width:13px;height:13px;"></i> ${formatTime(evt.date)}</div>
+          </div>
+
+          <div class="card-action-bar">
+            <button class="btn-action-cell ${evt.starred ? 'active-star' : ''}" onclick="toggleStar('${evt.id}')">
+              <i data-lucide="star" style="width:14px;height:14px;"></i>
+              <span>${evt.starred ? 'Starred' : 'Star'}</span>
+            </button>
+            <button class="btn-action-cell" onclick="openModal('${evt.id}')">
+              <i data-lucide="camera" style="width:14px;height:14px;"></i>
+              <span>Specs</span>
+            </button>
+            <a href="${evt.articleUrl}" target="_blank" rel="noopener" class="btn-action-cell">
+              <i data-lucide="newspaper" style="width:14px;height:14px;"></i>
+              <span>Article</span>
+            </a>
+            <button class="btn-action-cell" onclick="openTravelMaps(${evt.lat}, ${evt.lng}, '${evt.siteName}')">
+              <i data-lucide="navigation" style="width:14px;height:14px;"></i>
+              <span>Travel</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function toggleStar(id) {
+      state.events = state.events.map(e => e.id === id ? { ...e, starred: !e.starred } : e);
+      saveState();
+      renderEvents();
+    }
+
+    function restoreAllDismissed() {
+      state.events = state.events.map(e => ({ ...e, dismissed: false }));
+      saveState();
+      renderEvents();
+    }
+
+    function clearAllStarred() {
+      state.events = state.events.map(e => ({ ...e, starred: false }));
+      saveState();
+      renderEvents();
+    }
+
+    function openModal(id) {
+      const e = state.events.find(x => x.id === id);
+      if (!e) return;
+
+      document.getElementById('m-title').innerText = e.title;
+      document.getElementById('m-desc').innerText = `Field guide and optical settings for ${e.siteName}.`;
+      document.getElementById('m-shutter').innerText = e.shutter || '15s - 25s';
+      document.getElementById('m-iso').innerText = e.iso || '1600 - 3200';
+      document.getElementById('m-aperture').innerText = e.aperture || 'f/2.8';
+      document.getElementById('m-window').innerText = getFormattedWindow(e);
+
+      document.getElementById('target-modal').classList.add('open');
+      lucide.createIcons();
+    }
+
+    function openHandbookModal() {
+      document.getElementById('handbook-modal').classList.add('open');
+      lucide.createIcons();
+    }
+
+    function closeModalDirect(modalId) {
+      document.getElementById(modalId).classList.remove('open');
+    }
+
+    function closeModal(e) {
+      if (e.target.classList.contains('modal-backdrop')) {
+        e.target.classList.remove('open');
+      }
+    }
+
+    function scrollToPostNotes() {
+      const target = document.getElementById('post-notes-anchor');
+      const container = document.getElementById('handbook-scroll-container');
+      if (target && container) {
+        container.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+      }
+    }
+
+    function recalcShutter() {
+      const focal = parseFloat(document.getElementById('calc-focal').value) || 14;
+      const crop = parseFloat(document.getElementById('calc-crop').value) || 1.0;
+      saveSetting('calc_focal', focal);
+      saveSetting('calc_crop', crop);
+      const effectiveFocal = focal * crop;
+      const shutterSecs = (500 / effectiveFocal).toFixed(1);
+      document.getElementById('calc-output').innerText = `${shutterSecs} seconds`;
+    }
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+      lucide.createIcons();
+    }
+
+    function applyTheme(t) {
+      state.theme = t;
+      document.body.setAttribute('data-theme', t);
+      localStorage.setItem('app_theme', t);
+      const icon = document.getElementById('theme-icon');
+      icon.setAttribute('data-lucide', t === 'dark' ? 'moon' : 'sun');
+      lucide.createIcons();
+    }
+
+    document.getElementById('theme-btn').addEventListener('click', () => {
+      applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+    });
+
+    function toggleNotifications(enabled) {
+      saveSetting('notif_enabled', enabled);
+      if (enabled && "Notification" in window) {
+        Notification.requestPermission();
+      }
+    }
+
+    function parseICSDate(icsDateStr) {
+      if (!icsDateStr) return new Date().toISOString();
+      const clean = icsDateStr.replace(/[^0-9T]/g, '');
+      const year = clean.substring(0, 4);
+      const month = clean.substring(4, 6);
+      const day = clean.substring(6, 8);
+      const hour = clean.substring(9, 11) || '00';
+      const min = clean.substring(11, 13) || '00';
+      return `${year}-${month}-${day}T${hour}:${min}:00`;
+    }
+
+    function handleICSImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        const veventBlocks = text.split('BEGIN:VEVENT');
+        let importedCount = 0;
+
+        veventBlocks.shift();
+
+        veventBlocks.forEach((block, idx) => {
+          const summaryMatch = block.match(/SUMMARY:(.*)/);
+          const dtstartMatch = block.match(/DTSTART.*:(.*)/);
+          const locationMatch = block.match(/LOCATION:(.*)/);
+          const descMatch = block.match(/DESCRIPTION:(.*)/);
+
+          const title = summaryMatch ? summaryMatch[1].trim() : `Astro Target #${idx + 1}`;
+          const dateStr = dtstartMatch ? dtstartMatch[1].trim() : '';
+          const location = locationMatch ? locationMatch[1].trim() : 'Local Dark Site';
+          const desc = descMatch ? descMatch[1].trim() : '';
+
+          const lower = (title + ' ' + desc).toLowerCase();
+          let category = 'milkyway';
+          if (lower.includes('eclipse') || lower.includes('moon')) category = 'lunar';
+          else if (lower.includes('solar')) category = 'solar';
+          else if (lower.includes('meteor') || lower.includes('shower')) category = 'meteor';
+          else if (lower.includes('aurora') || lower.includes('geomagnetic')) category = 'aurora';
+          else if (lower.includes('conjunction') || lower.includes('jupiter') || lower.includes('saturn')) category = 'planet';
+
+          const parsedDate = parseICSDate(dateStr);
+          const d = new Date(parsedDate);
+          const startH = String((d.getHours() - 1 + 24) % 24).padStart(2, '0');
+          const endH = String((d.getHours() + 2) % 24).padStart(2, '0');
+
+          const newEvt = {
+            id: 'imported-ics-' + Date.now() + '-' + idx,
+            title: title,
+            category: category,
+            date: parsedDate,
+            peakStart: `${startH}:00`,
+            peakEnd: `${endH}:00`,
+            siteName: location,
+            lat: 47.6797,
+            lng: -80.2644,
+            articleUrl: 'https://eclipse.gsfc.nasa.gov/',
+            bortle: 'Dark-Sky Target',
+            shutter: '15s – 25s',
+            iso: '1600 – 3200',
+            aperture: 'f/1.8 – f/2.8',
+            starred: false,
+            dismissed: false
+          };
+
+          state.events.push(newEvt);
+          importedCount++;
+        });
+
+        saveState();
+        renderEvents();
+        alert(`Successfully imported ${importedCount} events from .ICS!`);
+      };
+      reader.readAsText(file);
+    }
+
+    function exportAppJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.events, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `Aperture_Orbit_Backup_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function handleJSONImport(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (Array.isArray(parsed)) {
+            state.events = parsed;
+            saveState();
+            renderEvents();
+            alert('App backup restored successfully!');
+          } else {
+            alert('Invalid backup file format.');
+          }
+        } catch (err) {
+          alert('Could not read JSON file.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Hydrate Settings UI from Cached State
+    function hydrateSettings() {
+      document.getElementById('cfg-time-fmt').value = state.timeFormat;
+      document.getElementById('cfg-lead').value = state.leadTime;
+      document.getElementById('notif-toggle').checked = state.notifEnabled;
+      document.getElementById('calc-focal').value = state.calcFocal;
+      document.getElementById('calc-crop').value = state.calcCrop;
+
+      document.querySelectorAll('.swatch').forEach(s => {
+        if (s.getAttribute('onclick').includes(state.customAccent)) {
+          s.classList.add('active');
+        } else {
+          s.classList.remove('active');
+        }
+      });
+    }
+
+    // Init App
+    applyTheme(state.theme);
+    if(state.customAccent) {
+      document.documentElement.style.setProperty('--accent', state.customAccent);
+      document.documentElement.style.setProperty('--accent-glow', state.customAccent + '35');
+    }
+    hydrateSettings();
+    recalcShutter();
+    renderEvents();
+  </script>
+</body>
+</html>
