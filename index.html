@@ -147,6 +147,37 @@
       gap: 6px;
     }
 
+    /* Monthly Drawers (Accordions) */
+    .month-drawer {
+      margin-bottom: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      overflow: hidden;
+    }
+
+    .month-drawer-header {
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      background: var(--card-sub);
+    }
+    .month-drawer-header:active { background: var(--btn-hover); }
+    .month-drawer-title { font-size: 0.88rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .month-drawer-badge { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; background: var(--btn-bg); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--btn-border); }
+    
+    .month-drawer-content {
+      padding: 12px;
+      display: none;
+    }
+    .month-drawer.open .month-drawer-content { display: block; }
+    .month-drawer-icon { transition: transform 0.2s ease; }
+    .month-drawer.open .month-drawer-icon { transform: rotate(180deg); }
+
+    /* Event Cards */
     .event-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -181,6 +212,19 @@
     .card-title-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .card-title { font-size: 0.95rem; font-weight: 750; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .card-subtext { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    .btn-dismiss {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+    .btn-dismiss:active { color: var(--red); background: var(--btn-hover); }
 
     .peak-strip {
       background: var(--card-sub);
@@ -501,7 +545,7 @@
       </div>
     </div>
 
-    <!-- Direct .ICS File Ingestion & Backup Engine -->
+    <!-- Direct .ICS Ingestion & Purge -->
     <div class="settings-card">
       <div class="settings-title">Data Ingestion (.ICS & JSON)</div>
       
@@ -516,6 +560,16 @@
             <i data-lucide="file-down" style="width:14px;height:14px;"></i> Import .ICS
           </button>
         </div>
+      </div>
+
+      <div class="setting-item">
+        <div>
+          <div style="font-weight:700;">Purge Imported Targets (.ICS)</div>
+          <div style="font-size:0.75rem; color:var(--text-muted);">Remove only external imported data (keeps defaults)</div>
+        </div>
+        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row; color:var(--red); border-color:rgba(239,68,68,0.3);" onclick="purgeImportedICS()">
+          <i data-lucide="trash" style="width:14px;height:14px;"></i> Purge .ICS
+        </button>
       </div>
 
       <div class="setting-item">
@@ -644,7 +698,6 @@
         Made by: <b><a href="https://instagram.com/27ozig" target="_blank" rel="noopener" class="handbook-link">@27ozig</a></b>
       </div>
 
-      <!-- How to Install -->
       <div class="handbook-section">
         <div class="handbook-subtitle"><i data-lucide="download" style="width:14px;height:14px;"></i> How to Install on Your Phone</div>
         <b>iPhone / iOS:</b><br>
@@ -657,17 +710,15 @@
         3. Tap <b>Install app</b> or <b>Add to Home screen</b>.
       </div>
 
-      <!-- Where to Find ICS Files -->
       <div class="handbook-section">
         <div class="handbook-subtitle"><i data-lucide="file-down" style="width:14px;height:14px;"></i> How to Get .ICS Event Files</div>
         You can download free <code>.ics</code> calendar files and load them straight into the app via <b>Import .ICS</b> in Settings:<br><br>
-        1. <b>NASA SkyCal:</b> Go to <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="handbook-link">NASA SkyCal</a>, pick your year & events (eclipses, moon phases), and download the generated calendar file.<br>
+        1. <b>NASA SkyCal:</b> Go to <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="handbook-link">NASA SkyCal</a>, pick your year & events, and download the generated calendar file.<br>
         2. <b>International Meteor Organization (IMO):</b> Download meteor shower peak schedules at <a href="https://www.imo.net" target="_blank" rel="noopener" class="handbook-link">imo.net</a>.<br>
         3. <b>SeaSky Astronomy Calendar:</b> Free sky event feeds at <a href="http://www.seasky.org/astronomy/astronomy-calendar-2026.html" target="_blank" rel="noopener" class="handbook-link">seasky.org</a>.<br><br>
-        Once downloaded to your device, tap <b>Import .ICS</b> in Settings to automatically map and populate your feed.
+        Once downloaded to your device, tap <b>Import .ICS</b> in Settings to automatically map and populate your feed into monthly drawers.
       </div>
 
-      <!-- Quick Phone Guide -->
       <div class="handbook-section">
         <div class="handbook-subtitle"><i data-lucide="smartphone" style="width:14px;height:14px;"></i> Shooting on Your Phone</div>
         <b>1. Keep it totally still:</b> Put your phone on a tripod or lean it against something sturdy. Holding it in your hands will blur the stars or turn off Astro mode.<br><br>
@@ -681,7 +732,6 @@
         <a href="#post-notes-anchor" onclick="scrollToPostNotes()" style="color:var(--accent); text-decoration:underline; font-weight:700; display:inline-block; margin-top:6px;">* How to use the Deck with your phone</a>
       </div>
 
-      <!-- Quick Camera Guide -->
       <div class="handbook-section">
         <div class="handbook-subtitle"><i data-lucide="camera" style="width:14px;height:14px;"></i> Shooting on a DSLR / Mirrorless</div>
         <b>1. Focus manually:</b> Switch your lens to MF (Manual Focus). Zoom in on the brightest star on your screen and turn the focus ring until the star looks as tiny and sharp as possible.<br><br>
@@ -689,7 +739,6 @@
         <b>3. Shutter speed:</b> Check the <b>Observer Deck</b> tab to see how many seconds you can shoot before the stars start stretching into lines.
       </div>
 
-      <!-- Post Notes -->
       <div class="handbook-section" id="post-notes-anchor">
         <div class="handbook-subtitle"><i data-lucide="file-text" style="width:14px;height:14px;"></i> Notes & Deck Tips (*)</div>
         • <b>Checking your phone's lens info:</b> If you look at photo details in your gallery and see something like <i>24mm</i>, just type <b>24</b> into the Deck calculator and leave the sensor setting on <b>1.0x</b>.<br><br>
@@ -743,7 +792,8 @@
         iso: '800 – 1600',
         aperture: 'f/2.8 – f/4.0',
         starred: true,
-        dismissed: false
+        dismissed: false,
+        imported: false
       },
       {
         id: 'evt-2',
@@ -761,7 +811,8 @@
         iso: '1600 – 3200',
         aperture: 'f/1.8 – f/2.8',
         starred: true,
-        dismissed: false
+        dismissed: false,
+        imported: false
       },
       {
         id: 'evt-3',
@@ -779,7 +830,8 @@
         iso: '3200 – 6400',
         aperture: 'f/1.4 – f/2.0',
         starred: false,
-        dismissed: false
+        dismissed: false,
+        imported: false
       },
       {
         id: 'evt-4',
@@ -797,7 +849,8 @@
         iso: '3200',
         aperture: 'f/1.8 – f/2.8',
         starred: false,
-        dismissed: false
+        dismissed: false,
+        imported: false
       },
       {
         id: 'evt-5',
@@ -815,7 +868,8 @@
         iso: '200 – 400',
         aperture: 'f/5.6 – f/8.0',
         starred: false,
-        dismissed: false
+        dismissed: false,
+        imported: false
       },
       {
         id: 'evt-6',
@@ -833,7 +887,8 @@
         iso: '1600',
         aperture: 'f/2.8',
         starred: false,
-        dismissed: false
+        dismissed: false,
+        imported: false
       }
     ];
 
@@ -930,6 +985,14 @@
       window.open(url, '_blank');
     }
 
+    function toggleDrawer(id) {
+      const drawer = document.getElementById(id);
+      if (drawer) {
+        drawer.classList.toggle('open');
+      }
+    }
+
+    // Render Events with Collapsible Monthly Drawers
     function renderEvents() {
       const container = document.getElementById('events-feed');
       container.innerHTML = '';
@@ -948,77 +1011,121 @@
         return;
       }
 
+      // Starred targets stay locked at top
       if (starredEvents.length > 0) {
-        renderGroup(container, "Pinned & Starred Targets", starredEvents, true);
+        const starredSection = document.createElement('div');
+        starredSection.innerHTML = `<div class="section-header"><span>Pinned & Starred Targets</span> (${starredEvents.length})</div>`;
+        starredEvents.forEach(evt => starredSection.appendChild(createEventCard(evt, true)));
+        container.appendChild(starredSection);
       }
 
-      if (regularEvents.length > 0) {
-        renderGroup(container, "Upcoming Sky Targets", regularEvents, false);
-      }
+      // Group regular events by Month & Year
+      const groupedByMonth = {};
+      const currentMonthKey = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+      regularEvents.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(evt => {
+        const d = new Date(evt.date);
+        const monthKey = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+        if (!groupedByMonth[monthKey]) groupedByMonth[monthKey] = [];
+        groupedByMonth[monthKey].push(evt);
+      });
+
+      // Render monthly drawers
+      Object.keys(groupedByMonth).forEach((monthKey, idx) => {
+        const isCurrentMonth = monthKey === currentMonthKey;
+        const drawerId = `drawer-${idx}`;
+        const drawerEvents = groupedByMonth[monthKey];
+
+        const drawer = document.createElement('div');
+        drawer.className = `month-drawer ${isCurrentMonth ? 'open' : ''}`;
+        drawer.id = drawerId;
+
+        drawer.innerHTML = `
+          <div class="month-drawer-header" onclick="toggleDrawer('${drawerId}')">
+            <div class="month-drawer-title">
+              <i data-lucide="calendar" style="width:16px;height:16px; color:var(--accent);"></i>
+              <span>${monthKey}</span>
+              ${isCurrentMonth ? '<span style="font-size:0.68rem; color:var(--green); font-weight:800; text-transform:uppercase;">• Current</span>' : ''}
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="month-drawer-badge">${drawerEvents.length} Targets</span>
+              <i data-lucide="chevron-down" class="month-drawer-icon" style="width:16px;height:16px;"></i>
+            </div>
+          </div>
+          <div class="month-drawer-content" id="${drawerId}-content"></div>
+        `;
+
+        const content = drawer.querySelector(`#${drawerId}-content`);
+        drawerEvents.forEach(evt => content.appendChild(createEventCard(evt, false)));
+
+        container.appendChild(drawer);
+      });
 
       lucide.createIcons();
     }
 
-    function renderGroup(container, title, events, isStarredGroup) {
-      const heading = document.createElement('div');
-      heading.className = 'section-header';
-      heading.innerHTML = `<span>${title}</span> (${events.length})`;
-      container.appendChild(heading);
+    function createEventCard(evt, isStarred) {
+      const iconName = categoryIcons[evt.category] || 'sparkles';
+      const displayWindow = getFormattedWindow(evt);
 
-      events.forEach(evt => {
-        const iconName = categoryIcons[evt.category] || 'sparkles';
-        const displayWindow = getFormattedWindow(evt);
-
-        const card = document.createElement('div');
-        card.className = `event-card ${isStarredGroup ? 'starred-card' : ''}`;
-        card.innerHTML = `
-          <div class="card-top">
-            <div class="event-icon-badge">
-              <i data-lucide="${iconName}"></i>
+      const card = document.createElement('div');
+      card.className = `event-card ${isStarred ? 'starred-card' : ''}`;
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="event-icon-badge">
+            <i data-lucide="${iconName}"></i>
+          </div>
+          <div class="card-info">
+            <div class="card-title-row">
+              <div class="card-title">${evt.title}</div>
+              <button class="btn-dismiss" onclick="dismissEvent('${evt.id}')" title="Dismiss Target">
+                <i data-lucide="x" style="width:16px;height:16px;"></i>
+              </button>
             </div>
-            <div class="card-info">
-              <div class="card-title-row">
-                <div class="card-title">${evt.title}</div>
-              </div>
-              <div class="card-subtext">${evt.bortle} • <span style="color:var(--text-muted); font-size:0.72rem;">Routes to site coords</span></div>
-            </div>
+            <div class="card-subtext">${evt.bortle} • <span style="color:var(--text-muted); font-size:0.72rem;">Routes to site coords</span></div>
           </div>
+        </div>
 
-          <div class="peak-strip">
-            <i data-lucide="clock" style="width:14px;height:14px;"></i>
-            <span>${displayWindow}</span>
-          </div>
+        <div class="peak-strip">
+          <i data-lucide="clock" style="width:14px;height:14px;"></i>
+          <span>${displayWindow}</span>
+        </div>
 
-          <div class="card-meta-grid">
-            <div class="meta-item"><i data-lucide="map-pin" style="width:13px;height:13px;"></i> ${evt.siteName}</div>
-            <div class="meta-item"><i data-lucide="calendar" style="width:13px;height:13px;"></i> ${formatTime(evt.date)}</div>
-          </div>
+        <div class="card-meta-grid">
+          <div class="meta-item"><i data-lucide="map-pin" style="width:13px;height:13px;"></i> ${evt.siteName}</div>
+          <div class="meta-item"><i data-lucide="calendar" style="width:13px;height:13px;"></i> ${formatTime(evt.date)}</div>
+        </div>
 
-          <div class="card-action-bar">
-            <button class="btn-action-cell ${evt.starred ? 'active-star' : ''}" onclick="toggleStar('${evt.id}')">
-              <i data-lucide="star" style="width:14px;height:14px;"></i>
-              <span>${evt.starred ? 'Starred' : 'Star'}</span>
-            </button>
-            <button class="btn-action-cell" onclick="openModal('${evt.id}')">
-              <i data-lucide="camera" style="width:14px;height:14px;"></i>
-              <span>Specs</span>
-            </button>
-            <a href="${evt.articleUrl}" target="_blank" rel="noopener" class="btn-action-cell">
-              <i data-lucide="newspaper" style="width:14px;height:14px;"></i>
-              <span>Article</span>
-            </a>
-            <button class="btn-action-cell" onclick="openTravelMaps(${evt.lat}, ${evt.lng}, '${evt.siteName}')">
-              <i data-lucide="navigation" style="width:14px;height:14px;"></i>
-              <span>Travel</span>
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
+        <div class="card-action-bar">
+          <button class="btn-action-cell ${evt.starred ? 'active-star' : ''}" onclick="toggleStar('${evt.id}')">
+            <i data-lucide="star" style="width:14px;height:14px;"></i>
+            <span>${evt.starred ? 'Starred' : 'Star'}</span>
+          </button>
+          <button class="btn-action-cell" onclick="openModal('${evt.id}')">
+            <i data-lucide="camera" style="width:14px;height:14px;"></i>
+            <span>Specs</span>
+          </button>
+          <a href="${evt.articleUrl}" target="_blank" rel="noopener" class="btn-action-cell">
+            <i data-lucide="newspaper" style="width:14px;height:14px;"></i>
+            <span>Article</span>
+          </a>
+          <button class="btn-action-cell" onclick="openTravelMaps(${evt.lat}, ${evt.lng}, '${evt.siteName}')">
+            <i data-lucide="navigation" style="width:14px;height:14px;"></i>
+            <span>Travel</span>
+          </button>
+        </div>
+      `;
+      return card;
     }
 
     function toggleStar(id) {
       state.events = state.events.map(e => e.id === id ? { ...e, starred: !e.starred } : e);
+      saveState();
+      renderEvents();
+    }
+
+    function dismissEvent(id) {
+      state.events = state.events.map(e => e.id === id ? { ...e, dismissed: true } : e);
       saveState();
       renderEvents();
     }
@@ -1033,6 +1140,15 @@
       state.events = state.events.map(e => ({ ...e, starred: false }));
       saveState();
       renderEvents();
+    }
+
+    function purgeImportedICS() {
+      const remaining = state.events.filter(e => !e.imported && !e.id.startsWith('imported-ics'));
+      if (confirm(`Remove all imported external calendar targets? (Keeps default astronomical targets)`)) {
+        state.events = remaining;
+        saveState();
+        renderEvents();
+      }
     }
 
     function openModal(id) {
@@ -1175,7 +1291,8 @@
             iso: '1600 – 3200',
             aperture: 'f/1.8 – f/2.8',
             starred: false,
-            dismissed: false
+            dismissed: false,
+            imported: true
           };
 
           state.events.push(newEvt);
@@ -1184,7 +1301,7 @@
 
         saveState();
         renderEvents();
-        alert(`Successfully imported ${importedCount} events from .ICS!`);
+        alert(`Successfully imported ${importedCount} events! Check the monthly drawers.`);
       };
       reader.readAsText(file);
     }
@@ -1222,7 +1339,6 @@
       reader.readAsText(file);
     }
 
-    // Hydrate Settings UI from Cached State
     function hydrateSettings() {
       document.getElementById('cfg-time-fmt').value = state.timeFormat;
       document.getElementById('cfg-lead').value = state.leadTime;
