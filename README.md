@@ -1,61 +1,45 @@
-# Aperture // Orbit 
-
-A lightweight, zero-dependency Progressive Web App (PWA) designed for night-sky shooters, astrophotographers, and eclipse chasers. Track lunar eclipses, geomagnetic aurora substorms, meteor showers, and planetary conjunctions with zero web scraping, built-in exposure calculators, and native calendar ingestion.
-
----
-
-## Key Features
-
-* **Target Feed & Filtering:** Instant sorting by target category (Lunar, Solar, Meteors, Aurora, Milky Way, Planets) with pinned priority for starred targets.
-* **Observer Deck & Shutter Calculator:** Real-time lunar phase/illumination tracker, live Kp index monitoring, and an interactive **Rule of 500 / NPF Shutter Calculator** for pinpoint stars without star trails.
-* **Astro Red-Light Night Vision:** One-tap monochrome red mode (`#ff2200`) to preserve night-adapted eyesight in the field.
-* **Zero-Scrape `.ics` Calendar Parser:** Client-side `.ics` file ingestion to parse and auto-categorize astronomical events directly on-device without APIs or scrapers.
-* **Full Data Backup & Restore:** Complete JSON export and restore functionality to sync custom targets and preferences across devices.
-* **Mobile-First PWA:** Native offline support, touch-friendly UI, and one-tap turn-by-turn navigation directly into Google Maps or Apple Maps.
-
----
-
-## Recommended Companion App
-
-For real-time sky alignment and celestial identification in the field, pair **Aperture // Orbit** with:
-
-* **Sky Map** (Android / iOS alternative): An excellent, lightweight open-source tool for pointing your device at the sky to identify constellations, stars, and celestial bodies in real time.
-
----
-
-## Third-Party Data Sources & Disclaimers
-
-This project provides tools to manually parse and view public astronomy feeds. Compatible calendar sources include:
-
-* **NASA SkyCal** (`eclipse.gsfc.nasa.gov`)
-* **International Meteor Organization (IMO)** (`imo.net`)
-* **SeaSky Astronomy Calendar** (`seasky.org`)
-* **Lucide Icons** (`lucide.dev`)
-
-### Disclaimer
-**Aperture // Orbit** is an independent, open project and is **not affiliated, associated, authorized, endorsed by, or in any way officially connected** with NASA, the International Meteor Organization, SeaSky, Sky Map, Google LLC, Apple Inc., or any of their subsidiaries or affiliates. All official names, marks, emblems, and images are registered trademarks of their respective owners.
-
----
-
-## Install as a Mobile App (PWA)
-
-* **iOS (Safari):** Open the hosted website link in Safari → Tap the **Share** button (the square with the arrow pointing up) → Scroll down and tap **Add to Home Screen**.
-* **Android (Chrome):** Open the hosted website link in Chrome → Tap the **three dots menu** in the top-right corner → Tap **Install app** or **Add to Home screen**.
-
----
-
-## License & Copyright
-
-Copyright (c) 2026 **@27ozig**.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to use the Software commercially and non-commercially without restriction, subject to the following conditions:
-
-1. **Attribution:** The above copyright notice, this permission notice, and explicit credit to the original creator (**@27ozig**) must be included in all copies or substantial portions of the Software.
-2. **No Modification:** You may not modify, alter, or create derivative works of the Software without explicit written permission from the original creator.
-3. **No Redistribution:** You may not redistribute, sub-license, publish, or sell copies of the Software to third parties without explicit written permission from the original creator.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
----
-
-*Built for the dark skies. If you like it or take cool night shots with it, drop a tag:* **[@27ozig](https://instagram.com/27ozig)**
+Aperture // Orbit
+A client-side Progressive Web App (PWA) built for astrophotographers, eclipse chasers, and night-sky observers. Zero dependencies, zero scrapers, client-side .ics calendar ingestion, real-time exposure calculations, and responsive HUD design for both mobile and landscape field rigs.
+Key Features
+1. Three-Tab Control Hub
+ * List: Searchable, category-filtered celestial target feed with multi-year and monthly drawers. Includes instant filtering by visibility criteria (Naked Eye, Tripod Required, Lunar, Solar, Meteors, Aurora, Milky Way, Planets).
+ * Sky Deck: Real-time lunar phase/illumination tracker, live Kp index telemetry, and local atmospheric cloud cover and temperature via Open-Meteo.
+ * You: Central configuration panel for UI density presets, theme engines, pre-cached regional calendar packs, and backup/restore controls.
+2. UI Density & Display Modes
+ * Focus: Strips interface noise down to Starred targets only, displaying complete inline optical specifications and locking navigation to List and You.
+ * Slim: Compact card footprint displaying the closest upcoming events.
+ * Standard: Balanced layout for general event tracking.
+ * Detail Heaven: Wide-open data density with inline optical setups (Shutter, ISO, Aperture, Peak Window) and field notes. In Landscape Mode, it automatically splits into a dual-pane workstation with a scrollable event feed on the left and a sticky Sky Deck HUD on the right.
+3. Themes & Physics-Based Particle Shaders
+Six built-in themes featuring light/dark variants, smooth animated toggles, and dynamic canvas particle systems:
+ * Cherry Blossom: Soft rose crystal glass with 3D fluttering, tumbling blossom petals.
+ * Mellow Jade: Frosted emerald glass with floating bioluminescent radiant spores.
+ * Liquid Gold: Metallic sheen with shimmering bokeh ember dust.
+ * Ocean Pearl: Pearlescent fluid gradient with rising buoyant bubbles.
+ * Pitch Black: Pure AMOLED zero-particle black with high-contrast starlight accents.
+ * Snow White: Clean alabaster card deck with zero background distractions.
+ * Astro Night Vision: Instant red-monochrome mode (#ff2200) designed to preserve dark-adapted eyesight in the field.
+4. Geo-Aware Regional Calendars & GPS
+ * Automatic Geolocation: Calibrates weather data and filters regional events based on your coordinates.
+ * Pre-Cached Astronomy Packs: Built-in offline event streams for North America, Europe, and the Southern Hemisphere.
+ * Custom Calendar Sync: Ingest .ics files directly or paste live webcal:// URLs without backend servers.
+ * Long-Press Calendar Alerts: Press and hold (600ms) any starred event card to export an .ics reminder directly to your native device calendar (Google Calendar / Apple Calendar).
+5. Field Tools & Exposure Calculators
+ * Pinpoint Shutter Calculator: Instant NPF and 500 Rule calculation to prevent star trailing based on focal length and sensor crop factor (Full Frame, APS-C, Micro Four Thirds).
+ * One-Tap Route Navigation: Launches turn-by-turn coordinates directly into Google Maps or Apple Maps.
+Field Handbook & Companion Setup
+Recommended Sky Alignment Tools
+For live celestial alignment and constellation identification, pair Aperture // Orbit with:
+ * Android: Sky Map (lightweight, open-source real-time celestial viewer).
+ * iOS Alternative: Stellarium Mobile or Night Sky for real-time azimuth and zenith tracking.
+Dedicated Camera Setup (DSLR / Mirrorless)
+ * Manual Focus Pinpoint: Set your lens to MF. Turn on Live View on your rear LCD, zoom digitally to 10x on a bright anchor star (e.g., Vega, Jupiter), and adjust the focus ring until the star is as small and sharp as possible.
+ * Aperture: Shoot at wide apertures (f/1.4 to f/2.8). If your lens shows coma aberration in the corners, step down 1/3 of a stop.
+ * Noise Reduction: Disable in-camera Long Exposure Noise Reduction so you can capture consecutive frames without delay for external stacking.
+Installation (PWA)
+Host these files on GitHub Pages or any static web host:
+ * iOS (Safari): Open the website link -> Tap Share (square with up arrow) -> Tap Add to Home Screen.
+ * Android (Chrome): Open the website link -> Tap the three dots menu -> Tap Install app or Add to Home screen.
+License & Attribution
+Copyright (c) 2026 @27ozig.
+Free for personal and non-commercial astrophotography use. Ensure explicit creator credit (@27ozig) is preserved in distributed copies.
