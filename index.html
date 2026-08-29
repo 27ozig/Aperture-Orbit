@@ -9,23 +9,23 @@
   <link rel="apple-touch-icon" href="icon-512.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#06090e">
+  <meta name="theme-color" content="#000000">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --bg-base: #06090e;
-      --bg-gradient: radial-gradient(circle at 50% 0%, #0d1522 0%, #06090e 100%);
-      --surface: rgba(14, 20, 30, 0.82);
-      --surface-elevated: rgba(22, 30, 44, 0.92);
-      --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(56, 189, 248, 0.35);
-      --text: #f3f6fc;
-      --text-muted: #8292a6;
-      --accent: #38bdf8;
-      --accent-glow: rgba(56, 189, 248, 0.25);
+      --bg-base: #000000;
+      --bg-gradient: none;
+      --surface: #0a0a0a;
+      --surface-elevated: #141414;
+      --border: #242424;
+      --border-accent: #ffffff;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --accent: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.35);
       --spine-curve: 18px 5px 18px 5px;
       --spine-curve-rev: 5px 18px 5px 18px;
       --card-backdrop: blur(18px);
@@ -192,7 +192,7 @@
       background-attachment: fixed;
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 92px;
+      padding-bottom: 0;
       transition: background var(--trans-speed), color var(--trans-speed);
       overflow-x: hidden;
       position: relative;
@@ -284,7 +284,13 @@
       transform: scale(0.985);
     }
 
-    .tab-content { display: none; padding: 18px; width: 100%; position: relative; z-index: 10; }
+    .tab-content { 
+      display: none; 
+      padding: 18px 18px calc(140px + env(safe-area-inset-bottom, 0px)); 
+      width: 100%; 
+      position: relative; 
+      z-index: 10; 
+    }
     .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -412,6 +418,13 @@
       color: var(--text-muted);
     }
     .tile-badge.accent-tag { color: var(--accent); border-color: var(--border-accent); }
+    .tile-badge.upcoming-tag { 
+      color: var(--gold); 
+      border-color: rgba(245, 158, 11, 0.5); 
+      background: rgba(245, 158, 11, 0.12);
+      font-weight: 800;
+      letter-spacing: 0.02em;
+    }
 
     .specs-grid-inline {
       display: none;
@@ -505,6 +518,9 @@
       font-size: 0.86rem;
       font-weight: 800;
     }
+    .drawer-arrow {
+      transition: transform 0.25s ease;
+    }
     .drawer-body { display: none; padding: 10px; flex-direction: column; gap: 10px; }
     .drawer.open .drawer-body { display: flex; }
     .drawer.open .drawer-arrow { transform: rotate(180deg); }
@@ -578,6 +594,9 @@
       gap: 8px;
       width: 100%;
     }
+    .button-grid-wrap-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
     .btn-grid-option {
       padding: 10px 12px;
       border-radius: var(--spine-curve-rev);
@@ -610,7 +629,7 @@
       border-radius: 24px 24px 0 0;
       width: 100%;
       max-height: 85vh;
-      padding: 22px 20px 34px;
+      padding: 22px 20px calc(34px + env(safe-area-inset-bottom, 0px));
       overflow-y: auto;
     }
 
@@ -636,7 +655,7 @@
       box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
       display: flex;
       justify-content: space-around;
-      padding: 12px 0 16px;
+      padding: 12px 0 calc(16px + env(safe-area-inset-bottom, 0px));
       z-index: 100;
       transition: all var(--trans-speed);
     }
@@ -689,6 +708,7 @@
       .tab-content {
         height: 100%;
         overflow-y: auto;
+        padding-bottom: 34px;
       }
 
       [data-app-mode="detail"] #tab-btn-deck {
@@ -729,7 +749,7 @@
     }
   </style>
 </head>
-<body data-theme="dark" data-palette="cherry-blossom" data-app-mode="standard">
+<body data-theme="dark" data-palette="pitch-black" data-app-mode="standard">
 
   <canvas id="fx-canvas"></canvas>
 
@@ -833,13 +853,22 @@
       </div>
 
       <div class="settings-panel">
+        <div class="settings-title">Time Format</div>
+        <div class="button-grid-wrap button-grid-wrap-3">
+          <button class="btn-grid-option" id="btn-time-12" onclick="setTimeFormat('12h')">12-Hour</button>
+          <button class="btn-grid-option" id="btn-time-24" onclick="setTimeFormat('24h')">24-Hour</button>
+          <button class="btn-grid-option" id="btn-time-zulu" onclick="setTimeFormat('zulu')">Zulu (UTC)</button>
+        </div>
+      </div>
+
+      <div class="settings-panel">
         <div class="settings-title">Theme Presets</div>
         <div class="button-grid-wrap">
-          <button class="btn-grid-option active" onclick="setPalette('cherry-blossom')">Cherry Blossom</button>
+          <button class="btn-grid-option active" onclick="setPalette('pitch-black')">Pitch Black</button>
+          <button class="btn-grid-option" onclick="setPalette('cherry-blossom')">Cherry Blossom</button>
           <button class="btn-grid-option" onclick="setPalette('mellow-jade')">Mellow Jade</button>
           <button class="btn-grid-option" onclick="setPalette('liquid-gold')">Liquid Gold</button>
           <button class="btn-grid-option" onclick="setPalette('ocean-pearl')">Ocean Pearl</button>
-          <button class="btn-grid-option" onclick="setPalette('pitch-black')">Pitch Black</button>
           <button class="btn-grid-option" onclick="setPalette('snow-white')">Snow White</button>
         </div>
       </div>
@@ -865,7 +894,7 @@
         <div class="settings-row">
           <div>
             <div style="font-weight:700;">Field Handbook & Guide</div>
-            <div style="font-size:0.74rem; color:var(--text-muted);">Aperture Orbit • 2.4.0 • Public Beta</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Aperture Orbit • 2.5.0 • Public Beta</div>
           </div>
           <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="openGuideModal()"><i data-lucide="book-open"></i> Read</button>
         </div>
@@ -873,6 +902,23 @@
 
       <div class="settings-panel">
         <div class="settings-title">Calendar Sync (.ICS / WebCal)</div>
+        
+        <!-- RECOMMENDED FEED PRESET -->
+        <div style="background:var(--surface-elevated); border:1px solid var(--border); border-radius:var(--spine-curve-rev); padding:10px 12px; display:flex; justify-content:space-between; align-items:center; gap:8px;">
+          <div style="min-width:0;">
+            <div style="font-size:0.78rem; font-weight:800; color:var(--text); display:flex; align-items:center; gap:5px;">
+              <i data-lucide="sparkles" style="width:12px;height:12px; color:var(--accent);"></i> Recommended: Space Calendar
+            </div>
+            <a href="https://lkorth.github.io/space-calendar/" target="_blank" rel="noopener noreferrer" style="font-size:0.68rem; color:var(--accent); text-decoration:none; display:inline-flex; align-items:center; gap:3px; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:2px;">
+              <span>lkorth.github.io/space-calendar</span>
+              <i data-lucide="external-link" style="width:10px;height:10px; flex-shrink:0;"></i>
+            </a>
+          </div>
+          <button class="btn-tile-act" style="padding:6px 10px; width:auto; flex-direction:row; white-space:nowrap;" onclick="pasteFromClipboard()">
+            <i data-lucide="clipboard-paste"></i> Paste Clipboard
+          </button>
+        </div>
+
         <div style="display:flex; gap:6px;">
           <input type="url" id="webcal-url-input" class="calc-input" placeholder="https://example.com/events.ics" style="flex:1;">
           <button class="btn-tile-act" style="padding:6px 12px; width:auto; flex-direction:row;" onclick="importWebCalFeed()"><i data-lucide="link"></i> Sync</button>
@@ -884,6 +930,13 @@
           </div>
           <input type="file" id="ics-file-input" accept=".ics,text/calendar" style="display:none;" onchange="handleICSImport(event)">
           <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="document.getElementById('ics-file-input').click()"><i data-lucide="file-down"></i> Browse</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div style="font-weight:700;">Purge Custom Feed</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Clear all user imported events</div>
+          </div>
+          <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row; color:var(--danger); border-color:rgba(244,63,94,0.3);" onclick="purgeImportedEvents()"><i data-lucide="trash-2"></i> Purge</button>
         </div>
         <div class="settings-row">
           <div>
@@ -936,7 +989,7 @@
     <div class="modal-sheet">
       <div style="width:36px; height:4px; background:var(--border); border-radius:99px; margin:0 auto 12px;"></div>
       <div style="font-size:1.15rem; font-weight:900; margin-bottom:2px;">Field Handbook & Guide</div>
-      <div style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:14px;">Aperture Orbit • 2.4.0 • Public Beta</div>
+      <div style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:14px;">Aperture Orbit • 2.5.0 • Public Beta</div>
 
       <div class="guide-card-block">
         <b>1. Dedicated Camera Rig Setup (DSLR / Mirrorless)</b><br>
@@ -956,7 +1009,7 @@
         Press and hold any starred card for <b>0.6 seconds</b> to directly export the configured <code>.ics</code> alert to your calendar.
       </div>
 
-      <!-- CREDITS & COMMUNITY (COMPACT & THEMED) -->
+      <!-- CREDITS & COMMUNITY -->
       <div class="guide-card-block" style="padding: 8px 10px; margin-bottom: 8px;">
         <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.35;">
           Dev: <a href="https://instagram.com/27ozig" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;"><b>@27ozig</b></a>. Big thank you to a few people, firstly <span style="color: #f472b6; font-weight: 700;">Aubree</span> for putting up with my bullshit, suggesting the <span style="color: #f472b6; font-weight: 600;">Cherry Blossom theme</span> & testing the location stuff. Another big thank you to <span style="color: #34d399; font-weight: 700;">Thomas</span> for enlightening me about space. I literally would've never known how cool this shit was if he didn't tell me about it. As well as thank you to those who've supported me on Instagram. The few likes have inspired me to try and push a service to possibly aid or attract others into this cool little hobby.
@@ -1343,10 +1396,183 @@ GEO:51.8822;-3.4369
 DESCRIPTION:Highly reliable winter meteor activity.
 STATUS:CONFIRMED
 END:VEVENT
+END:VCALENDAR`,
+
+      'Southern_Hemisphere': `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AI Astro Calendar//Southern_Hemisphere//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Southern Hemisphere Astro Events
+BEGIN:VEVENT
+UID:Southern_Hemisphere_0_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260110T180000Z
+DTEND:20260111T060000Z
+SUMMARY:Jupiter at Opposition
+LOCATION:Sutherland, Northern Cape, South Africa
+GEO:-32.3783;20.8105
+DESCRIPTION:Superb views of the gas giant from the southern Karoo.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_1_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260217T113000Z
+DTEND:20260217T140000Z
+SUMMARY:Annular Solar Eclipse (Ring of Fire)
+LOCATION:Amundsen-Scott Station, Antarctica
+GEO:-90.0000;0.0000
+DESCRIPTION:Rare solar alignment over remote Antarctic ice sheets.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_2_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260217T150000Z
+DTEND:20260217T170000Z
+SUMMARY:Partial Solar Eclipse (Edge View)
+LOCATION:Ushuaia, Tierra del Fuego, Argentina
+GEO:-54.8019;-68.3030
+DESCRIPTION:Southernmost tip of South America captures a partial view of the annular eclipse.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_3_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260320T090000Z
+DTEND:20260320T120000Z
+SUMMARY:March Equinox & Galaxy Viewing
+LOCATION:Aoraki Mount Cook Dark Sky Reserve, New Zealand
+GEO:-43.7335;170.0955
+DESCRIPTION:Long night equinox window optimal for galactic core panoramas.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_4_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260506T020000Z
+DTEND:20260506T090000Z
+SUMMARY:Eta Aquariids Meteor Shower Peak
+LOCATION:Siding Spring Observatory, Australia
+GEO:-31.2748;149.0683
+DESCRIPTION:Favorable Southern Hemisphere positioning for premium Halley's debris count.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_5_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260728T180000Z
+DTEND:20260729T020000Z
+SUMMARY:Southern Delta Aquariids Peak
+LOCATION:Atacama Desert, Chile
+GEO:-23.8634;-69.1411
+DESCRIPTION:Crisp high-altitude desert viewing for southern meteor shower.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_6_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260925T160000Z
+DTEND:20260926T040000Z
+SUMMARY:Neptune at Opposition
+LOCATION:La Silla Observatory, Chile
+GEO:-29.2612;-70.7323
+DESCRIPTION:Neptune at its absolute brightest, requires telescope or large binoculars.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_7_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261004T180000Z
+DTEND:20261005T060000Z
+SUMMARY:Saturn at Opposition
+LOCATION:NamibRand Nature Reserve, Namibia
+GEO:-24.9652;15.9056
+DESCRIPTION:Pristine dark sky viewing for planetary rings and details.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_8_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261125T120000Z
+DTEND:20261126T040000Z
+SUMMARY:Uranus at Opposition
+LOCATION:Woomera, South Australia
+GEO:-31.1996;136.8253
+DESCRIPTION:Uranus reaches peak luminosity under desolate desert skies.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_9_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270206T150000Z
+DTEND:20270206T180000Z
+SUMMARY:Annular Solar Eclipse (2027)
+LOCATION:Patagonia Region, Argentina
+GEO:-46.5000;-70.0000
+DESCRIPTION:Annular 'Ring of Fire' cuts across South America.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_10_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270211T120000Z
+DTEND:20270212T060000Z
+SUMMARY:Jupiter at Opposition (2027)
+LOCATION:Cerro Tololo Inter-American Observatory, Chile
+GEO:-30.1690;-70.8063
+DESCRIPTION:Perfect overhead views of giant planet opposition from Southern latitudes.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_11_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270220T010000Z
+DTEND:20270220T040000Z
+SUMMARY:Penumbral Lunar Eclipse
+LOCATION:Melbourne, Victoria, Australia
+GEO:-37.8136;144.9631
+DESCRIPTION:Early morning penumbral eclipse viewing.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_12_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270718T190000Z
+DTEND:20270718T223000Z
+SUMMARY:Penumbral Lunar Eclipse (Winter)
+LOCATION:Johannesburg, South Africa
+GEO:-26.2041;28.0473
+DESCRIPTION:Midwinter clear night celestial observation.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_13_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270802T093000Z
+DTEND:20270802T110000Z
+SUMMARY:The Great Total Solar Eclipse of 2027
+LOCATION:Luxor, Egypt
+GEO:25.6872;32.6396
+DESCRIPTION:Maximum totality length over 6 minutes. Ultimate eclipse observation point.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_14_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20271213T120000Z
+DTEND:20271214T020000Z
+SUMMARY:Geminids Meteor Shower Southern View
+LOCATION:Lake Tekapo, New Zealand
+GEO:-44.0047;170.4771
+DESCRIPTION:Summertime meteor shower watching away from light pollution.
+STATUS:CONFIRMED
+END:VEVENT
 END:VCALENDAR`
     };
 
-    function parseICSString(text) {
+    function parseICSString(text, isCustom = false) {
       const blocks = text.split('BEGIN:VEVENT');
       blocks.shift();
 
@@ -1361,7 +1587,7 @@ END:VCALENDAR`
         const geo = b.match(/GEO:(.*)/);
         const desc = b.match(/DESCRIPTION:(.*)/);
 
-        const stableId = uidMatch ? uidMatch[1].trim() : `target-${idx}`;
+        const stableId = uidMatch ? uidMatch[1].trim() : `target-${Date.now()}-${idx}`;
 
         let lat = 42.98, lng = -81.24;
         if (geo) {
@@ -1397,7 +1623,7 @@ END:VCALENDAR`
         let isoDate = new Date().toISOString();
         if (dt) {
           const raw = dt[1].trim().replace(/[^0-9T]/g, '');
-          isoDate = `${raw.slice(0,4)}-${raw.slice(4,6)}-${raw.slice(6,8)}T${raw.slice(9,11)||'00'}:${raw.slice(11,13)||'00'}:00`;
+          isoDate = `${raw.slice(0,4)}-${raw.slice(4,6)}-${raw.slice(6,8)}T${raw.slice(9,11)||'00'}:${raw.slice(11,13)||'00'}:00Z`;
         }
 
         return {
@@ -1415,6 +1641,7 @@ END:VCALENDAR`
           gearReq: gearReq,
           visibility: visibility,
           details: description,
+          isCustom: isCustom,
           starred: starredIds.includes(stableId),
           dismissed: dismissedIds.includes(stableId)
         };
@@ -1427,8 +1654,9 @@ END:VCALENDAR`
       activeFilter: 'all',
       searchQuery: '',
       theme: localStorage.getItem('orbit_theme') || 'dark',
-      palette: localStorage.getItem('orbit_palette') || 'cherry-blossom',
+      palette: localStorage.getItem('orbit_palette') || 'pitch-black',
       appMode: localStorage.getItem('orbit_mode') || 'standard',
+      timeFormat: localStorage.getItem('orbit_time_format') || '12h',
       userLat: parseFloat(localStorage.getItem('orbit_lat')) || 42.9849,
       userLng: parseFloat(localStorage.getItem('orbit_lng')) || -81.2453,
       userCity: localStorage.getItem('orbit_city') || 'London, ON, CA',
@@ -1484,19 +1712,40 @@ END:VCALENDAR`
       localStorage.setItem('orbit_palette', pal);
 
       const paletteTitles = {
+        'pitch-black': 'Pitch Black',
         'cherry-blossom': 'Cherry Blossom',
         'mellow-jade': 'Mellow Jade',
         'liquid-gold': 'Liquid Gold',
         'ocean-pearl': 'Ocean Pearl',
-        'pitch-black': 'Pitch Black',
         'snow-white': 'Snow White'
       };
 
-      document.querySelectorAll('.button-grid-wrap button').forEach(b => {
+      document.querySelectorAll('.settings-panel:nth-of-type(3) .btn-grid-option').forEach(b => {
         if (b.innerText.trim() === paletteTitles[pal]) b.classList.add('active');
         else if (Object.values(paletteTitles).includes(b.innerText.trim())) b.classList.remove('active');
       });
       initParticles();
+      renderEvents();
+    }
+
+    function setTimeFormat(fmt) {
+      state.timeFormat = fmt;
+      localStorage.setItem('orbit_time_format', fmt);
+      
+      const buttons = {
+        '12h': 'btn-time-12',
+        '24h': 'btn-time-24',
+        'zulu': 'btn-time-zulu'
+      };
+
+      Object.entries(buttons).forEach(([key, id]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (key === fmt) el.classList.add('active');
+          else el.classList.remove('active');
+        }
+      });
+
       renderEvents();
     }
 
@@ -1523,7 +1772,7 @@ END:VCALENDAR`
           'detail': 'Detail Heaven'
         };
 
-        document.querySelectorAll('.button-grid-wrap button').forEach(b => {
+        document.querySelectorAll('.settings-panel:nth-of-type(1) .btn-grid-option').forEach(b => {
           if (b.innerText.trim() === modeTitles[mode]) b.classList.add('active');
           else if (Object.values(modeTitles).includes(b.innerText.trim())) b.classList.remove('active');
         });
@@ -1544,12 +1793,34 @@ END:VCALENDAR`
       renderEvents();
     }
 
-    function formatFullDate(iso) {
+    function formatFormattedTime(iso) {
       const d = new Date(iso);
-      return d.toLocaleDateString(undefined, {
-        weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
+      if (isNaN(d.getTime())) return iso;
+
+      if (state.timeFormat === 'zulu') {
+        const pad = n => String(n).padStart(2, '0');
+        const dStr = d.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        const hh = pad(d.getUTCHours());
+        const mm = pad(d.getUTCMinutes());
+        return `${dStr} • ${hh}${mm}Z`;
+      } else if (state.timeFormat === '24h') {
+        return d.toLocaleDateString(undefined, {
+          weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', hour12: false
+        });
+      } else {
+        return d.toLocaleDateString(undefined, {
+          weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', hour12: true
+        });
+      }
+    }
+
+    function isEventUpcoming(iso) {
+      const eventTime = new Date(iso).getTime();
+      const now = Date.now();
+      const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+      return eventTime >= now && (eventTime - now) <= thirtyDaysMs;
     }
 
     function showInAppConfirm(title, desc, callback) {
@@ -1577,7 +1848,7 @@ END:VCALENDAR`
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
       const url = isIOS 
         ? `maps://maps.apple.com/?daddr=${lat},${lng}&q=${encodeURIComponent(siteName)}`
-        : `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&query=${encodeURIComponent(siteName)}`;
+        : `https://google.com/maps/dir/?api=1&destination=${lat},${lng}&query=${encodeURIComponent(siteName)}`;
       window.open(url, '_blank');
     }
 
@@ -1674,6 +1945,37 @@ END:VCALENDAR`
       showInAppConfirm('Restored', 'All dismissed targets restored to your active feed.', () => {});
     }
 
+    function purgeImportedEvents() {
+      showInAppConfirm('Purge Custom Feed', 'Are you sure you want to remove all custom imported and synced calendar events?', (approved) => {
+        if (!approved) return;
+        const baseKey = state.region === 'auto' ? 'North_America' : state.region;
+        state.events = parseICSString(rawICSStreams[baseKey] || rawICSStreams['North_America']);
+        saveState();
+        renderEvents();
+        showInAppConfirm('Purged', 'Custom feed deleted. Base regional pack restored.', () => {});
+      });
+    }
+
+    async function pasteFromClipboard() {
+      const input = document.getElementById('webcal-url-input');
+      try {
+        if (navigator.clipboard && navigator.clipboard.readText) {
+          const text = await navigator.clipboard.readText();
+          if (text && text.trim()) {
+            input.value = text.trim();
+            input.focus();
+            showInAppConfirm('Pasted', 'Pasted URL from clipboard. Tap "Sync" to load events.', () => {});
+            return;
+          }
+        }
+        input.focus();
+        showInAppConfirm('Clipboard Empty', 'Clipboard is empty or access was denied. Paste manually into the input box.', () => {});
+      } catch (err) {
+        input.focus();
+        showInAppConfirm('Paste Action', 'Please paste the URL directly into the text field.', () => {});
+      }
+    }
+
     function renderEvents() {
       const container = document.getElementById('targets-render-area');
       container.innerHTML = '';
@@ -1721,6 +2023,10 @@ END:VCALENDAR`
         hierarchy[yr][mo].push(item);
       });
 
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonthName = now.toLocaleDateString(undefined, { month: 'long' });
+
       Object.keys(hierarchy).sort().forEach(yr => {
         const yrHeader = document.createElement('div');
         yrHeader.className = 'year-title';
@@ -1730,8 +2036,11 @@ END:VCALENDAR`
         Object.keys(hierarchy[yr]).forEach((mo, idx) => {
           const drawerId = `drw-${yr}-${idx}`;
           const drawer = document.createElement('div');
-          drawer.className = 'drawer open';
+          
+          const isCurrentMonth = parseInt(yr, 10) === currentYear && mo.toLowerCase() === currentMonthName.toLowerCase();
+          drawer.className = `drawer ${isCurrentMonth ? 'open' : ''}`;
           drawer.id = drawerId;
+
           drawer.innerHTML = `
             <div class="drawer-head" onclick="toggleDrawer('${drawerId}')">
               <span>${mo} ${yr}</span>
@@ -1755,6 +2064,7 @@ END:VCALENDAR`
       const isCherry = state.palette === 'cherry-blossom';
       const iconName = isCherry ? 'flower-2' : 'sparkles';
       const starIcon = isCherry ? 'flower-2' : 'star';
+      const isUpcoming = isEventUpcoming(evt.date);
 
       const tile = document.createElement('div');
       tile.className = `event-tile ${evt.starred ? 'pinned-tile' : ''}`;
@@ -1787,7 +2097,7 @@ END:VCALENDAR`
             <div class="tile-icon"><i data-lucide="${iconName}"></i></div>
             <div style="flex:1; min-width:0;">
               <div class="tile-name">${evt.title}</div>
-              <div class="tile-time-tag">${formatFullDate(evt.date)}</div>
+              <div class="tile-time-tag">${formatFormattedTime(evt.date)}</div>
             </div>
           </div>
           <button class="btn-tile-dismiss" onclick="dismissEvent('${evt.id}')" title="Dismiss Target">
@@ -1796,6 +2106,7 @@ END:VCALENDAR`
         </div>
 
         <div class="tile-badge-strip">
+          ${isUpcoming ? '<span class="tile-badge upcoming-tag"><i data-lucide="clock-3" style="width:11px;height:11px;"></i> Upcoming</span>' : ''}
           <span class="tile-badge accent-tag"><i data-lucide="map-pin" style="width:11px;height:11px;"></i> ${evt.siteName}</span>
           <span class="tile-badge">${evt.bortle}</span>
           <span class="tile-badge">${evt.visibility || 'Naked Eye'}</span>
@@ -1806,7 +2117,7 @@ END:VCALENDAR`
           <div class="spec-item"><span class="spec-label">Shutter</span><span class="spec-val">${evt.shutter}</span></div>
           <div class="spec-item"><span class="spec-label">ISO</span><span class="spec-val">${evt.iso}</span></div>
           <div class="spec-item"><span class="spec-label">Aperture</span><span class="spec-val">${evt.aperture}</span></div>
-          <div class="spec-item"><span class="spec-label">Window</span><span class="spec-val">${new Date(evt.date).getHours()}:00 Peak</span></div>
+          <div class="spec-item"><span class="spec-label">Peak</span><span class="spec-val">${state.timeFormat === 'zulu' ? new Date(evt.date).getUTCHours() + ':00Z' : new Date(evt.date).getHours() + ':00'}</span></div>
         </div>
 
         <div class="tile-detail-block">
@@ -1843,7 +2154,7 @@ END:VCALENDAR`
       document.getElementById('m-shutter').innerText = e.shutter || '15s - 25s';
       document.getElementById('m-iso').innerText = e.iso || '1600 - 3200';
       document.getElementById('m-aperture').innerText = e.aperture || 'f/2.8';
-      document.getElementById('m-window').innerText = formatFullDate(e.date);
+      document.getElementById('m-window').innerText = formatFormattedTime(e.date);
       document.getElementById('m-details').innerText = e.details || 'Optimal observation during dark sky peak window.';
       document.getElementById('specs-modal').classList.add('active');
       lucide.createIcons();
@@ -1902,7 +2213,7 @@ END:VCALENDAR`
       if (!file) return;
       const reader = new FileReader();
       reader.onload = evt => {
-        const imported = parseICSString(evt.target.result);
+        const imported = parseICSString(evt.target.result, true);
         state.events = [...state.events, ...imported];
         saveState();
         renderEvents();
@@ -1912,16 +2223,26 @@ END:VCALENDAR`
     }
 
     async function importWebCalFeed() {
-      const val = document.getElementById('webcal-url-input').value.trim();
+      let val = document.getElementById('webcal-url-input').value.trim();
       if (!val) return;
+
+      if (val.includes('lkorth.github.io/space-calendar') && !val.endsWith('.ics')) {
+        val = val.replace(/\/?$/, '/space-calendar.ics');
+      }
+
       try {
-        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(val.replace(/^webcal:\/\//i, 'https://'))}`);
+        const cleanUrl = val.replace(/^webcal:\/\//i, 'https://');
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(cleanUrl)}`);
         const text = await res.text();
-        const imported = parseICSString(text);
-        state.events = [...state.events, ...imported];
-        saveState();
-        renderEvents();
-        showInAppConfirm('Feed Synced', `Synchronized ${imported.length} calendar targets.`, () => {});
+        const imported = parseICSString(text, true);
+        if (imported.length > 0) {
+          state.events = [...state.events, ...imported];
+          saveState();
+          renderEvents();
+          showInAppConfirm('Feed Synced', `Synchronized ${imported.length} calendar targets.`, () => {});
+        } else {
+          showInAppConfirm('Sync Notice', 'Feed was loaded but contains no parsable VEVENT entries.', () => {});
+        }
       } catch {
         showInAppConfirm('Sync Error', 'Could not sync the provided calendar feed.', () => {});
       }
@@ -2118,6 +2439,7 @@ END:VCALENDAR`
     // Initial Load
     document.body.setAttribute('data-theme', state.theme);
     setPalette(state.palette);
+    setTimeFormat(state.timeFormat);
     setAppMode(state.appMode);
     recalcShutter();
     fetchLiveWeather();
