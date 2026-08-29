@@ -9,441 +9,620 @@
   <link rel="apple-touch-icon" href="icon-512.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#07090e">
+  <meta name="theme-color" content="#06090e">
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
     :root {
-      --bg: #07090e;
-      --card-bg: #10141e;
-      --card-border: #1e2433;
-      --card-sub: #141926;
-      --text: #f8fafc;
-      --text-muted: #8e9bb0;
-      --accent: #fb923c;
-      --accent-glow: rgba(251, 146, 60, 0.25);
-      --btn-bg: #161c2b;
-      --btn-border: #232b40;
-      --btn-hover: #1f273d;
-      --radius: 18px;
+      --bg-base: #06090e;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #0d1522 0%, #06090e 100%);
+      --surface: rgba(14, 20, 30, 0.82);
+      --surface-elevated: rgba(22, 30, 44, 0.92);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(56, 189, 248, 0.35);
+      --text: #f3f6fc;
+      --text-muted: #8292a6;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --spine-curve: 18px 5px 18px 5px;
+      --spine-curve-rev: 5px 18px 5px 18px;
+      --card-backdrop: blur(18px);
+      --card-shimmer: none;
+      --danger: #f43f5e;
       --gold: #f59e0b;
       --green: #10b981;
-      --red: #ef4444;
+      --trans-speed: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    [data-theme="light"] {
-      --bg: #f4f6fa;
-      --card-bg: #ffffff;
-      --card-border: #e2e8f0;
-      --card-sub: #f8fafc;
+    [data-palette="cherry-blossom"][data-theme="dark"] {
+      --bg-base: #12050c;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #290d1c 0%, #12050c 100%);
+      --surface: rgba(36, 12, 26, 0.82);
+      --surface-elevated: rgba(56, 20, 42, 0.92);
+      --border: rgba(244, 114, 182, 0.25);
+      --border-accent: rgba(251, 113, 133, 0.6);
+      --accent: #f472b6;
+      --accent-glow: rgba(244, 114, 182, 0.4);
+      --text: #fdf2f8;
+      --text-muted: #f472b6cc;
+    }
+    [data-palette="cherry-blossom"][data-theme="light"] {
+      --bg-base: #fdf2f8;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #fce7f3 0%, #fdf2f8 100%);
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-elevated: rgba(252, 231, 243, 0.95);
+      --border: rgba(219, 39, 119, 0.2);
+      --border-accent: rgba(219, 39, 119, 0.5);
+      --accent: #db2777;
+      --accent-glow: rgba(219, 39, 119, 0.25);
+      --text: #831843;
+      --text-muted: #be185d;
+    }
+
+    [data-palette="mellow-jade"][data-theme="dark"] {
+      --bg-base: #030d09;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #071f16 0%, #030d09 100%);
+      --surface: rgba(9, 32, 24, 0.78);
+      --surface-elevated: rgba(14, 48, 36, 0.9);
+      --border: rgba(52, 211, 153, 0.22);
+      --border-accent: rgba(52, 211, 153, 0.6);
+      --accent: #34d399;
+      --accent-glow: rgba(52, 211, 153, 0.35);
+      --text: #ecfdf5;
+      --text-muted: #6ee7b7b3;
+    }
+    [data-palette="mellow-jade"][data-theme="light"] {
+      --bg-base: #f0fdf4;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #dcfce7 0%, #f0fdf4 100%);
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-elevated: rgba(220, 252, 231, 0.95);
+      --border: rgba(5, 150, 105, 0.2);
+      --border-accent: rgba(5, 150, 105, 0.5);
+      --accent: #059669;
+      --accent-glow: rgba(5, 150, 105, 0.25);
+      --text: #064e3b;
+      --text-muted: #047857;
+    }
+
+    [data-palette="liquid-gold"][data-theme="dark"] {
+      --bg-base: #0d0a02;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #221a04 0%, #0d0a02 100%);
+      --surface: rgba(28, 22, 10, 0.88);
+      --surface-elevated: rgba(48, 38, 16, 0.94);
+      --border: rgba(245, 158, 11, 0.3);
+      --border-accent: rgba(251, 191, 36, 0.7);
+      --accent: #fbbf24;
+      --accent-glow: rgba(251, 191, 36, 0.4);
+      --text: #fefce8;
+      --text-muted: #d97706;
+    }
+    [data-palette="liquid-gold"][data-theme="light"] {
+      --bg-base: #fefce8;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #fef08a 0%, #fefce8 100%);
+      --surface: rgba(255, 255, 255, 0.92);
+      --surface-elevated: rgba(254, 240, 138, 0.88);
+      --border: rgba(202, 138, 4, 0.3);
+      --border-accent: rgba(202, 138, 4, 0.7);
+      --accent: #d97706;
+      --accent-glow: rgba(217, 119, 6, 0.3);
+      --text: #451a03;
+      --text-muted: #854d0e;
+    }
+
+    [data-palette="ocean-pearl"][data-theme="dark"] {
+      --bg-base: #030814;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #0a1b38 0%, #030814 100%);
+      --surface: rgba(10, 24, 52, 0.82);
+      --surface-elevated: rgba(18, 40, 84, 0.92);
+      --border: rgba(147, 197, 253, 0.25);
+      --border-accent: rgba(147, 197, 253, 0.65);
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.4);
+      --text: #f0f9ff;
+      --text-muted: #93c5fd;
+    }
+    [data-palette="ocean-pearl"][data-theme="light"] {
+      --bg-base: #f0f9ff;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #bae6fd 0%, #f0f9ff 100%);
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-elevated: rgba(224, 242, 254, 0.95);
+      --border: rgba(2, 132, 199, 0.25);
+      --border-accent: rgba(2, 132, 199, 0.6);
+      --accent: #0284c7;
+      --accent-glow: rgba(2, 132, 199, 0.25);
+      --text: #082f49;
+      --text-muted: #0369a1;
+    }
+
+    [data-palette="pitch-black"][data-theme="dark"],
+    [data-palette="pitch-black"][data-theme="light"] {
+      --bg-base: #000000;
+      --bg-gradient: none;
+      --surface: #0a0a0a;
+      --surface-elevated: #141414;
+      --border: #242424;
+      --border-accent: #ffffff;
+      --accent: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.35);
+      --text: #ffffff;
+      --text-muted: #888888;
+    }
+
+    [data-palette="snow-white"][data-theme="dark"],
+    [data-palette="snow-white"][data-theme="light"] {
+      --bg-base: #f4f6fa;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #ffffff 0%, #e2e8f0 100%);
+      --surface: rgba(255, 255, 255, 0.9);
+      --surface-elevated: #ffffff;
+      --border: #cbd5e1;
+      --border-accent: #64748b;
+      --accent: #0f172a;
+      --accent-glow: rgba(15, 23, 42, 0.2);
       --text: #0f172a;
       --text-muted: #64748b;
-      --accent: #65a30d;
-      --accent-glow: rgba(101, 163, 13, 0.2);
-      --btn-bg: #f1f5f9;
-      --btn-border: #cbd5e1;
-      --btn-hover: #e2e8f0;
     }
 
     [data-nightvision="true"] {
-      --bg: #050000 !important;
-      --card-bg: #120000 !important;
-      --card-border: #330000 !important;
-      --card-sub: #1a0000 !important;
+      --bg-base: #050000 !important;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1a0000 0%, #050000 100%) !important;
+      --surface: rgba(24, 0, 0, 0.88) !important;
+      --surface-elevated: rgba(40, 0, 0, 0.96) !important;
+      --border: rgba(255, 34, 0, 0.3) !important;
+      --border-accent: rgba(255, 34, 0, 0.7) !important;
       --text: #ff4d4d !important;
-      --text-muted: #992222 !important;
+      --text-muted: #a82020 !important;
       --accent: #ff2200 !important;
-      --accent-glow: rgba(255, 34, 0, 0.4) !important;
-      --btn-bg: #220000 !important;
-      --btn-border: #440000 !important;
-      --btn-hover: #330000 !important;
+      --accent-glow: rgba(255, 34, 0, 0.5) !important;
       --gold: #ff3300 !important;
-      --green: #cc2200 !important;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 95px; transition: background 0.25s ease, color 0.25s ease; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; -webkit-tap-highlight-color: transparent; }
+    
+    html, body {
+      height: 100%;
+      font-size: 15.5px;
+    }
+
+    body {
+      background: var(--bg-base);
+      background-image: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 92px;
+      transition: background var(--trans-speed), color var(--trans-speed);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #fx-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
 
     header {
-      padding: 16px 20px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--surface);
+      backdrop-filter: var(--card-backdrop);
+      -webkit-backdrop-filter: var(--card-backdrop);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      background: var(--bg);
-      z-index: 100;
-      border-bottom: 1px solid var(--card-border);
+      transition: all var(--trans-speed);
+    }
+    .brand-title {
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .brand-title span { color: var(--accent); }
+
+    .header-actions { display: flex; gap: 8px; align-items: center; }
+    
+    .geo-pill {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: var(--spine-curve-rev);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      white-space: nowrap;
     }
 
-    .app-title { font-size: 1.15rem; font-weight: 850; letter-spacing: 0.5px; text-transform: uppercase; }
-    .header-btns { display: flex; gap: 8px; }
-
-    .btn-icon-round {
+    .hud-btn {
       width: 40px;
       height: 40px;
-      border-radius: 50%;
-      border: 1px solid var(--btn-border);
-      background: var(--btn-bg);
+      border-radius: var(--spine-curve);
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
       color: var(--text);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       overflow: hidden;
-      transition: transform 0.15s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .btn-icon-round:active { transform: scale(0.9); }
-    .btn-icon-round.nv-active { color: #ff2200; border-color: #ff2200; }
+    .hud-btn:active { transform: scale(0.92); }
+    .hud-btn.active-nv { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px var(--accent-glow); }
 
-    .theme-icon-container { display: flex; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    [data-theme="light"] .theme-icon-container { transform: rotate(180deg); }
+    .theme-flipper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .theme-flipper.rotating { transform: rotate(360deg); }
 
-    .view-panel { display: none; padding: 16px; }
-    .view-panel.active { display: block; }
+    #app-viewport {
+      display: flex;
+      width: 100%;
+      position: relative;
+      z-index: 10;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+    #app-viewport.switching-mode {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+
+    .tab-content { display: none; padding: 18px; width: 100%; position: relative; z-index: 10; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .toolbar-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .search-input-wrap { position: relative; width: 100%; }
+    .search-input-wrap i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      width: 16px;
+      height: 16px;
+    }
+    .search-field {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 10px 12px 10px 38px;
+      border-radius: var(--spine-curve);
+      font-size: 0.84rem;
+      outline: none;
+      transition: border-color var(--trans-speed);
+    }
+    .search-field:focus { border-color: var(--accent); }
 
     .filter-scroll {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding-bottom: 12px;
       scrollbar-width: none;
+      padding-bottom: 4px;
     }
     .filter-scroll::-webkit-scrollbar { display: none; }
 
-    .filter-chip {
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
+    .chip-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
       padding: 7px 14px;
-      border-radius: 999px;
-      font-size: 0.78rem;
-      font-weight: 600;
+      border-radius: var(--spine-curve);
+      font-size: 0.76rem;
+      font-weight: 700;
       color: var(--text-muted);
       cursor: pointer;
       white-space: nowrap;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      transition: all 0.25s ease;
     }
-    .filter-chip.active {
+    .chip-btn.active {
       background: var(--accent);
-      color: #07090e;
+      color: var(--bg-base);
       border-color: var(--accent);
-      font-weight: 700;
-      box-shadow: 0 2px 8px var(--accent-glow);
+      box-shadow: 0 2px 10px var(--accent-glow);
     }
 
-    .section-header {
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--text-muted);
-      margin: 16px 0 10px 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Monthly Drawers (Accordions) */
-    .month-drawer {
-      margin-bottom: 12px;
-      border-radius: var(--radius);
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      overflow: hidden;
-    }
-
-    .month-drawer-header {
-      padding: 14px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      cursor: pointer;
-      user-select: none;
-      background: var(--card-sub);
-    }
-    .month-drawer-header:active { background: var(--btn-hover); }
-    .month-drawer-title { font-size: 0.88rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
-    .month-drawer-badge { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; background: var(--btn-bg); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--btn-border); }
-    
-    .month-drawer-content {
-      padding: 12px;
-      display: none;
-    }
-    .month-drawer.open .month-drawer-content { display: block; }
-    .month-drawer-icon { transition: transform 0.2s ease; }
-    .month-drawer.open .month-drawer-icon { transform: rotate(180deg); }
-
-    /* Event Cards */
-    .event-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+    .event-tile {
+      background: var(--surface);
+      background-image: var(--card-shimmer);
+      backdrop-filter: var(--card-backdrop);
+      -webkit-backdrop-filter: var(--card-backdrop);
+      border: 1px solid var(--border);
+      border-radius: var(--spine-curve);
       padding: 16px;
-      margin-bottom: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+      margin-bottom: 12px;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .event-card.starred-card {
-      border-color: rgba(245, 158, 11, 0.45);
-      background: linear-gradient(180deg, var(--card-bg) 0%, rgba(245, 158, 11, 0.04) 100%);
+    .event-tile.pinned-tile {
+      border-color: var(--border-accent);
+      box-shadow: 0 4px 18px var(--accent-glow);
     }
 
-    .card-top { display: flex; gap: 12px; align-items: center; }
-
-    .event-icon-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: var(--card-sub);
-      border: 1px solid var(--btn-border);
-      color: var(--accent);
+    .tile-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .tile-title-box { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+    .tile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--spine-curve-rev);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--accent);
       flex-shrink: 0;
     }
+    .tile-name { font-size: 0.95rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tile-time-tag { font-size: 0.76rem; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
 
-    .card-info { flex: 1; min-width: 0; }
-    .card-title-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-    .card-title { font-size: 0.95rem; font-weight: 750; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .card-subtext { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
-
-    .btn-dismiss {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tile-badge-strip { display: flex; gap: 6px; flex-wrap: wrap; font-size: 0.72rem; font-weight: 700; }
+    .tile-badge {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      padding: 4px 9px;
       border-radius: 6px;
-    }
-    .btn-dismiss:active { color: var(--red); background: var(--btn-hover); }
-
-    .peak-strip {
-      background: var(--card-sub);
-      border: 1px solid var(--card-border);
-      padding: 8px 12px;
-      border-radius: 10px;
-      font-size: 0.76rem;
       display: flex;
       align-items: center;
-      gap: 8px;
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .card-meta-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      font-size: 0.76rem;
+      gap: 4px;
       color: var(--text-muted);
     }
-    .meta-item { display: flex; align-items: center; gap: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tile-badge.accent-tag { color: var(--accent); border-color: var(--border-accent); }
 
-    .card-action-bar {
+    .specs-grid-inline {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 2px;
+    }
+    .spec-item { display: flex; flex-direction: column; gap: 2px; text-align: center; }
+    .spec-label { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+    .spec-val { font-size: 0.78rem; font-weight: 900; color: var(--accent); }
+
+    .tile-detail-block {
+      display: none;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: var(--text-muted);
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .tile-action-bar {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       padding-top: 8px;
-      border-top: 1px solid var(--card-border);
+      border-top: 1px solid var(--border);
     }
-
-    .btn-action-cell {
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
+    .btn-tile-act {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
       color: var(--text);
-      padding: 8px 4px;
-      border-radius: 10px;
-      font-size: 0.74rem;
-      font-weight: 600;
+      padding: 8px 0;
+      border-radius: var(--spine-curve-rev);
+      font-size: 0.72rem;
+      font-weight: 700;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      gap: 4px;
-      text-decoration: none;
-      transition: background 0.15s ease, transform 0.1s ease;
+      gap: 3px;
+      transition: all 0.2s;
     }
-    .btn-action-cell:active { background: var(--btn-hover); transform: scale(0.95); }
-    .btn-action-cell.active-star { color: var(--gold); border-color: rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.1); }
+    .btn-tile-act:active { transform: scale(0.93); }
+    .btn-tile-act.star-on { color: var(--gold); border-color: rgba(245, 158, 11, 0.45); }
+    [data-palette="cherry-blossom"] .btn-tile-act.star-on { color: #fb7185; border-color: rgba(251, 113, 133, 0.5); }
+    .btn-tile-act.btn-dismiss-act { color: var(--danger); border-color: rgba(244, 63, 94, 0.3); }
+
+    [data-app-mode="slim"] .event-tile { padding: 10px 14px; gap: 4px; }
+    [data-app-mode="slim"] .tile-action-bar { display: none; }
+    [data-app-mode="slim"] .tile-badge-strip { font-size: 0.66rem; }
+
+    @media (orientation: portrait) {
+      [data-app-mode="detail"] .specs-grid-inline { display: grid !important; }
+      [data-app-mode="detail"] .tile-detail-block { display: block !important; }
+    }
+
+    [data-app-mode="focus"] .pinned-tile .specs-grid-inline { display: grid !important; }
+    [data-app-mode="focus"] .pinned-tile .tile-detail-block { display: block !important; }
+    [data-app-mode="focus"] #tab-btn-deck { display: none !important; }
+
+    .year-title {
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin: 18px 0 8px 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .drawer {
+      border: 1px solid var(--border);
+      border-radius: var(--spine-curve);
+      background: var(--surface);
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .drawer-head {
+      padding: 12px 16px;
+      background: var(--surface-elevated);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+    .drawer-body { display: none; padding: 10px; flex-direction: column; gap: 10px; }
+    .drawer.open .drawer-body { display: flex; }
+    .drawer.open .drawer-arrow { transform: rotate(180deg); }
 
     .deck-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .deck-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+    .deck-tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--spine-curve);
       padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
-    .deck-title { font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); }
-    .deck-val { font-size: 1.15rem; font-weight: 800; color: var(--accent); }
-    .deck-desc { font-size: 0.74rem; color: var(--text-muted); }
+    .deck-tile-full { grid-column: span 2; }
+    .deck-tile-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); }
+    .deck-tile-val { font-size: 1.2rem; font-weight: 900; color: var(--accent); }
+    .deck-tile-sub { font-size: 0.74rem; color: var(--text-muted); }
 
     .calc-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--spine-curve);
       padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-    .calc-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; }
-    .calc-result {
-      background: var(--card-sub);
-      border: 1px solid var(--card-border);
-      padding: 12px;
-      border-radius: 12px;
+    .calc-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.84rem; }
+    .calc-input {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 7px 12px;
+      border-radius: var(--spine-curve-rev);
+      font-size: 0.84rem;
+      outline: none;
+    }
+    .calc-result-plate {
+      background: var(--surface-elevated);
+      border: 1px dashed var(--border-accent);
+      border-radius: var(--spine-curve-rev);
+      padding: 14px;
       text-align: center;
     }
 
-    .settings-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
+    .settings-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--spine-curve);
       padding: 18px;
       margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-    .settings-title { font-size: 0.88rem; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
-
-    .setting-item {
+    .settings-title { font-size: 0.84rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.06em; }
+    .settings-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--card-border);
-      font-size: 0.85rem;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.84rem;
     }
-    .setting-item:last-child { border-bottom: none; }
+    .settings-row:last-child { border-bottom: none; }
 
-    .color-swatches { display: flex; gap: 8px; }
-    .swatch {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
+    .button-grid-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .btn-grid-option {
+      padding: 10px 12px;
+      border-radius: var(--spine-curve-rev);
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-align: center;
       cursor: pointer;
-      border: 2px solid transparent;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .swatch.active { border-color: #fff; transform: scale(1.2); }
-
-    .toggle { position: relative; display: inline-block; width: 44px; height: 24px; }
-    .toggle input { opacity: 0; width: 0; height: 0; }
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: var(--btn-border);
-      transition: 0.25s;
-      border-radius: 30px;
-    }
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: 0.25s;
-      border-radius: 50%;
-    }
-    input:checked + .toggle-slider { background-color: var(--accent); }
-    input:checked + .toggle-slider:before { transform: translateX(20px); }
-
-    select, input[type="number"] {
-      background: var(--btn-bg);
-      border: 1px solid var(--btn-border);
+      border: 1px solid var(--border);
+      background: var(--surface-elevated);
       color: var(--text);
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 0.8rem;
-      outline: none;
+      white-space: nowrap;
+      transition: all 0.2s;
     }
+    .btn-grid-option.active { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
 
-    .modal-backdrop {
+    .modal-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(8px);
-      z-index: 1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 200;
       display: none;
       align-items: flex-end;
     }
-    .modal-backdrop.open { display: flex; }
-
+    .modal-overlay.active { display: flex; }
     .modal-sheet {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
+      background: var(--bg-base);
+      border-top: 1px solid var(--border);
+      border-radius: 24px 24px 0 0;
       width: 100%;
       max-height: 85vh;
-      padding: 20px 20px 30px;
+      padding: 22px 20px 34px;
       overflow-y: auto;
     }
 
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: 16px 0;
-    }
-    .modal-grid-item {
-      background: var(--card-sub);
-      border: 1px solid var(--card-border);
-      padding: 12px;
+    .guide-card-block {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
       border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+      line-height: 1.45;
     }
-    .modal-label { font-size: 0.68rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-    .modal-val { font-size: 0.88rem; font-weight: 750; color: var(--accent); margin-top: 2px; }
+    .guide-card-block b { color: var(--accent); }
 
-    .handbook-section {
-      background: var(--card-sub);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 12px;
-      font-size: 0.82rem;
-      line-height: 1.5;
-    }
-    .handbook-subtitle {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .handbook-link {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 800;
-    }
-
-    .bottom-nav {
+    /* Bottom HUD Curved Inward */
+    .bottom-hud {
       position: fixed;
       bottom: 0; left: 0; right: 0;
-      background: var(--bg);
-      border-top: 1px solid var(--card-border);
+      background: var(--surface);
+      backdrop-filter: var(--card-backdrop);
+      -webkit-backdrop-filter: var(--card-backdrop);
+      border-top: 1px solid var(--border);
+      border-radius: 24px 24px 0 0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
       display: flex;
       justify-content: space-around;
-      padding: 10px 0 16px;
+      padding: 12px 0 16px;
       z-index: 100;
+      transition: all var(--trans-speed);
     }
-    .nav-tab {
+    .hud-tab {
       background: none;
       border: none;
       color: var(--text-muted);
@@ -452,674 +631,1168 @@
       align-items: center;
       gap: 4px;
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
+      transition: all 0.25s ease;
     }
-    .nav-tab.active { color: var(--accent); font-weight: 700; }
+    .hud-tab.active { color: var(--accent); transform: translateY(-2px); }
+
+    /* =========================================================
+       LANDSCAPE UI: LEFT DOCK & FIXED-PANE DETAIL MODE
+       ========================================================= */
+    @media (orientation: landscape) and (min-width: 600px) {
+      body {
+        padding-bottom: 0;
+        padding-left: 80px;
+        height: 100vh;
+        overflow: hidden;
+      }
+      header {
+        padding-left: 20px;
+      }
+      .bottom-hud {
+        top: 0; left: 0; bottom: 0; right: auto;
+        width: 80px;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 28px;
+        padding: 30px 0;
+        border-top: none;
+        border-right: 1px solid var(--border);
+        border-radius: 0 24px 24px 0;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.35);
+      }
+      .hud-tab {
+        font-size: 0.68rem;
+        gap: 5px;
+      }
+
+      #app-viewport {
+        height: calc(100vh - 68px);
+        overflow: hidden;
+      }
+      .tab-content {
+        height: 100%;
+        overflow-y: auto;
+      }
+
+      /* In Landscape Detail Mode, smoothly fade out and hide the Sky Deck button */
+      [data-app-mode="detail"] #tab-btn-deck {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.85);
+        display: none !important;
+      }
+
+      /* Master List (Left) + Fixed Sky Deck HUD (Right) */
+      [data-app-mode="detail"] #app-viewport {
+        display: flex;
+        flex-direction: row;
+      }
+      [data-app-mode="detail"] #tab-list {
+        display: block !important;
+        flex: 1.15;
+        height: 100%;
+        overflow-y: auto;
+        padding-right: 16px;
+      }
+      [data-app-mode="detail"] #tab-deck {
+        display: block !important;
+        flex: 0.85;
+        height: 100%;
+        overflow-y: auto;
+        border-left: 1px solid var(--border-accent);
+        box-shadow: -4px 0 16px rgba(0,0,0,0.3);
+        padding: 18px;
+        background: var(--surface);
+      }
+      [data-app-mode="detail"] #tab-you.active {
+        display: block !important;
+        position: absolute;
+        inset: 0;
+        background: var(--bg-base);
+        z-index: 50;
+      }
+    }
   </style>
 </head>
-<body data-theme="dark">
+<body data-theme="dark" data-palette="cherry-blossom" data-app-mode="standard">
+
+  <canvas id="fx-canvas"></canvas>
 
   <header>
-    <div class="app-title">Aperture // Orbit</div>
-    <div class="header-btns">
-      <button class="btn-icon-round" id="nv-btn" onclick="toggleNightVision()" title="Toggle Red Night Vision">
+    <div class="brand-title">Aperture <span>//</span> Orbit</div>
+    <div class="header-actions">
+      <div class="geo-pill" id="geo-location-tag" onclick="promptGPSModal()" title="Tap to calibrate GPS">
+        <i data-lucide="map-pin" style="width:12px;height:12px; color:var(--accent);"></i>
+        <span id="geo-location-text">London, ON, CA</span>
+      </div>
+      <button class="hud-btn" id="nv-btn" onclick="toggleNightVision()" title="Toggle Astro Red-Light">
         <i data-lucide="eye"></i>
       </button>
-      <button class="btn-icon-round" id="theme-btn" aria-label="Toggle Theme">
-        <div class="theme-icon-container">
-          <i id="theme-icon" data-lucide="moon"></i>
+      <button class="hud-btn" id="theme-btn" onclick="toggleThemeWithSpin()" title="Toggle Theme">
+        <div class="theme-flipper" id="theme-flipper-box">
+          <i data-lucide="moon" id="theme-icon"></i>
         </div>
       </button>
     </div>
   </header>
 
-  <!-- TAB 1: LIST / FEED -->
-  <main id="tab-list" class="view-panel active">
-    <div class="filter-scroll">
-      <button class="filter-chip active" onclick="setFilter('all')"><i data-lucide="sparkles" style="width:14px;height:14px;"></i> All</button>
-      <button class="filter-chip" onclick="setFilter('lunar')"><i data-lucide="moon" style="width:14px;height:14px;"></i> Lunar</button>
-      <button class="filter-chip" onclick="setFilter('solar')"><i data-lucide="sun" style="width:14px;height:14px;"></i> Solar</button>
-      <button class="filter-chip" onclick="setFilter('meteor')"><i data-lucide="flame" style="width:14px;height:14px;"></i> Meteors</button>
-      <button class="filter-chip" onclick="setFilter('aurora')"><i data-lucide="waves" style="width:14px;height:14px;"></i> Aurora</button>
-      <button class="filter-chip" onclick="setFilter('milkyway')"><i data-lucide="stars" style="width:14px;height:14px;"></i> Milky Way</button>
-      <button class="filter-chip" onclick="setFilter('planet')"><i data-lucide="orbit" style="width:14px;height:14px;"></i> Planets</button>
-    </div>
-
-    <div id="events-feed"></div>
-  </main>
-
-  <!-- TAB 2: LIVE OBSERVER DECK -->
-  <main id="tab-deck" class="view-panel">
-    <div class="section-header"><i data-lucide="activity" style="width:14px;height:14px;"></i> Live Sky Conditions</div>
-    <div class="deck-grid">
-      <div class="deck-card">
-        <div class="deck-title">Moon Phase</div>
-        <div class="deck-val" id="deck-moon-phase">Waxing Gibbous</div>
-        <div class="deck-desc" id="deck-moon-illum">~78% Illumination</div>
-      </div>
-      <div class="deck-card">
-        <div class="deck-title">Aurora Activity</div>
-        <div class="deck-val" style="color:var(--green);">Kp 3.3 (Active)</div>
-        <div class="deck-desc">Substorm visible at 50°N</div>
-      </div>
-    </div>
-
-    <div class="calc-card">
-      <div style="font-size:0.92rem; font-weight:800; text-transform:uppercase;">Pinpoint Star Exposure Calc</div>
-      <div style="font-size:0.78rem; color:var(--text-muted);">Calculates max shutter duration before stars begin trailing (500 Rule & NPF).</div>
-      
-      <div class="calc-row">
-        <span>Lens Focal Length (mm)</span>
-        <input type="number" id="calc-focal" value="14" style="width:75px;" oninput="recalcShutter()">
-      </div>
-
-      <div class="calc-row">
-        <span>Camera Sensor Type</span>
-        <select id="calc-crop" onchange="recalcShutter()">
-          <option value="1.0" selected>Full Frame (1.0x)</option>
-          <option value="1.5">APS-C / Crop (1.5x)</option>
-          <option value="2.0">Micro Four Thirds (2.0x)</option>
-        </select>
-      </div>
-
-      <div class="calc-result">
-        <div style="font-size:0.72rem; text-transform:uppercase; color:var(--text-muted); font-weight:700;">Max Recommended Shutter</div>
-        <div style="font-size:1.3rem; font-weight:850; color:var(--accent); margin-top:2px;" id="calc-output">35.7 seconds</div>
-      </div>
-    </div>
-  </main>
-
-  <!-- TAB 3: YOU / SETTINGS -->
-  <main id="tab-you" class="view-panel">
-    <div class="settings-card">
-      <div class="settings-title">Documentation & Credits</div>
-      <div class="setting-item">
-        <div>
-          <div style="font-weight:700;">Field Handbook & Guide</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">How to install, get .ics feeds, & shoot targets</div>
+  <div id="app-viewport">
+    <main id="tab-list" class="tab-content active">
+      <div class="toolbar-stack">
+        <div class="search-input-wrap">
+          <i data-lucide="search"></i>
+          <input type="text" id="target-search" class="search-field" placeholder="Search targets, conditions, visibility..." oninput="handleSearch(this.value)">
         </div>
-        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="openHandbookModal()">
-          <i data-lucide="book-open" style="width:14px;height:14px;"></i> Open Guide
-        </button>
-      </div>
-    </div>
-
-    <!-- Direct .ICS Ingestion & Purge -->
-    <div class="settings-card">
-      <div class="settings-title">Data Ingestion (.ICS & JSON)</div>
-      
-      <div class="setting-item">
-        <div>
-          <div style="font-weight:700;">Import & Load .ICS File</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Parse any downloaded .ics file into your active targets</div>
-        </div>
-        <div>
-          <input type="file" id="ics-file-input" accept=".ics,text/calendar" style="display:none;" onchange="handleICSImport(event)">
-          <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="document.getElementById('ics-file-input').click()">
-            <i data-lucide="file-down" style="width:14px;height:14px;"></i> Import .ICS
-          </button>
+        <div class="filter-scroll">
+          <button class="chip-btn active" onclick="setFilter('all', event)"><i data-lucide="sparkles" style="width:13px;height:13px;"></i> All</button>
+          <button class="chip-btn" onclick="setFilter('naked-eye', event)"><i data-lucide="eye" style="width:13px;height:13px;"></i> Naked Eye</button>
+          <button class="chip-btn" onclick="setFilter('tripod', event)"><i data-lucide="camera" style="width:13px;height:13px;"></i> Tripod Req.</button>
+          <button class="chip-btn" onclick="setFilter('lunar', event)"><i data-lucide="moon" style="width:13px;height:13px;"></i> Lunar</button>
+          <button class="chip-btn" onclick="setFilter('meteor', event)"><i data-lucide="flame" style="width:13px;height:13px;"></i> Meteors</button>
+          <button class="chip-btn" onclick="setFilter('aurora', event)"><i data-lucide="waves" style="width:13px;height:13px;"></i> Aurora</button>
+          <button class="chip-btn" onclick="setFilter('milkyway', event)"><i data-lucide="stars" style="width:13px;height:13px;"></i> Milky Way</button>
         </div>
       </div>
 
-      <div class="setting-item">
-        <div>
-          <div style="font-weight:700;">Purge Imported Targets (.ICS)</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Remove only external imported data (keeps defaults)</div>
+      <div id="targets-render-area"></div>
+    </main>
+
+    <main id="tab-deck" class="tab-content">
+      <div class="deck-grid">
+        <div class="deck-tile">
+          <div class="deck-tile-label">Lunar Illumination</div>
+          <div class="deck-tile-val" id="deck-moon-phase">Waxing Gibbous</div>
+          <div class="deck-tile-sub">~78% Surface Light</div>
         </div>
-        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row; color:var(--red); border-color:rgba(239,68,68,0.3);" onclick="purgeImportedICS()">
-          <i data-lucide="trash" style="width:14px;height:14px;"></i> Purge .ICS
-        </button>
+        <div class="deck-tile">
+          <div class="deck-tile-label">Geomagnetic Activity</div>
+          <div class="deck-tile-val" style="color:var(--green);">Kp 3.3 Active</div>
+          <div class="deck-tile-sub">Substorm visible 50°N</div>
+        </div>
+        <div class="deck-tile deck-tile-full">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div class="deck-tile-label" id="weather-location-title">Atmospheric Conditions • London, ON, CA</div>
+              <div class="deck-tile-val" id="weather-cloud-val">Loading...</div>
+              <div class="deck-tile-sub" id="weather-detail-val">Fetching Open-Meteo local sensor data</div>
+            </div>
+            <button class="hud-btn" onclick="fetchLiveWeather()"><i data-lucide="refresh-cw"></i></button>
+          </div>
+        </div>
       </div>
 
-      <div class="setting-item">
-        <div>
-          <div style="font-weight:700;">App Event Backup (JSON)</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Export or restore your custom starred & edited targets</div>
+      <div class="calc-card">
+        <div style="font-size:0.86rem; font-weight:800; text-transform:uppercase;">Pinpoint Shutter Calculator</div>
+        <div style="font-size:0.74rem; color:var(--text-muted);">NPF and 500 Rule star trailing threshold.</div>
+
+        <div class="calc-row">
+          <span>Focal Length (mm)</span>
+          <input type="number" id="calc-focal" class="calc-input" value="14" style="width:80px;" oninput="recalcShutter()">
         </div>
+
+        <div class="calc-row">
+          <span>Sensor Type</span>
+          <select id="calc-crop" class="calc-input" onchange="recalcShutter()">
+            <option value="1.0" selected>Full Frame (1.0x)</option>
+            <option value="1.5">APS-C / Crop (1.5x)</option>
+            <option value="2.0">Micro Four Thirds (2.0x)</option>
+          </select>
+        </div>
+
+        <div class="calc-result-plate">
+          <div style="font-size:0.68rem; font-weight:800; text-transform:uppercase; color:var(--text-muted);">Max Recommended Shutter</div>
+          <div style="font-size:1.35rem; font-weight:900; color:var(--accent); margin-top:2px;" id="calc-shutter-res">35.7s</div>
+        </div>
+      </div>
+    </main>
+
+    <main id="tab-you" class="tab-content">
+      <div class="settings-panel">
+        <div class="settings-title">Density & UI Mode</div>
+        <div class="button-grid-wrap">
+          <button class="btn-grid-option" onclick="setAppMode('focus')">Focus</button>
+          <button class="btn-grid-option" onclick="setAppMode('slim')">Slim</button>
+          <button class="btn-grid-option active" onclick="setAppMode('standard')">Standard</button>
+          <button class="btn-grid-option" onclick="setAppMode('detail')">Detail Heaven</button>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <div class="settings-title">Theme Presets</div>
+        <div class="button-grid-wrap">
+          <button class="btn-grid-option active" onclick="setPalette('cherry-blossom')">Cherry Blossom</button>
+          <button class="btn-grid-option" onclick="setPalette('mellow-jade')">Mellow Jade</button>
+          <button class="btn-grid-option" onclick="setPalette('liquid-gold')">Liquid Gold</button>
+          <button class="btn-grid-option" onclick="setPalette('ocean-pearl')">Ocean Pearl</button>
+          <button class="btn-grid-option" onclick="setPalette('pitch-black')">Pitch Black</button>
+          <button class="btn-grid-option" onclick="setPalette('snow-white')">Snow White</button>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <div class="settings-title">Observing Region Pack</div>
+        <div class="settings-row">
+          <div>
+            <div style="font-weight:700;">Target Region</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Pre-cached astronomy calendar</div>
+          </div>
+          <select id="region-selector" class="calc-input" onchange="changeObservingRegion(this.value)">
+            <option value="auto">GPS Auto Detect</option>
+            <option value="North_America" selected>North America</option>
+            <option value="Europe">Europe</option>
+            <option value="Southern_Hemisphere">Southern Hemisphere</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <div class="settings-title">Field Guide & Info</div>
+        <div class="settings-row">
+          <div>
+            <div style="font-weight:700;">Field Handbook & Guide</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Dedicated cameras, optics, & apps</div>
+          </div>
+          <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="openGuideModal()"><i data-lucide="book-open"></i> Read</button>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <div class="settings-title">Calendar Sync (.ICS / WebCal)</div>
         <div style="display:flex; gap:6px;">
-          <input type="file" id="json-file-input" accept=".json,application/json" style="display:none;" onchange="handleJSONImport(event)">
-          <button class="btn-action-cell" style="width:auto; padding:8px 10px; flex-direction:row;" onclick="exportAppJSON()">
-            <i data-lucide="download" style="width:14px;height:14px;"></i> Backup
-          </button>
-          <button class="btn-action-cell" style="width:auto; padding:8px 10px; flex-direction:row;" onclick="document.getElementById('json-file-input').click()">
-            <i data-lucide="upload" style="width:14px;height:14px;"></i> Restore
-          </button>
+          <input type="url" id="webcal-url-input" class="calc-input" placeholder="https://example.com/events.ics" style="flex:1;">
+          <button class="btn-tile-act" style="padding:6px 12px; width:auto; flex-direction:row;" onclick="importWebCalFeed()"><i data-lucide="link"></i> Sync</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div style="font-weight:700;">Import Local .ICS</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Organize into Year / Month drawers</div>
+          </div>
+          <input type="file" id="ics-file-input" accept=".ics,text/calendar" style="display:none;" onchange="handleICSImport(event)">
+          <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="document.getElementById('ics-file-input').click()"><i data-lucide="file-down"></i> Browse</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div style="font-weight:700;">Restore Dismissed Events</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Unhide all dismissed targets</div>
+          </div>
+          <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="restoreDismissed()"><i data-lucide="refresh-cw"></i> Restore</button>
         </div>
       </div>
+    </main>
+  </div>
 
-      <div class="setting-item">
-        <div>
-          <div style="font-weight:700;">NASA SkyCal Source</div>
-          <div style="font-size:0.75rem; color:var(--text-muted);">Official NASA sky event dates and source data</div>
-        </div>
-        <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;">
-          <i data-lucide="external-link" style="width:14px;height:14px;"></i> NASA SkyCal ↗
-        </a>
-      </div>
-    </div>
-
-    <div class="settings-card">
-      <div class="settings-title">Visuals & Palettes</div>
-      <div class="setting-item">
-        <span>Accent Palette</span>
-        <div class="color-swatches">
-          <div class="swatch active" style="background:#fb923c;" onclick="setCustomAccent('#fb923c', this)" title="Warm Amber"></div>
-          <div class="swatch" style="background:#65a30d;" onclick="setCustomAccent('#65a30d', this)" title="Sage Green"></div>
-          <div class="swatch" style="background:#eab308;" onclick="setCustomAccent('#eab308', this)" title="Solar Gold"></div>
-          <div class="swatch" style="background:#8b5cf6;" onclick="setCustomAccent('#8b5cf6', this)" title="Deep Violet"></div>
-          <div class="swatch" style="background:#38bdf8;" onclick="setCustomAccent('#38bdf8', this)" title="Ice Blue"></div>
-        </div>
-      </div>
-      <div class="setting-item">
-        <span>Time Display Format</span>
-        <select id="cfg-time-fmt" onchange="setTimeFormat(this.value)">
-          <option value="12h">12-Hour Local (AM/PM)</option>
-          <option value="24h">24-Hour Military</option>
-          <option value="utc">UTC / Zulu Standard</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="settings-card">
-      <div class="settings-title">Push Alerts & Timing</div>
-      <div class="setting-item">
-        <span>System Push Alerts</span>
-        <label class="toggle">
-          <input type="checkbox" id="notif-toggle" onchange="toggleNotifications(this.checked)">
-          <span class="toggle-slider"></span>
-        </label>
-      </div>
-      <div class="setting-item">
-        <span>Advance Reminder Lead</span>
-        <select id="cfg-lead" onchange="saveSetting('lead_time', this.value)">
-          <option value="1">1 Day Prior</option>
-          <option value="3">3 Days Prior</option>
-          <option value="7" selected>1 Week Prior</option>
-          <option value="14">2 Weeks Prior</option>
-          <option value="30">1 Month Prior</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="settings-card">
-      <div class="settings-title">Storage & Event Cache</div>
-      <div class="setting-item">
-        <span>Restore Dismissed Targets</span>
-        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="restoreAllDismissed()"><i data-lucide="refresh-cw" style="width:14px;height:14px;"></i> Restore All</button>
-      </div>
-      <div class="setting-item">
-        <span>Reset Starred Targets</span>
-        <button class="btn-action-cell" style="width:auto; padding:8px 14px; flex-direction:row;" onclick="clearAllStarred()"><i data-lucide="trash-2" style="width:14px;height:14px;"></i> Reset Stars</button>
-      </div>
-    </div>
-  </main>
-
-  <!-- MODAL 1: CAMERA SPECS -->
-  <div class="modal-backdrop" id="target-modal" onclick="closeModal(event)">
+  <!-- MODAL 1: SPECS & INFO POPOUT -->
+  <div class="modal-overlay" id="specs-modal" onclick="closeModal(event)">
     <div class="modal-sheet">
-      <div style="width:36px; height:4px; background:var(--card-border); border-radius:99px; margin:0 auto 12px;"></div>
-      <div style="font-size:1.2rem; font-weight:800;" id="m-title">Target Title</div>
-      <div style="font-size:0.82rem; color:var(--text-muted); margin-top:4px;" id="m-desc">Optimum exposure settings for this event.</div>
-
-      <div class="modal-grid">
-        <div class="modal-grid-item">
-          <div class="modal-label">Recommended Shutter</div>
-          <div class="modal-val" id="m-shutter">15s - 25s</div>
+      <div style="width:36px; height:4px; background:var(--border); border-radius:99px; margin:0 auto 12px;"></div>
+      <div style="font-size:1.15rem; font-weight:900;" id="m-title">Target Parameters</div>
+      <div style="font-size:0.76rem; color:var(--text-muted); margin-bottom:14px;" id="m-desc">Optimum exposure specifications</div>
+      
+      <div class="deck-grid">
+        <div class="deck-tile">
+          <div class="deck-tile-label">Shutter Duration</div>
+          <div class="deck-tile-val" style="font-size:1.05rem;" id="m-shutter">15s - 25s</div>
         </div>
-        <div class="modal-grid-item">
-          <div class="modal-label">Optimal ISO</div>
-          <div class="modal-val" id="m-iso">1600 - 3200</div>
+        <div class="deck-tile">
+          <div class="deck-tile-label">ISO Threshold</div>
+          <div class="deck-tile-val" style="font-size:1.05rem;" id="m-iso">1600 - 3200</div>
         </div>
-        <div class="modal-grid-item">
-          <div class="modal-label">Aperture Setting</div>
-          <div class="modal-val" id="m-aperture">f/1.8 - f/2.8</div>
+        <div class="deck-tile">
+          <div class="deck-tile-label">Aperture Setting</div>
+          <div class="deck-tile-val" style="font-size:1.05rem;" id="m-aperture">f/1.8 - f/2.8</div>
         </div>
-        <div class="modal-grid-item">
-          <div class="modal-label">Peak Time Window</div>
-          <div class="modal-val" id="m-window">01:30 - 03:45 AM</div>
+        <div class="deck-tile">
+          <div class="deck-tile-label">Optimum Window</div>
+          <div class="deck-tile-val" style="font-size:0.85rem;" id="m-window">01:30 - 03:45 AM</div>
         </div>
       </div>
 
-      <div style="display:flex; gap:8px;">
-        <button class="btn-action-cell" onclick="closeModalDirect('target-modal')" style="width:100%; padding:12px; font-weight:700;">Close</button>
+      <div class="guide-card-block" style="margin-top:4px;">
+        <b>Field Observation Note:</b>
+        <p id="m-details" style="margin-top:4px; color:var(--text-main);"></p>
       </div>
+
+      <button class="btn-tile-act" style="width:100%; padding:10px; font-weight:800; margin-top:8px;" onclick="closeModalDirect('specs-modal')">Close Specs</button>
     </div>
   </div>
 
   <!-- MODAL 2: FIELD HANDBOOK & GUIDE -->
-  <div class="modal-backdrop" id="handbook-modal" onclick="closeModal(event)">
-    <div class="modal-sheet" id="handbook-scroll-container">
-      <div style="width:36px; height:4px; background:var(--card-border); border-radius:99px; margin:0 auto 12px;"></div>
-      
-      <div style="font-size:1.15rem; font-weight:850; letter-spacing:0.4px;">Aperture // Orbit</div>
-      <div style="font-size:0.75rem; color:var(--accent); font-weight:700; margin-bottom:8px;">v1.4.3 • Public Beta</div>
-      <div style="font-size:0.82rem; margin-bottom:14px;">
-        Made by: <b><a href="https://instagram.com/27ozig" target="_blank" rel="noopener" class="handbook-link">@27ozig</a></b>
+  <div class="modal-overlay" id="guide-modal" onclick="closeModal(event)">
+    <div class="modal-sheet">
+      <div style="width:36px; height:4px; background:var(--border); border-radius:99px; margin:0 auto 12px;"></div>
+      <div style="font-size:1.15rem; font-weight:900; margin-bottom:4px;">Field Handbook & Guide</div>
+      <div style="font-size:0.74rem; color:var(--accent); font-weight:700; margin-bottom:14px;">Aperture // Orbit Field Reference</div>
+
+      <div class="guide-card-block">
+        <b>1. Dedicated Camera Rig Setup (DSLR / Mirrorless)</b><br>
+        • <b>Manual Focus Pinpoint:</b> Switch lens to MF. Set rear LCD to Live View, find a bright anchor star, digitally zoom to 10x, and turn the focus ring until the star is as small and crisp as possible.<br>
+        • <b>Lens Aberrations:</b> Shoot wide open (f/1.4 - f/2.8). If coma distortion occurs in the corners, step down 1/3 stop.<br>
+        • <b>Noise Reduction:</b> Turn off Long Exposure Noise Reduction in-camera so you can shoot consecutive frames without delay for stacking.
       </div>
 
-      <div class="handbook-section">
-        <div class="handbook-subtitle"><i data-lucide="download" style="width:14px;height:14px;"></i> How to Install on Your Phone</div>
-        <b>iPhone / iOS:</b><br>
-        1. Open this website link in <b>Safari</b>.<br>
-        2. Tap the <b>Share</b> button (square with the arrow pointing up).<br>
-        3. Scroll down and tap <b>Add to Home Screen</b>.<br><br>
-        <b>Android:</b><br>
-        1. Open the link in <b>Chrome</b>.<br>
-        2. Tap the <b>3 dots menu</b> in the top right corner.<br>
-        3. Tap <b>Install app</b> or <b>Add to Home screen</b>.
+      <div class="guide-card-block">
+        <b>2. Companion Sky Apps (Pointing & Alignment)</b><br>
+        • <b>Android:</b> Sky Map (open-source real-time celestial viewer)<br>
+        • <b>iOS Alternative:</b> Stellarium Mobile or Night Sky for azimuth/zenith mapping.
       </div>
 
-      <div class="handbook-section">
-        <div class="handbook-subtitle"><i data-lucide="file-down" style="width:14px;height:14px;"></i> How to Get .ICS Event Files</div>
-        You can download free <code>.ics</code> calendar files and load them straight into the app via <b>Import .ICS</b> in Settings:<br><br>
-        1. <b>NASA SkyCal:</b> Go to <a href="https://eclipse.gsfc.nasa.gov/SKYCAL/SKYCAL.html" target="_blank" rel="noopener" class="handbook-link">NASA SkyCal</a>, pick your year & events, and download the generated calendar file.<br>
-        2. <b>International Meteor Organization (IMO):</b> Download meteor shower peak schedules at <a href="https://www.imo.net" target="_blank" rel="noopener" class="handbook-link">imo.net</a>.<br>
-        3. <b>SeaSky Astronomy Calendar:</b> Free sky event feeds at <a href="http://www.seasky.org/astronomy/astronomy-calendar-2026.html" target="_blank" rel="noopener" class="handbook-link">seasky.org</a>.<br><br>
-        Once downloaded to your device, tap <b>Import .ICS</b> in Settings to automatically map and populate your feed into monthly drawers.
+      <div class="guide-card-block">
+        <b>3. Calendar Export (Long-Press)</b><br>
+        Press and hold any starred card for <b>0.6 seconds</b> to directly export the configured <code>.ics</code> alert to your calendar.
       </div>
 
-      <div class="handbook-section">
-        <div class="handbook-subtitle"><i data-lucide="smartphone" style="width:14px;height:14px;"></i> Shooting on Your Phone</div>
-        <b>1. Keep it totally still:</b> Put your phone on a tripod or lean it against something sturdy. Holding it in your hands will blur the stars or turn off Astro mode.<br><br>
-        <b>2. Camera modes:</b>
-        <ul style="padding-left:18px; margin:4px 0 8px;">
-          <li><b>Pixel:</b> Switch to Night Sight and keep it still—it automatically triggers Astrophotography mode.</li>
-          <li><b>iPhone:</b> Turn on Night Mode and slide the timer to Max (10s–30s).</li>
-          <li><b>Samsung:</b> Use Expert RAW or Night Mode.</li>
-        </ul>
-        <b>3. Set a 3-second timer:</b> This stops the camera from shaking when your finger taps the screen.<br>
-        <a href="#post-notes-anchor" onclick="scrollToPostNotes()" style="color:var(--accent); text-decoration:underline; font-weight:700; display:inline-block; margin-top:6px;">* How to use the Deck with your phone</a>
-      </div>
-
-      <div class="handbook-section">
-        <div class="handbook-subtitle"><i data-lucide="camera" style="width:14px;height:14px;"></i> Shooting on a DSLR / Mirrorless</div>
-        <b>1. Focus manually:</b> Switch your lens to MF (Manual Focus). Zoom in on the brightest star on your screen and turn the focus ring until the star looks as tiny and sharp as possible.<br><br>
-        <b>2. Aperture (f-stop):</b> Pick your lowest f-number (like f/1.8 or f/2.8) so the lens lets in the most light.<br><br>
-        <b>3. Shutter speed:</b> Check the <b>Observer Deck</b> tab to see how many seconds you can shoot before the stars start stretching into lines.
-      </div>
-
-      <div class="handbook-section" id="post-notes-anchor">
-        <div class="handbook-subtitle"><i data-lucide="file-text" style="width:14px;height:14px;"></i> Notes & Deck Tips (*)</div>
-        • <b>Checking your phone's lens info:</b> If you look at photo details in your gallery and see something like <i>24mm</i>, just type <b>24</b> into the Deck calculator and leave the sensor setting on <b>1.0x</b>.<br><br>
-        • <b>How phones capture stars:</b> Phones don't take one giant 30-second picture. They shoot lots of quick 4-second shots and stack them together automatically so stars stay sharp.
-      </div>
-
-      <button class="btn-action-cell" onclick="closeModalDirect('handbook-modal')" style="width:100%; padding:12px; font-weight:700; margin-top:8px;">Close Handbook</button>
+      <button class="btn-tile-act" style="width:100%; padding:10px; font-weight:800; margin-top:8px;" onclick="closeModalDirect('guide-modal')">Close Guide</button>
     </div>
   </div>
 
-  <!-- NAVIGATION -->
-  <nav class="bottom-nav">
-    <button class="nav-tab active" onclick="switchTab('tab-list', this)">
-      <i data-lucide="list"></i>
-      Targets
+  <!-- MODAL 3: IN-APP CONFIRMATION POPUP -->
+  <div class="modal-overlay" id="confirm-modal">
+    <div class="modal-sheet" style="text-align: center;">
+      <div style="width:36px; height:4px; background:var(--border); border-radius:99px; margin:0 auto 12px;"></div>
+      <div style="font-size:1.1rem; font-weight:900;" id="confirm-modal-title">Calendar Alert</div>
+      <div style="font-size:0.8rem; color:var(--text-muted); margin:10px 0 16px;" id="confirm-modal-desc">Set event in calendar?</div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn-tile-act" style="flex:1; padding:10px;" onclick="resolveConfirmModal(false)">Cancel</button>
+        <button class="btn-tile-act" style="flex:1; padding:10px; color:var(--accent); border-color:var(--border-accent);" onclick="resolveConfirmModal(true)">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HUD DOCK -->
+  <nav class="bottom-hud">
+    <button class="hud-tab active" id="tab-btn-list" onclick="switchTab('tab-list', this)">
+      <i data-lucide="list"></i> List
     </button>
-    <button class="nav-tab" onclick="switchTab('tab-deck', this)">
-      <i data-lucide="compass"></i>
-      Observer Deck
+    <button class="hud-tab" id="tab-btn-deck" onclick="switchTab('tab-deck', this)">
+      <i data-lucide="compass"></i> Sky Deck
     </button>
-    <button class="nav-tab" onclick="switchTab('tab-you', this)">
-      <i data-lucide="sliders"></i>
-      Settings
+    <button class="hud-tab" id="tab-btn-you" onclick="switchTab('tab-you', this)">
+      <i data-lucide="user"></i> You
     </button>
   </nav>
 
   <script>
-    const categoryIcons = {
-      lunar: 'moon',
-      solar: 'sun',
-      meteor: 'flame',
-      aurora: 'waves',
-      milkyway: 'stars',
-      planet: 'orbit'
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
+
+    const rawICSStreams = {
+      'North_America': `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AI Astro Calendar//North_America//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:North America Astro Events
+BEGIN:VEVENT
+UID:North_America_0_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260103T230000Z
+DTEND:20260104T050000Z
+SUMMARY:Quadrantids Meteor Shower Peak
+LOCATION:Cherry Springs State Park, PA, USA
+GEO:41.6501;-77.8164
+DESCRIPTION:One of the year's sharpest meteor peaks. Best viewed pre-dawn.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_1_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260110T180000Z
+DTEND:20260111T060000Z
+SUMMARY:Jupiter at Opposition
+LOCATION:Mauna Kea, Hawaii, USA
+GEO:19.8206;-155.4681
+DESCRIPTION:Jupiter closest to Earth, shining at maximum brightness all night.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_2_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260228T180000Z
+DTEND:20260228T210000Z
+SUMMARY:Planetary Parade (6 Planets Alignment)
+LOCATION:Death Valley National Park, CA, USA
+GEO:36.5323;-116.9325
+DESCRIPTION:Alignment of Mercury, Venus, Saturn, Jupiter, Uranus, and Neptune.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_3_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260303T080000Z
+DTEND:20260303T120000Z
+SUMMARY:Total Lunar Eclipse (Blood Moon)
+LOCATION:Flagstaff, Arizona, USA
+GEO:35.1983;-111.6513
+DESCRIPTION:Total lunar eclipse widely visible across North America.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_4_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260421T220000Z
+DTEND:20260422T040000Z
+SUMMARY:Lyrids Meteor Shower Peak
+LOCATION:Great Basin National Park, NV, USA
+GEO:38.9300;-114.2200
+DESCRIPTION:Spring meteor shower peak under dark skies.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_5_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260506T020000Z
+DTEND:20260506T080000Z
+SUMMARY:Eta Aquariids Meteor Shower Peak
+LOCATION:Big Bend National Park, TX, USA
+GEO:29.2498;-103.2502
+DESCRIPTION:Debris from Halley's Comet; best viewed in early morning hours.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_6_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260812T130000Z
+DTEND:20260813T040000Z
+SUMMARY:Perseid Meteor Shower Peak
+LOCATION:Jasper National Park, Alberta, Canada
+GEO:52.8737;-117.9543
+DESCRIPTION:The year's most popular meteor shower peaking under favorable lunar conditions.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_7_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260828T020000Z
+DTEND:20260828T060000Z
+SUMMARY:Partial Lunar Eclipse
+LOCATION:Mont-Mégantic Observatory, QC, Canada
+GEO:45.4557;-71.1525
+DESCRIPTION:Visible across most of North America at dawn.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_8_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261021T230000Z
+DTEND:20261022T050000Z
+SUMMARY:Orionids Meteor Shower Peak
+LOCATION:Natural Bridges National Monument, UT, USA
+GEO:37.6014;-110.0152
+DESCRIPTION:Meteors left behind by Halley's Comet.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_9_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261213T200000Z
+DTEND:20261214T060000Z
+SUMMARY:Geminids Meteor Shower Peak
+LOCATION:Goldendale Observatory, WA, USA
+GEO:45.8436;-120.8144
+DESCRIPTION:The year's most reliable and rich meteor display.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_10_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270103T160000Z
+DTEND:20270103T180000Z
+SUMMARY:Venus at Greatest Western Elongation
+LOCATION:Mauna Loa, Hawaii, USA
+GEO:19.4756;-155.6054
+DESCRIPTION:Venus shining bright in the pre-dawn morning sky.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_11_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270211T120000Z
+DTEND:20270212T060000Z
+SUMMARY:Jupiter at Opposition (2027)
+LOCATION:Denver, Colorado, USA
+GEO:39.7392;-104.9903
+DESCRIPTION:Jupiter reaches opposition again, exceptionally bright.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_12_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270219T180000Z
+DTEND:20270220T060000Z
+SUMMARY:Mars at Opposition
+LOCATION:Tucson, Arizona, USA
+GEO:32.2226;-110.9747
+DESCRIPTION:Mars reaches opposition, a double opposition month with Jupiter.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_13_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270515T000000Z
+DTEND:20270515T030000Z
+SUMMARY:Venus at Greatest Elongation East
+LOCATION:Los Angeles, California, USA
+GEO:34.0522;-118.2437
+DESCRIPTION:Venus stands far from the Sun, dominant in the evening sky.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:North_America_14_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270817T070000Z
+DTEND:20270817T110000Z
+SUMMARY:Penumbral Lunar Eclipse
+LOCATION:Vancouver, BC, Canada
+GEO:49.2827;-123.1207
+DESCRIPTION:Subtle lunar eclipse visible across western North America.
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`,
+
+      'Europe': `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AI Astro Calendar//Europe//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Europe Astro Events
+BEGIN:VEVENT
+UID:Europe_0_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260103T230000Z
+DTEND:20260104T050000Z
+SUMMARY:Quadrantids Meteor Shower Peak
+LOCATION:Galloway Forest Park, Scotland, UK
+GEO:55.0744;-4.4103
+DESCRIPTION:Strong winter meteor shower peak in dark sky preserve.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_1_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260219T170000Z
+DTEND:20260219T190000Z
+SUMMARY:Mercury Greatest Eastern Elongation
+LOCATION:Pic du Midi Observatory, France
+GEO:42.9372;0.1411
+DESCRIPTION:Best evening appearance of Mercury in 2026.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_2_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260421T220000Z
+DTEND:20260422T040000Z
+SUMMARY:Lyrids Meteor Shower Peak
+LOCATION:Ballycroy National Park, Mayo, Ireland
+GEO:54.0234;-9.6894
+DESCRIPTION:Spring meteor viewing away from city lights.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_3_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260506T020000Z
+DTEND:20260506T080000Z
+SUMMARY:Eta Aquariids Meteor Shower Peak
+LOCATION:Teide Observatory, Tenerife, Spain
+GEO:28.3012;-16.5103
+DESCRIPTION:Excellent visibility from high altitude Atlantic vantage point.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_4_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260812T160000Z
+DTEND:20260812T183000Z
+SUMMARY:Total Solar Eclipse (The Great European Eclipse)
+LOCATION:Reykjavik, Iceland
+GEO:64.1466;-21.9426
+DESCRIPTION:First total solar eclipse in mainland Europe since 1999; totality reaches Iceland and Spain.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_5_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260812T180000Z
+DTEND:20260812T190000Z
+SUMMARY:Total Solar Eclipse (Sunset Totality)
+LOCATION:Burgos, northern Spain
+GEO:42.3440;-3.6969
+DESCRIPTION:Stunning total eclipse visible shortly before sunset over northern Spain.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_6_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260812T220000Z
+DTEND:20260813T040000Z
+SUMMARY:Perseid Meteor Shower Maxima
+LOCATION:Alqueva Dark Sky Reserve, Portugal
+GEO:38.1952;-7.4721
+DESCRIPTION:Peaking right after the spectacular solar eclipse under ink-black skies.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_7_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260828T030000Z
+DTEND:20260828T053000Z
+SUMMARY:Partial Lunar Eclipse at Dawn
+LOCATION:Greenwich Royal Observatory, London, UK
+GEO:51.4769;0.0005
+DESCRIPTION:Visible low on the horizon at dawn across western Europe.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_8_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261004T180000Z
+DTEND:20261005T060000Z
+SUMMARY:Saturn at Opposition
+LOCATION:Zselic Starry Sky Park, Hungary
+GEO:46.2361;17.7533
+DESCRIPTION:Saturn at brightest; rings open to 9.2 degrees, visible all night.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_9_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261117T230000Z
+DTEND:20261118T050000Z
+SUMMARY:Leonid Meteor Shower Peak
+LOCATION:Sark Dark Sky Island, Channel Islands
+GEO:49.4319;-2.3597
+DESCRIPTION:Fast meteors branching from Leo constellation.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_10_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261213T200000Z
+DTEND:20261214T060000Z
+SUMMARY:Geminids Meteor Shower Peak
+LOCATION:Sierra Nevada Observatory, Spain
+GEO:37.0642;-3.3847
+DESCRIPTION:High altitude winter stargazing for the year's best meteor stream.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_11_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270211T180000Z
+DTEND:20270212T060000Z
+SUMMARY:Jupiter at Opposition (2027)
+LOCATION:Roque de los Muchachos, La Palma, Spain
+GEO:28.7636;-17.8947
+DESCRIPTION:Premier global observing site for bright planetary viewing.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_12_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270219T180000Z
+DTEND:20270220T060000Z
+SUMMARY:Mars at Opposition
+LOCATION:Calar Alto Observatory, Spain
+GEO:37.2236;-2.5461
+DESCRIPTION:Mars shines brilliantly alongside Jupiter in late winter sky.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_13_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270802T090000Z
+DTEND:20270802T113000Z
+SUMMARY:Total Solar Eclipse (Southern Europe/Med)
+LOCATION:Tarifa, southern Spain
+GEO:36.0143;-5.6044
+DESCRIPTION:Totality touches the southernmost tip of Spain and across North Africa.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Europe_14_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20271213T210000Z
+DTEND:20271214T050000Z
+SUMMARY:Geminid Meteor Shower
+LOCATION:Brecon Beacons Dark Sky Reserve, Wales
+GEO:51.8822;-3.4369
+DESCRIPTION:Highly reliable winter meteor activity.
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`,
+
+      'Southern_Hemisphere': `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AI Astro Calendar//Southern_Hemisphere//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Southern Hemisphere Astro Events
+BEGIN:VEVENT
+UID:Southern_Hemisphere_0_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260110T180000Z
+DTEND:20260111T060000Z
+SUMMARY:Jupiter at Opposition
+LOCATION:Sutherland, Northern Cape, South Africa
+GEO:-32.3783;20.8105
+DESCRIPTION:Superb views of the gas giant from the southern Karoo.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_1_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260217T113000Z
+DTEND:20260217T140000Z
+SUMMARY:Annular Solar Eclipse (Ring of Fire)
+LOCATION:Amundsen-Scott Station, Antarctica
+GEO:-90.0000;0.0000
+DESCRIPTION:Rare solar alignment over remote Antarctic ice sheets.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_2_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260217T150000Z
+DTEND:20260217T170000Z
+SUMMARY:Partial Solar Eclipse (Edge View)
+LOCATION:Ushuaia, Tierra del Fuego, Argentina
+GEO:-54.8019;-68.3030
+DESCRIPTION:Southernmost tip of South America captures a partial view of the annular eclipse.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_3_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260320T090000Z
+DTEND:20260320T120000Z
+SUMMARY:March Equinox & Galaxy Viewing
+LOCATION:Aoraki Mount Cook Dark Sky Reserve, New Zealand
+GEO:-43.7335;170.0955
+DESCRIPTION:Long night equinox window optimal for galactic core panoramas.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_4_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260506T020000Z
+DTEND:20260506T090000Z
+SUMMARY:Eta Aquariids Meteor Shower Peak
+LOCATION:Siding Spring Observatory, Australia
+GEO:-31.2748;149.0683
+DESCRIPTION:Favorable Southern Hemisphere positioning for premium Halley's debris count.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_5_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260728T180000Z
+DTEND:20260729T020000Z
+SUMMARY:Southern Delta Aquariids Peak
+LOCATION:Atacama Desert, Chile
+GEO:-23.8634;-69.1411
+DESCRIPTION:Crisp high-altitude desert viewing for southern meteor shower.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_6_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20260925T160000Z
+DTEND:20260926T040000Z
+SUMMARY:Neptune at Opposition
+LOCATION:La Silla Observatory, Chile
+GEO:-29.2612;-70.7323
+DESCRIPTION:Neptune at its absolute brightest, requires telescope or large binoculars.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_7_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261004T180000Z
+DTEND:20261005T060000Z
+SUMMARY:Saturn at Opposition
+LOCATION:NamibRand Nature Reserve, Namibia
+GEO:-24.9652;15.9056
+DESCRIPTION:Pristine dark sky viewing for planetary rings and details.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_8_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20261125T120000Z
+DTEND:20261126T040000Z
+SUMMARY:Uranus at Opposition
+LOCATION:Woomera, South Australia
+GEO:-31.1996;136.8253
+DESCRIPTION:Uranus reaches peak luminosity under desolate desert skies.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_9_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270206T150000Z
+DTEND:20270206T180000Z
+SUMMARY:Annular Solar Eclipse (2027)
+LOCATION:Patagonia Region, Argentina
+GEO:-46.5000;-70.0000
+DESCRIPTION:Annular 'Ring of Fire' cuts across South America.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_10_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270211T120000Z
+DTEND:20270212T060000Z
+SUMMARY:Jupiter at Opposition (2027)
+LOCATION:Cerro Tololo Inter-American Observatory, Chile
+GEO:-30.1690;-70.8063
+DESCRIPTION:Perfect overhead views of giant planet opposition from Southern latitudes.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_11_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270220T010000Z
+DTEND:20270220T040000Z
+SUMMARY:Penumbral Lunar Eclipse
+LOCATION:Melbourne, Victoria, Australia
+GEO:-37.8136;144.9631
+DESCRIPTION:Early morning penumbral eclipse viewing.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_12_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270718T190000Z
+DTEND:20270718T223000Z
+SUMMARY:Penumbral Lunar Eclipse (Winter)
+LOCATION:Johannesburg, South Africa
+GEO:-26.2041;28.0473
+DESCRIPTION:Midwinter clear night celestial observation.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_13_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20270802T093000Z
+DTEND:20270802T110000Z
+SUMMARY:The Great Total Solar Eclipse of 2027
+LOCATION:Luxor, Egypt
+GEO:25.6872;32.6396
+DESCRIPTION:Maximum totality length over 6 minutes. Ultimate eclipse observation point.
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:Southern_Hemisphere_14_20262027@astro.calendar
+DTSTAMP:20260828T000000Z
+DTSTART:20271213T120000Z
+DTEND:20271214T020000Z
+SUMMARY:Geminids Meteor Shower Southern View
+LOCATION:Lake Tekapo, New Zealand
+GEO:-44.0047;170.4771
+DESCRIPTION:Summertime meteor shower watching away from light pollution.
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR`
     };
 
-    const astroEvents = [
-      {
-        id: 'evt-1',
-        title: 'Total Lunar Eclipse (Blood Moon)',
-        category: 'lunar',
-        date: '2026-09-03T02:45:00',
-        peakStart: '01:30',
-        peakEnd: '03:45',
-        siteName: 'Direct Overhead Zenith',
-        lat: 47.6797,
-        lng: -80.2644,
-        articleUrl: 'https://eclipse.gsfc.nasa.gov/',
-        bortle: 'Class 2 (Pristine)',
-        shutter: '1/2s – 2s',
-        iso: '800 – 1600',
-        aperture: 'f/2.8 – f/4.0',
-        starred: true,
-        dismissed: false,
-        imported: false
-      },
-      {
-        id: 'evt-2',
-        title: 'Geomagnetic Storm (Aurora G2+)',
-        category: 'aurora',
-        date: '2026-09-14T23:00:00',
-        peakStart: '22:30',
-        peakEnd: '02:00',
-        siteName: 'Northern Lake Shore Clearing',
-        lat: 47.8500,
-        lng: -80.1200,
-        articleUrl: 'https://www.swpc.noaa.gov/',
-        bortle: 'Class 2 (High Aurora Index)',
-        shutter: '4s – 8s',
-        iso: '1600 – 3200',
-        aperture: 'f/1.8 – f/2.8',
-        starred: true,
-        dismissed: false,
-        imported: false
-      },
-      {
-        id: 'evt-3',
-        title: 'Perseid Meteor Shower Peak',
-        category: 'meteor',
-        date: '2026-08-12T23:30:00',
-        peakStart: '23:00',
-        peakEnd: '04:00',
-        siteName: 'Open Country Ridge Clearing',
-        lat: 47.6000,
-        lng: -80.3500,
-        articleUrl: 'https://www.imo.net/',
-        bortle: 'Class 2',
-        shutter: '15s – 20s (Intervalometer)',
-        iso: '3200 – 6400',
-        aperture: 'f/1.4 – f/2.0',
-        starred: false,
-        dismissed: false,
-        imported: false
-      },
-      {
-        id: 'evt-4',
-        title: 'Milky Way Galactic Core Window',
-        category: 'milkyway',
-        date: '2026-09-08T21:15:00',
-        peakStart: '21:00',
-        peakEnd: '23:30',
-        siteName: 'South Horizon Dark Clearing',
-        lat: 47.5000,
-        lng: -80.2000,
-        articleUrl: 'https://darksitefinder.com/',
-        bortle: 'Class 3',
-        shutter: '20s – 25s',
-        iso: '3200',
-        aperture: 'f/1.8 – f/2.8',
-        starred: false,
-        dismissed: false,
-        imported: false
-      },
-      {
-        id: 'evt-5',
-        title: 'Jupiter-Saturn Conjunction Peak',
-        category: 'planet',
-        date: '2026-09-21T20:45:00',
-        peakStart: '20:15',
-        peakEnd: '21:45',
-        siteName: 'Western Evening Horizon',
-        lat: 47.6797,
-        lng: -80.2644,
-        articleUrl: 'https://in-the-sky.org/',
-        bortle: 'Visible Anywhere',
-        shutter: '1/60s – 1/125s',
-        iso: '200 – 400',
-        aperture: 'f/5.6 – f/8.0',
-        starred: false,
-        dismissed: false,
-        imported: false
-      },
-      {
-        id: 'evt-6',
-        title: 'Torrance Barrens Deep Sky Window',
-        category: 'milkyway',
-        date: '2026-09-12T22:00:00',
-        peakStart: '22:00',
-        peakEnd: '03:00',
-        siteName: 'Torrance Barrens Dark-Sky Preserve',
-        lat: 44.9500,
-        lng: -79.5167,
-        articleUrl: 'https://rasc.ca/dark-sky-sites',
-        bortle: 'Class 2 (True Dark)',
-        shutter: '25s (Tracked)',
-        iso: '1600',
-        aperture: 'f/2.8',
-        starred: false,
-        dismissed: false,
-        imported: false
-      }
-    ];
+    function parseICSString(text) {
+      const blocks = text.split('BEGIN:VEVENT');
+      blocks.shift();
+      return blocks.map((b, idx) => {
+        const sum = b.match(/SUMMARY:(.*)/);
+        const dt = b.match(/DTSTART.*:(.*)/);
+        const loc = b.match(/LOCATION:(.*)/);
+        const geo = b.match(/GEO:(.*)/);
+        const desc = b.match(/DESCRIPTION:(.*)/);
+
+        let lat = 42.98, lng = -81.24;
+        if (geo) {
+          const parts = geo[1].trim().split(';');
+          lat = parseFloat(parts[0]) || lat;
+          lng = parseFloat(parts[1]) || lng;
+        }
+
+        const title = sum ? sum[1].trim() : `Celestial Target #${idx+1}`;
+        const description = desc ? desc[1].trim() : 'Optimal dark sky window.';
+        const lower = (title + ' ' + description).toLowerCase();
+
+        let category = 'milkyway';
+        let shutter = '20s', iso = '3200', aperture = 'f/1.8', visibility = 'Naked Eye Visible', gearReq = 'Tripod Req.';
+
+        if (lower.includes('lunar') || lower.includes('moon')) {
+          category = 'lunar';
+          shutter = '1/2s – 2s'; iso = '800 – 1600'; aperture = 'f/2.8 – f/4.0';
+        } else if (lower.includes('solar') || lower.includes('eclipse')) {
+          category = 'solar';
+          shutter = '1/500s (Filtered)'; iso = '100 – 200'; aperture = 'f/8.0'; gearReq = 'Solar Filter Req.';
+        } else if (lower.includes('meteor') || lower.includes('shower') || lower.includes('geminid') || lower.includes('perseid') || lower.includes('aquariid') || lower.includes('lyrid') || lower.includes('leonid')) {
+          category = 'meteor';
+          shutter = '15s – 20s'; iso = '3200 – 6400'; aperture = 'f/1.4 – f/2.0';
+        } else if (lower.includes('aurora') || lower.includes('substorm')) {
+          category = 'aurora';
+          shutter = '4s – 8s'; iso = '1600 – 3200'; aperture = 'f/1.8';
+        } else if (lower.includes('jupiter') || lower.includes('saturn') || lower.includes('venus') || lower.includes('mars') || lower.includes('uranus') || lower.includes('neptune') || lower.includes('opposition') || lower.includes('parade')) {
+          category = 'planet';
+          shutter = '1/60s – 1/250s'; iso = '200 – 400'; aperture = 'f/5.6 – f/8.0'; visibility = 'Naked Eye / Scope';
+        }
+
+        let isoDate = new Date().toISOString();
+        if (dt) {
+          const raw = dt[1].trim().replace(/[^0-9T]/g, '');
+          isoDate = `${raw.slice(0,4)}-${raw.slice(4,6)}-${raw.slice(6,8)}T${raw.slice(9,11)||'00'}:${raw.slice(11,13)||'00'}:00`;
+        }
+
+        return {
+          id: `target-${idx}-${Date.now()}`,
+          title: title,
+          category: category,
+          date: isoDate,
+          siteName: loc ? loc[1].trim() : 'Local Sky Observatory',
+          lat: lat,
+          lng: lng,
+          bortle: 'Class 2',
+          shutter: shutter,
+          iso: iso,
+          aperture: aperture,
+          gearReq: gearReq,
+          visibility: visibility,
+          details: description,
+          starred: idx === 0,
+          dismissed: false
+        };
+      });
+    }
 
     let state = {
-      events: JSON.parse(localStorage.getItem('aperture_events_clean')) || astroEvents,
+      region: localStorage.getItem('orbit_region') || 'North_America',
+      events: JSON.parse(localStorage.getItem('orbit_events')) || parseICSString(rawICSStreams['North_America']),
       activeFilter: 'all',
-      theme: localStorage.getItem('app_theme') || 'dark',
-      customAccent: localStorage.getItem('app_accent') || '#fb923c',
-      timeFormat: localStorage.getItem('app_time_fmt') || '12h',
-      leadTime: localStorage.getItem('app_lead_time') || '7',
-      notifEnabled: localStorage.getItem('app_notif_enabled') === 'true',
-      calcFocal: localStorage.getItem('app_calc_focal') || '14',
-      calcCrop: localStorage.getItem('app_calc_crop') || '1.0',
+      searchQuery: '',
+      theme: localStorage.getItem('orbit_theme') || 'dark',
+      palette: localStorage.getItem('orbit_palette') || 'cherry-blossom',
+      appMode: localStorage.getItem('orbit_mode') || 'standard',
+      userLat: parseFloat(localStorage.getItem('orbit_lat')) || 42.9849,
+      userLng: parseFloat(localStorage.getItem('orbit_lng')) || -81.2453,
+      userCity: localStorage.getItem('orbit_city') || 'London, ON, CA',
       nightVision: false
     };
 
+    let confirmModalCallback = null;
+
     function saveState() {
-      localStorage.setItem('aperture_events_clean', JSON.stringify(state.events));
+      localStorage.setItem('orbit_events', JSON.stringify(state.events));
     }
 
-    function saveSetting(key, val) {
-      state[key] = val;
-      localStorage.setItem('app_' + key, val);
+    function switchTab(id, btn) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.hud-tab').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      btn.classList.add('active');
+      lucide.createIcons();
     }
 
-    function setCustomAccent(color, elem) {
-      state.customAccent = color;
-      document.documentElement.style.setProperty('--accent', color);
-      document.documentElement.style.setProperty('--accent-glow', color + '35');
-      saveSetting('accent', color);
+    function toggleThemeWithSpin() {
+      const flipper = document.getElementById('theme-flipper-box');
+      const icon = document.getElementById('theme-icon');
+      
+      flipper.classList.add('rotating');
+      setTimeout(() => {
+        state.theme = state.theme === 'dark' ? 'light' : 'dark';
+        document.body.setAttribute('data-theme', state.theme);
+        localStorage.setItem('orbit_theme', state.theme);
+        icon.setAttribute('data-lucide', state.theme === 'dark' ? 'moon' : 'sun');
+        lucide.createIcons();
+      }, 250);
 
-      document.querySelectorAll('.swatch').forEach(s => s.classList.remove('active'));
-      if(elem) elem.classList.add('active');
+      setTimeout(() => {
+        flipper.classList.remove('rotating');
+      }, 500);
     }
 
     function toggleNightVision() {
       state.nightVision = !state.nightVision;
       document.body.setAttribute('data-nightvision', state.nightVision);
-      document.getElementById('nv-btn').classList.toggle('nv-active', state.nightVision);
+      document.getElementById('nv-btn').classList.toggle('active-nv', state.nightVision);
     }
 
-    function setFilter(cat) {
-      state.activeFilter = cat;
-      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-      event.currentTarget.classList.add('active');
+    function setPalette(pal) {
+      state.palette = pal;
+      document.body.setAttribute('data-palette', pal);
+      localStorage.setItem('orbit_palette', pal);
+
+      const paletteTitles = {
+        'cherry-blossom': 'Cherry Blossom',
+        'mellow-jade': 'Mellow Jade',
+        'liquid-gold': 'Liquid Gold',
+        'ocean-pearl': 'Ocean Pearl',
+        'pitch-black': 'Pitch Black',
+        'snow-white': 'Snow White'
+      };
+
+      document.querySelectorAll('.button-grid-wrap button').forEach(b => {
+        if (b.innerText.trim() === paletteTitles[pal]) b.classList.add('active');
+        else if (Object.values(paletteTitles).includes(b.innerText.trim())) b.classList.remove('active');
+      });
+      initParticles();
       renderEvents();
     }
 
-    function setTimeFormat(fmt) {
-      state.timeFormat = fmt;
-      saveSetting('time_fmt', fmt);
+    function setAppMode(mode) {
+      const viewport = document.getElementById('app-viewport');
+      viewport.classList.add('switching-mode');
+
+      setTimeout(() => {
+        state.appMode = mode;
+        document.body.setAttribute('data-app-mode', mode);
+        localStorage.setItem('orbit_mode', mode);
+
+        if (mode === 'focus') {
+          const activeTab = document.querySelector('.tab-content.active');
+          if (activeTab && activeTab.id === 'tab-deck') {
+            switchTab('tab-list', document.getElementById('tab-btn-list'));
+          }
+        }
+
+        const modeTitles = {
+          'focus': 'Focus',
+          'slim': 'Slim',
+          'standard': 'Standard',
+          'detail': 'Detail Heaven'
+        };
+
+        document.querySelectorAll('.button-grid-wrap button').forEach(b => {
+          if (b.innerText.trim() === modeTitles[mode]) b.classList.add('active');
+          else if (Object.values(modeTitles).includes(b.innerText.trim())) b.classList.remove('active');
+        });
+        renderEvents();
+        viewport.classList.remove('switching-mode');
+      }, 200);
+    }
+
+    function setFilter(filterKey, evt) {
+      state.activeFilter = filterKey;
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+      if (evt && evt.currentTarget) evt.currentTarget.classList.add('active');
       renderEvents();
     }
 
-    function formatTimeString(hour24, minute) {
-      const h = parseInt(hour24, 10);
-      const m = String(minute).padStart(2, '0');
-      if (state.timeFormat === '24h' || state.timeFormat === 'utc') {
-        return `${String(h).padStart(2, '0')}:${m}`;
-      }
-      const ampm = h >= 12 ? 'PM' : 'AM';
-      const h12 = h % 12 || 12;
-      return `${String(h12).padStart(2, '0')}:${m} ${ampm}`;
+    function handleSearch(query) {
+      state.searchQuery = query.toLowerCase();
+      renderEvents();
     }
 
-    function formatTime(isoStr) {
-      const d = new Date(isoStr);
-      if (state.timeFormat === 'utc') {
-        return d.toUTCString().slice(0, 22) + ' UTC';
-      }
+    function formatFullDate(iso) {
+      const d = new Date(iso);
       return d.toLocaleDateString(undefined, {
-        weekday: 'short', month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit',
-        hour12: state.timeFormat === '12h'
+        weekday: 'short', month: 'short', day: 'numeric', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
       });
     }
 
-    function getFormattedWindow(evt) {
-      if (evt.peakStart && evt.peakEnd) {
-        const [sH, sM] = evt.peakStart.split(':');
-        const [eH, eM] = evt.peakEnd.split(':');
-        const d = new Date(evt.date);
-        const peakFormatted = formatTimeString(d.getHours(), d.getMinutes());
-        return `${formatTimeString(sH, sM)} – ${formatTimeString(eH, eM)} (Peak ${peakFormatted})`;
-      }
-      return formatTime(evt.date);
+    function showInAppConfirm(title, desc, callback) {
+      document.getElementById('confirm-modal-title').innerText = title;
+      document.getElementById('confirm-modal-desc').innerText = desc;
+      document.getElementById('confirm-modal').classList.add('active');
+      confirmModalCallback = callback;
     }
 
-    function openTravelMaps(lat, lng, siteName) {
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-      const url = isIOS 
-        ? `maps://maps.apple.com/?daddr=${lat},${lng}&q=${encodeURIComponent(siteName)}`
-        : `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&query=${encodeURIComponent(siteName)}`;
-      window.open(url, '_blank');
-    }
-
-    function toggleDrawer(id) {
-      const drawer = document.getElementById(id);
-      if (drawer) {
-        drawer.classList.toggle('open');
+    function resolveConfirmModal(approved) {
+      document.getElementById('confirm-modal').classList.remove('active');
+      if (confirmModalCallback) {
+        confirmModalCallback(approved);
+        confirmModalCallback = null;
       }
     }
 
-    // Render Events with Collapsible Monthly Drawers
-    function renderEvents() {
-      const container = document.getElementById('events-feed');
-      container.innerHTML = '';
-
-      const filtered = state.events.filter(e => {
-        if (e.dismissed) return false;
-        if (state.activeFilter === 'all') return true;
-        return e.category === state.activeFilter;
+    function promptGPSModal() {
+      showInAppConfirm('Calibrate Location', 'Would you like to request live device GPS to locate observing coords and calibrate weather?', (approved) => {
+        if (approved) requestUserLocation();
       });
-
-      const starredEvents = filtered.filter(e => e.starred);
-      const regularEvents = filtered.filter(e => !e.starred);
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted);">No targets found for this filter.</div>`;
-        return;
-      }
-
-      // Starred targets stay locked at top
-      if (starredEvents.length > 0) {
-        const starredSection = document.createElement('div');
-        starredSection.innerHTML = `<div class="section-header"><span>Pinned & Starred Targets</span> (${starredEvents.length})</div>`;
-        starredEvents.forEach(evt => starredSection.appendChild(createEventCard(evt, true)));
-        container.appendChild(starredSection);
-      }
-
-      // Group regular events by Month & Year
-      const groupedByMonth = {};
-      const currentMonthKey = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-      regularEvents.sort((a, b) => new Date(a.date) - new Date(b.date)).forEach(evt => {
-        const d = new Date(evt.date);
-        const monthKey = d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-        if (!groupedByMonth[monthKey]) groupedByMonth[monthKey] = [];
-        groupedByMonth[monthKey].push(evt);
-      });
-
-      // Render monthly drawers
-      Object.keys(groupedByMonth).forEach((monthKey, idx) => {
-        const isCurrentMonth = monthKey === currentMonthKey;
-        const drawerId = `drawer-${idx}`;
-        const drawerEvents = groupedByMonth[monthKey];
-
-        const drawer = document.createElement('div');
-        drawer.className = `month-drawer ${isCurrentMonth ? 'open' : ''}`;
-        drawer.id = drawerId;
-
-        drawer.innerHTML = `
-          <div class="month-drawer-header" onclick="toggleDrawer('${drawerId}')">
-            <div class="month-drawer-title">
-              <i data-lucide="calendar" style="width:16px;height:16px; color:var(--accent);"></i>
-              <span>${monthKey}</span>
-              ${isCurrentMonth ? '<span style="font-size:0.68rem; color:var(--green); font-weight:800; text-transform:uppercase;">• Current</span>' : ''}
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span class="month-drawer-badge">${drawerEvents.length} Targets</span>
-              <i data-lucide="chevron-down" class="month-drawer-icon" style="width:16px;height:16px;"></i>
-            </div>
-          </div>
-          <div class="month-drawer-content" id="${drawerId}-content"></div>
-        `;
-
-        const content = drawer.querySelector(`#${drawerId}-content`);
-        drawerEvents.forEach(evt => content.appendChild(createEventCard(evt, false)));
-
-        container.appendChild(drawer);
-      });
-
-      lucide.createIcons();
     }
 
-    function createEventCard(evt, isStarred) {
-      const iconName = categoryIcons[evt.category] || 'sparkles';
-      const displayWindow = getFormattedWindow(evt);
+    async function fetchLiveWeather() {
+      try {
+        const lat = state.userLat || 42.9849;
+        const lng = state.userLng || -81.2453;
 
-      const card = document.createElement('div');
-      card.className = `event-card ${isStarred ? 'starred-card' : ''}`;
-      card.innerHTML = `
-        <div class="card-top">
-          <div class="event-icon-badge">
-            <i data-lucide="${iconName}"></i>
-          </div>
-          <div class="card-info">
-            <div class="card-title-row">
-              <div class="card-title">${evt.title}</div>
-              <button class="btn-dismiss" onclick="dismissEvent('${evt.id}')" title="Dismiss Target">
-                <i data-lucide="x" style="width:16px;height:16px;"></i>
-              </button>
-            </div>
-            <div class="card-subtext">${evt.bortle} • <span style="color:var(--text-muted); font-size:0.72rem;">Routes to site coords</span></div>
-          </div>
-        </div>
+        if (lat >= 42.5 && lat <= 43.5 && lng >= -82.0 && lng <= -80.5) {
+          state.userCity = 'London, ON, CA';
+        } else {
+          try {
+            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(state.userCity.split(',')[0])}&count=5`);
+            const geoData = await geoRes.json();
+            if (geoData.results) {
+              const canadaMatch = geoData.results.find(r => r.country_code === 'CA');
+              const loc = canadaMatch || geoData.results[0];
+              if (loc) {
+                state.userCity = `${loc.name}, ${loc.admin1 || ''}, ${loc.country_code}`;
+              }
+            }
+          } catch {}
+        }
 
-        <div class="peak-strip">
-          <i data-lucide="clock" style="width:14px;height:14px;"></i>
-          <span>${displayWindow}</span>
-        </div>
+        document.getElementById('geo-location-text').innerText = state.userCity;
+        document.getElementById('weather-location-title').innerText = `Atmospheric Conditions • ${state.userCity}`;
 
-        <div class="card-meta-grid">
-          <div class="meta-item"><i data-lucide="map-pin" style="width:13px;height:13px;"></i> ${evt.siteName}</div>
-          <div class="meta-item"><i data-lucide="calendar" style="width:13px;height:13px;"></i> ${formatTime(evt.date)}</div>
-        </div>
+        const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current=cloud_cover,relative_humidity_2m,apparent_temperature`);
+        const data = await res.json();
+        const clouds = data.current.cloud_cover;
+        document.getElementById('weather-cloud-val').innerText = `${clouds}% Cloud Cover`;
+        document.getElementById('weather-detail-val').innerText = `Temp: ${data.current.apparent_temperature}°C | Humidity: ${data.current.relative_humidity_2m}%`;
+      } catch {
+        document.getElementById('weather-cloud-val').innerText = 'Offline';
+      }
+    }
 
-        <div class="card-action-bar">
-          <button class="btn-action-cell ${evt.starred ? 'active-star' : ''}" onclick="toggleStar('${evt.id}')">
-            <i data-lucide="star" style="width:14px;height:14px;"></i>
-            <span>${evt.starred ? 'Starred' : 'Star'}</span>
-          </button>
-          <button class="btn-action-cell" onclick="openModal('${evt.id}')">
-            <i data-lucide="camera" style="width:14px;height:14px;"></i>
-            <span>Specs</span>
-          </button>
-          <a href="${evt.articleUrl}" target="_blank" rel="noopener" class="btn-action-cell">
-            <i data-lucide="newspaper" style="width:14px;height:14px;"></i>
-            <span>Article</span>
-          </a>
-          <button class="btn-action-cell" onclick="openTravelMaps(${evt.lat}, ${evt.lng}, '${evt.siteName}')">
-            <i data-lucide="navigation" style="width:14px;height:14px;"></i>
-            <span>Travel</span>
-          </button>
-        </div>
-      `;
-      return card;
+    function requestUserLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (pos) => {
+            state.userLat = pos.coords.latitude;
+            state.userLng = pos.coords.longitude;
+            localStorage.setItem('orbit_lat', state.userLat);
+            localStorage.setItem('orbit_lng', state.userLng);
+
+            if (state.region === 'auto') {
+              if (state.userLat < 0) state.events = parseICSString(rawICSStreams['Southern_Hemisphere']);
+              else if (state.userLng >= -30 && state.userLng <= 50) state.events = parseICSString(rawICSStreams['Europe']);
+              else state.events = parseICSString(rawICSStreams['North_America']);
+              saveState();
+            }
+
+            fetchLiveWeather();
+            renderEvents();
+          },
+          () => {
+            fetchLiveWeather();
+            renderEvents();
+          },
+          { timeout: 8000 }
+        );
+      }
+    }
+
+    function changeObservingRegion(reg) {
+      state.region = reg;
+      localStorage.setItem('orbit_region', reg);
+      if (reg === 'auto') {
+        requestUserLocation();
+      } else if (rawICSStreams[reg]) {
+        state.events = parseICSString(rawICSStreams[reg]);
+        saveState();
+        renderEvents();
+      }
     }
 
     function toggleStar(id) {
-      state.events = state.events.map(e => e.id === id ? { ...e, starred: !e.starred } : e);
+      const evt = state.events.find(e => e.id === id);
+      if (!evt) return;
+
+      evt.starred = !evt.starred;
       saveState();
       renderEvents();
     }
@@ -1130,239 +1803,423 @@
       renderEvents();
     }
 
-    function restoreAllDismissed() {
+    function restoreDismissed() {
       state.events = state.events.map(e => ({ ...e, dismissed: false }));
       saveState();
       renderEvents();
+      showInAppConfirm('Restored', 'All dismissed targets restored to your active feed.', () => {});
     }
 
-    function clearAllStarred() {
-      state.events = state.events.map(e => ({ ...e, starred: false }));
-      saveState();
-      renderEvents();
-    }
+    function renderEvents() {
+      const container = document.getElementById('targets-render-area');
+      container.innerHTML = '';
 
-    function purgeImportedICS() {
-      const remaining = state.events.filter(e => !e.imported && !e.id.startsWith('imported-ics'));
-      if (confirm(`Remove all imported external calendar targets? (Keeps default astronomical targets)`)) {
-        state.events = remaining;
-        saveState();
-        renderEvents();
+      let list = state.events.filter(e => !e.dismissed);
+
+      if (state.appMode === 'focus') {
+        list = list.filter(e => e.starred);
       }
+
+      if (state.activeFilter === 'naked-eye') {
+        list = list.filter(e => (e.visibility || '').toLowerCase().includes('naked eye'));
+      } else if (state.activeFilter === 'tripod') {
+        list = list.filter(e => (e.gearReq || '').toLowerCase().includes('tripod'));
+      } else if (state.activeFilter !== 'all') {
+        list = list.filter(e => e.category === state.activeFilter);
+      }
+
+      if (state.searchQuery) {
+        list = list.filter(e => 
+          e.title.toLowerCase().includes(state.searchQuery) ||
+          e.siteName.toLowerCase().includes(state.searchQuery) ||
+          (e.visibility || '').toLowerCase().includes(state.searchQuery) ||
+          (e.gearReq || '').toLowerCase().includes(state.searchQuery)
+        );
+      }
+
+      if (state.appMode === 'slim') {
+        list.sort((a, b) => new Date(a.date) - new Date(b.date));
+        list = list.slice(0, 3);
+      }
+
+      if (!list.length) {
+        container.innerHTML = `<div style="text-align:center; padding:40px; color:var(--text-muted);">No matching celestial targets found for this region.</div>`;
+        return;
+      }
+
+      const hierarchy = {};
+      list.forEach(item => {
+        const d = new Date(item.date);
+        const yr = d.getFullYear();
+        const mo = d.toLocaleDateString(undefined, { month: 'long' });
+        if (!hierarchy[yr]) hierarchy[yr] = {};
+        if (!hierarchy[yr][mo]) hierarchy[yr][mo] = [];
+        hierarchy[yr][mo].push(item);
+      });
+
+      Object.keys(hierarchy).sort().forEach(yr => {
+        const yrHeader = document.createElement('div');
+        yrHeader.className = 'year-title';
+        yrHeader.innerHTML = `<i data-lucide="calendar" style="width:13px;height:13px;"></i> Year ${yr}`;
+        container.appendChild(yrHeader);
+
+        Object.keys(hierarchy[yr]).forEach((mo, idx) => {
+          const drawerId = `drw-${yr}-${idx}`;
+          const drawer = document.createElement('div');
+          drawer.className = 'drawer open';
+          drawer.id = drawerId;
+          drawer.innerHTML = `
+            <div class="drawer-head" onclick="toggleDrawer('${drawerId}')">
+              <span>${mo} ${yr}</span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:0.7rem; color:var(--text-muted);">${hierarchy[yr][mo].length} Targets</span>
+                <i data-lucide="chevron-down" class="drawer-arrow" style="width:14px;height:14px;"></i>
+              </div>
+            </div>
+            <div class="drawer-body" id="${drawerId}-body"></div>
+          `;
+          const body = drawer.querySelector(`#${drawerId}-body`);
+          hierarchy[yr][mo].forEach(evt => body.appendChild(createEventTile(evt)));
+          container.appendChild(drawer);
+        });
+      });
+
+      lucide.createIcons();
     }
 
-    function openModal(id) {
+    function createEventTile(evt) {
+      const isCherry = state.palette === 'cherry-blossom';
+      const iconName = isCherry ? 'flower-2' : 'sparkles';
+      const starIcon = isCherry ? 'flower-2' : 'star';
+
+      const tile = document.createElement('div');
+      tile.className = `event-tile ${evt.starred ? 'pinned-tile' : ''}`;
+      tile.setAttribute('data-event-id', evt.id);
+
+      let pressTimer = null;
+      tile.addEventListener('touchstart', (e) => {
+        if (e.target.closest('button')) return;
+        pressTimer = setTimeout(() => {
+          showInAppConfirm('Export Calendar Alert', `Add "${evt.title}" to your calendar with notification alarms?`, (res) => {
+            if (res) exportICS(evt.id);
+          });
+        }, 600);
+      });
+      tile.addEventListener('touchend', () => clearTimeout(pressTimer));
+      tile.addEventListener('mousedown', (e) => {
+        if (e.target.closest('button')) return;
+        pressTimer = setTimeout(() => {
+          showInAppConfirm('Export Calendar Alert', `Add "${evt.title}" to your calendar with notification alarms?`, (res) => {
+            if (res) exportICS(evt.id);
+          });
+        }, 600);
+      });
+      tile.addEventListener('mouseup', () => clearTimeout(pressTimer));
+      tile.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+
+      tile.innerHTML = `
+        <div class="tile-header">
+          <div class="tile-title-box">
+            <div class="tile-icon"><i data-lucide="${iconName}"></i></div>
+            <div style="flex:1; min-width:0;">
+              <div class="tile-name">${evt.title}</div>
+              <div class="tile-time-tag">${formatFullDate(evt.date)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tile-badge-strip">
+          <span class="tile-badge accent-tag"><i data-lucide="map-pin" style="width:11px;height:11px;"></i> ${evt.siteName}</span>
+          <span class="tile-badge">${evt.bortle}</span>
+          <span class="tile-badge">${evt.visibility || 'Naked Eye'}</span>
+          <span class="tile-badge">${evt.gearReq || 'Tripod Req.'}</span>
+        </div>
+
+        <div class="specs-grid-inline">
+          <div class="spec-item"><span class="spec-label">Shutter</span><span class="spec-val">${evt.shutter}</span></div>
+          <div class="spec-item"><span class="spec-label">ISO</span><span class="spec-val">${evt.iso}</span></div>
+          <div class="spec-item"><span class="spec-label">Aperture</span><span class="spec-val">${evt.aperture}</span></div>
+          <div class="spec-item"><span class="spec-label">Window</span><span class="spec-val">${new Date(evt.date).getHours()}:00 Peak</span></div>
+        </div>
+
+        <div class="tile-detail-block">
+          <b>Observation Note:</b> ${evt.details || 'Optimal sky window under moonless conditions.'}
+        </div>
+
+        <div class="tile-action-bar">
+          <button class="btn-tile-act ${evt.starred ? 'star-on' : ''}" onclick="toggleStar('${evt.id}')">
+            <i data-lucide="${starIcon}"></i> ${evt.starred ? 'Starred' : 'Star'}
+          </button>
+          <button class="btn-tile-act" onclick="openSpecsPopout('${evt.id}')">
+            <i data-lucide="camera"></i> Specs
+          </button>
+          <button class="btn-tile-act" onclick="exportICS('${evt.id}')">
+            <i data-lucide="bell"></i> Alert
+          </button>
+          <button class="btn-tile-act btn-dismiss-act" onclick="dismissEvent('${evt.id}')" title="Dismiss Target">
+            <i data-lucide="x"></i> Dismiss
+          </button>
+        </div>
+      `;
+      return tile;
+    }
+
+    function toggleDrawer(id) {
+      document.getElementById(id).classList.toggle('open');
+    }
+
+    function openSpecsPopout(id) {
       const e = state.events.find(x => x.id === id);
       if (!e) return;
-
       document.getElementById('m-title').innerText = e.title;
-      document.getElementById('m-desc').innerText = `Field guide and optical settings for ${e.siteName}.`;
+      document.getElementById('m-desc').innerText = `Location: ${e.siteName} • Bortle: ${e.bortle}`;
       document.getElementById('m-shutter').innerText = e.shutter || '15s - 25s';
       document.getElementById('m-iso').innerText = e.iso || '1600 - 3200';
       document.getElementById('m-aperture').innerText = e.aperture || 'f/2.8';
-      document.getElementById('m-window').innerText = getFormattedWindow(e);
-
-      document.getElementById('target-modal').classList.add('open');
+      document.getElementById('m-window').innerText = formatFullDate(e.date);
+      document.getElementById('m-details').innerText = e.details || 'Optimal observation during dark sky peak window.';
+      document.getElementById('specs-modal').classList.add('active');
       lucide.createIcons();
     }
 
-    function openHandbookModal() {
-      document.getElementById('handbook-modal').classList.add('open');
+    function openGuideModal() {
+      document.getElementById('guide-modal').classList.add('active');
       lucide.createIcons();
     }
 
-    function closeModalDirect(modalId) {
-      document.getElementById(modalId).classList.remove('open');
+    function closeModalDirect(id) {
+      document.getElementById(id).classList.remove('active');
     }
 
     function closeModal(e) {
-      if (e.target.classList.contains('modal-backdrop')) {
-        e.target.classList.remove('open');
-      }
-    }
-
-    function scrollToPostNotes() {
-      const target = document.getElementById('post-notes-anchor');
-      const container = document.getElementById('handbook-scroll-container');
-      if (target && container) {
-        container.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
-      }
+      if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('active');
     }
 
     function recalcShutter() {
       const focal = parseFloat(document.getElementById('calc-focal').value) || 14;
       const crop = parseFloat(document.getElementById('calc-crop').value) || 1.0;
-      saveSetting('calc_focal', focal);
-      saveSetting('calc_crop', crop);
-      const effectiveFocal = focal * crop;
-      const shutterSecs = (500 / effectiveFocal).toFixed(1);
-      document.getElementById('calc-output').innerText = `${shutterSecs} seconds`;
+      const shutter = (500 / (focal * crop)).toFixed(1);
+      document.getElementById('calc-shutter-res').innerText = `${shutter}s`;
     }
 
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+    function exportICS(id) {
+      const e = state.events.find(x => x.id === id);
+      if (!e) return;
+      const d = new Date(e.date);
+      const pad = n => String(n).padStart(2, '0');
+      const startStr = `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}00Z`;
+      const endD = new Date(d.getTime() + 2 * 3600000);
+      const endStr = `${endD.getUTCFullYear()}${pad(endD.getUTCMonth()+1)}${pad(endD.getUTCDate())}T${pad(endD.getUTCHours())}${pad(endD.getUTCMinutes())}00Z`;
 
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
-      lucide.createIcons();
+      const ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Aperture Orbit//EN',
+        'BEGIN:VEVENT',
+        `UID:${e.id}-${Date.now()}@aperture.local`,
+        `DTSTAMP:${startStr}`, `DTSTART:${startStr}`, `DTEND:${endStr}`,
+        `SUMMARY:Astro Target: ${e.title}`,
+        `DESCRIPTION:Settings: Shutter ${e.shutter}, ISO ${e.iso}, Aperture ${e.aperture}`,
+        `LOCATION:${e.siteName}`,
+        'BEGIN:VALARM', 'ACTION:DISPLAY', 'DESCRIPTION:Astro Target Approaching', 'TRIGGER:-PT2H', 'END:VALARM',
+        'END:VEVENT', 'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${e.title.replace(/\s+/g, '_')}.ics`;
+      link.click();
     }
 
-    function applyTheme(t) {
-      state.theme = t;
-      document.body.setAttribute('data-theme', t);
-      localStorage.setItem('app_theme', t);
-      const icon = document.getElementById('theme-icon');
-      icon.setAttribute('data-lucide', t === 'dark' ? 'moon' : 'sun');
-      lucide.createIcons();
+    function handleICSImport(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = evt => {
+        const imported = parseICSString(evt.target.result);
+        state.events = [...state.events, ...imported];
+        saveState();
+        renderEvents();
+        showInAppConfirm('Imported', `Imported ${imported.length} new targets.`, () => {});
+      };
+      reader.readAsText(file);
     }
 
-    document.getElementById('theme-btn').addEventListener('click', () => {
-      applyTheme(state.theme === 'dark' ? 'light' : 'dark');
-    });
-
-    function toggleNotifications(enabled) {
-      saveSetting('notif_enabled', enabled);
-      if (enabled && "Notification" in window) {
-        Notification.requestPermission();
+    async function importWebCalFeed() {
+      const val = document.getElementById('webcal-url-input').value.trim();
+      if (!val) return;
+      try {
+        const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(val.replace(/^webcal:\/\//i, 'https://'))}`);
+        const text = await res.text();
+        const imported = parseICSString(text);
+        state.events = [...state.events, ...imported];
+        saveState();
+        renderEvents();
+        showInAppConfirm('Feed Synced', `Synchronized ${imported.length} calendar targets.`, () => {});
+      } catch {
+        showInAppConfirm('Sync Error', 'Could not sync the provided calendar feed.', () => {});
       }
     }
 
-    function parseICSDate(icsDateStr) {
-      if (!icsDateStr) return new Date().toISOString();
-      const clean = icsDateStr.replace(/[^0-9T]/g, '');
-      const year = clean.substring(0, 4);
-      const month = clean.substring(4, 6);
-      const day = clean.substring(6, 8);
-      const hour = clean.substring(9, 11) || '00';
-      const min = clean.substring(11, 13) || '00';
-      return `${year}-${month}-${day}T${hour}:${min}:00`;
+    /* =========================================================
+       PHYSICS-BASED PARTICLE SHADER ENGINE
+       ========================================================= */
+    const canvas = document.getElementById('fx-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor(type) {
+        this.type = type;
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : -30;
+        this.type = state.palette;
+        
+        if (this.type === 'cherry-blossom') {
+          this.size = Math.random() * 9 + 7;
+          this.vx = Math.random() * 1.5 - 0.75;
+          this.vy = Math.random() * 1.4 + 0.8;
+          this.angle = Math.random() * Math.PI * 2;
+          this.angleSpeed = (Math.random() - 0.5) * 0.03;
+          this.tilt = Math.random() * Math.PI;
+          this.tiltSpeed = Math.random() * 0.05 + 0.02;
+          this.opacity = Math.random() * 0.5 + 0.35;
+        } else if (this.type === 'ocean-pearl') {
+          this.y = initial ? Math.random() * canvas.height : canvas.height + 20;
+          this.size = Math.random() * 6 + 3;
+          this.vx = Math.random() * 0.6 - 0.3;
+          this.vy = -(Math.random() * 1.2 + 0.6);
+          this.wobble = Math.random() * Math.PI * 2;
+          this.wobbleSpeed = Math.random() * 0.04 + 0.02;
+          this.opacity = Math.random() * 0.4 + 0.2;
+        } else if (this.type === 'liquid-gold') {
+          this.size = Math.random() * 5 + 2;
+          this.vx = (Math.random() - 0.5) * 0.8;
+          this.vy = -(Math.random() * 0.6 + 0.3);
+          this.pulse = Math.random() * Math.PI * 2;
+          this.pulseSpeed = Math.random() * 0.05 + 0.02;
+          this.opacity = Math.random() * 0.6 + 0.2;
+        } else if (this.type === 'mellow-jade') {
+          this.size = Math.random() * 4 + 2;
+          this.vx = (Math.random() - 0.5) * 0.5;
+          this.vy = -(Math.random() * 0.7 + 0.2);
+          this.glow = Math.random() * Math.PI * 2;
+          this.glowSpeed = Math.random() * 0.03 + 0.015;
+          this.opacity = Math.random() * 0.5 + 0.25;
+        }
+      }
+      update() {
+        if (this.type === 'pitch-black' || this.type === 'snow-white') return;
+
+        if (this.type === 'cherry-blossom') {
+          this.angle += this.angleSpeed;
+          this.tilt += this.tiltSpeed;
+          this.x += this.vx + Math.sin(this.angle) * 0.8;
+          this.y += this.vy;
+          if (this.y > canvas.height + 30 || this.x < -30 || this.x > canvas.width + 30) this.reset();
+        } else if (this.type === 'ocean-pearl') {
+          this.wobble += this.wobbleSpeed;
+          this.x += this.vx + Math.sin(this.wobble) * 0.6;
+          this.y += this.vy;
+          if (this.y < -20) this.reset();
+        } else if (this.type === 'liquid-gold') {
+          this.pulse += this.pulseSpeed;
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.y < -20) this.reset();
+        } else if (this.type === 'mellow-jade') {
+          this.glow += this.glowSpeed;
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.y < -20) this.reset();
+        }
+      }
+      draw() {
+        if (this.type === 'pitch-black' || this.type === 'snow-white') return;
+
+        ctx.save();
+        if (this.type === 'cherry-blossom') {
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.angle);
+          ctx.scale(Math.cos(this.tilt), 1);
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.bezierCurveTo(this.size, -this.size / 2, this.size * 1.4, this.size / 2, 0, this.size * 1.4);
+          ctx.bezierCurveTo(-this.size * 1.4, this.size / 2, -this.size, -this.size / 2, 0, 0);
+          ctx.fillStyle = `rgba(244, 114, 182, ${this.opacity})`;
+          ctx.fill();
+        } else if (this.type === 'ocean-pearl') {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity * 0.35})`;
+          ctx.strokeStyle = `rgba(224, 242, 254, ${this.opacity * 0.8})`;
+          ctx.lineWidth = 1.2;
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.beginPath();
+          ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.25, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.9})`;
+          ctx.fill();
+        } else if (this.type === 'liquid-gold') {
+          const currentOpacity = this.opacity * (0.6 + 0.4 * Math.sin(this.pulse));
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(251, 191, 36, ${currentOpacity})`;
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = '#fbbf24';
+          ctx.fill();
+        } else if (this.type === 'mellow-jade') {
+          const glowAlpha = this.opacity * (0.7 + 0.3 * Math.sin(this.glow));
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(52, 211, 153, ${glowAlpha})`;
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = '#34d399';
+          ctx.fill();
+        }
+        ctx.restore();
+      }
     }
 
-    function handleICSImport(event) {
-      const file = event.target.files[0];
-      if (!file) return;
+    function initParticles() {
+      particles = [];
+      if (state.palette === 'pitch-black' || state.palette === 'snow-white') return;
+      const count = 26;
+      for (let i = 0; i < count; i++) {
+        particles.push(new Particle(state.palette));
+      }
+    }
 
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
-        const veventBlocks = text.split('BEGIN:VEVENT');
-        let importedCount = 0;
-
-        veventBlocks.shift();
-
-        veventBlocks.forEach((block, idx) => {
-          const summaryMatch = block.match(/SUMMARY:(.*)/);
-          const dtstartMatch = block.match(/DTSTART.*:(.*)/);
-          const locationMatch = block.match(/LOCATION:(.*)/);
-          const descMatch = block.match(/DESCRIPTION:(.*)/);
-
-          const title = summaryMatch ? summaryMatch[1].trim() : `Astro Target #${idx + 1}`;
-          const dateStr = dtstartMatch ? dtstartMatch[1].trim() : '';
-          const location = locationMatch ? locationMatch[1].trim() : 'Local Dark Site';
-          const desc = descMatch ? descMatch[1].trim() : '';
-
-          const lower = (title + ' ' + desc).toLowerCase();
-          let category = 'milkyway';
-          if (lower.includes('eclipse') || lower.includes('moon')) category = 'lunar';
-          else if (lower.includes('solar')) category = 'solar';
-          else if (lower.includes('meteor') || lower.includes('shower')) category = 'meteor';
-          else if (lower.includes('aurora') || lower.includes('geomagnetic')) category = 'aurora';
-          else if (lower.includes('conjunction') || lower.includes('jupiter') || lower.includes('saturn')) category = 'planet';
-
-          const parsedDate = parseICSDate(dateStr);
-          const d = new Date(parsedDate);
-          const startH = String((d.getHours() - 1 + 24) % 24).padStart(2, '0');
-          const endH = String((d.getHours() + 2) % 24).padStart(2, '0');
-
-          const newEvt = {
-            id: 'imported-ics-' + Date.now() + '-' + idx,
-            title: title,
-            category: category,
-            date: parsedDate,
-            peakStart: `${startH}:00`,
-            peakEnd: `${endH}:00`,
-            siteName: location,
-            lat: 47.6797,
-            lng: -80.2644,
-            articleUrl: 'https://eclipse.gsfc.nasa.gov/',
-            bortle: 'Dark-Sky Target',
-            shutter: '15s – 25s',
-            iso: '1600 – 3200',
-            aperture: 'f/1.8 – f/2.8',
-            starred: false,
-            dismissed: false,
-            imported: true
-          };
-
-          state.events.push(newEvt);
-          importedCount++;
+    function animateFX() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (!state.nightVision && state.palette !== 'pitch-black' && state.palette !== 'snow-white') {
+        particles.forEach(p => {
+          p.update();
+          p.draw();
         });
-
-        saveState();
-        renderEvents();
-        alert(`Successfully imported ${importedCount} events! Check the monthly drawers.`);
-      };
-      reader.readAsText(file);
+      }
+      requestAnimationFrame(animateFX);
     }
 
-    function exportAppJSON() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.events, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", `Aperture_Orbit_Backup_${Date.now()}.json`);
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
-    }
+    initParticles();
+    animateFX();
 
-    function handleJSONImport(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const parsed = JSON.parse(e.target.result);
-          if (Array.isArray(parsed)) {
-            state.events = parsed;
-            saveState();
-            renderEvents();
-            alert('App backup restored successfully!');
-          } else {
-            alert('Invalid backup file format.');
-          }
-        } catch (err) {
-          alert('Could not read JSON file.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function hydrateSettings() {
-      document.getElementById('cfg-time-fmt').value = state.timeFormat;
-      document.getElementById('cfg-lead').value = state.leadTime;
-      document.getElementById('notif-toggle').checked = state.notifEnabled;
-      document.getElementById('calc-focal').value = state.calcFocal;
-      document.getElementById('calc-crop').value = state.calcCrop;
-
-      document.querySelectorAll('.swatch').forEach(s => {
-        if (s.getAttribute('onclick').includes(state.customAccent)) {
-          s.classList.add('active');
-        } else {
-          s.classList.remove('active');
-        }
-      });
-    }
-
-    // Init App
-    applyTheme(state.theme);
-    if(state.customAccent) {
-      document.documentElement.style.setProperty('--accent', state.customAccent);
-      document.documentElement.style.setProperty('--accent-glow', state.customAccent + '35');
-    }
-    hydrateSettings();
+    // Initial Load
+    document.body.setAttribute('data-theme', state.theme);
+    setPalette(state.palette);
+    setAppMode(state.appMode);
     recalcShutter();
+    fetchLiveWeather();
     renderEvents();
   </script>
 </body>
