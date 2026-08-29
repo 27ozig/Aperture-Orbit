@@ -382,7 +382,6 @@
     .tile-name { font-size: 0.95rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .tile-time-tag { font-size: 0.76rem; color: var(--text-muted); font-weight: 600; margin-top: 1px; }
 
-    /* Tile Corner Dismiss Button */
     .btn-tile-dismiss {
       background: none;
       border: none;
@@ -866,7 +865,7 @@
         <div class="settings-row">
           <div>
             <div style="font-weight:700;">Field Handbook & Guide</div>
-            <div style="font-size:0.74rem; color:var(--text-muted);">Dedicated cameras, optics, & apps</div>
+            <div style="font-size:0.74rem; color:var(--text-muted);">Aperture Orbit • 2.4.0 • Public Beta</div>
           </div>
           <button class="btn-tile-act" style="padding:6px 14px; width:auto; flex-direction:row;" onclick="openGuideModal()"><i data-lucide="book-open"></i> Read</button>
         </div>
@@ -936,8 +935,8 @@
   <div class="modal-overlay" id="guide-modal" onclick="closeModal(event)">
     <div class="modal-sheet">
       <div style="width:36px; height:4px; background:var(--border); border-radius:99px; margin:0 auto 12px;"></div>
-      <div style="font-size:1.15rem; font-weight:900; margin-bottom:4px;">Field Handbook & Guide</div>
-      <div style="font-size:0.74rem; color:var(--accent); font-weight:700; margin-bottom:14px;">Aperture // Orbit Field Reference</div>
+      <div style="font-size:1.15rem; font-weight:900; margin-bottom:2px;">Field Handbook & Guide</div>
+      <div style="font-size:0.75rem; color:var(--accent); font-weight:800; margin-bottom:14px;">Aperture Orbit • 2.4.0 • Public Beta</div>
 
       <div class="guide-card-block">
         <b>1. Dedicated Camera Rig Setup (DSLR / Mirrorless)</b><br>
@@ -955,6 +954,13 @@
       <div class="guide-card-block">
         <b>3. Calendar Export (Long-Press)</b><br>
         Press and hold any starred card for <b>0.6 seconds</b> to directly export the configured <code>.ics</code> alert to your calendar.
+      </div>
+
+      <!-- CREDITS & COMMUNITY (COMPACT & THEMED) -->
+      <div class="guide-card-block" style="padding: 8px 10px; margin-bottom: 8px;">
+        <div style="font-size: 0.65rem; color: var(--text-muted); line-height: 1.35;">
+          Dev: <a href="https://instagram.com/27ozig" target="_blank" rel="noopener noreferrer" style="color: var(--accent); text-decoration: none;"><b>@27ozig</b></a>. Big thank you to a few people, firstly <span style="color: #f472b6; font-weight: 700;">Aubree</span> for putting up with my bullshit, suggesting the <span style="color: #f472b6; font-weight: 600;">Cherry Blossom theme</span> & testing the location stuff. Another big thank you to <span style="color: #34d399; font-weight: 700;">Thomas</span> for enlightening me about space. I literally would've never known how cool this shit was if he didn't tell me about it. As well as thank you to those who've supported me on Instagram. The few likes have inspired me to try and push a service to possibly aid or attract others into this cool little hobby.
+        </div>
       </div>
 
       <button class="btn-tile-act" style="width:100%; padding:10px; font-weight:800; margin-top:8px;" onclick="closeModalDirect('guide-modal')">Close Guide</button>
@@ -1337,191 +1343,25 @@ GEO:51.8822;-3.4369
 DESCRIPTION:Highly reliable winter meteor activity.
 STATUS:CONFIRMED
 END:VEVENT
-END:VCALENDAR`,
-
-      'Southern_Hemisphere': `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//AI Astro Calendar//Southern_Hemisphere//EN
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-X-WR-CALNAME:Southern Hemisphere Astro Events
-BEGIN:VEVENT
-UID:Southern_Hemisphere_0_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260110T180000Z
-DTEND:20260111T060000Z
-SUMMARY:Jupiter at Opposition
-LOCATION:Sutherland, Northern Cape, South Africa
-GEO:-32.3783;20.8105
-DESCRIPTION:Superb views of the gas giant from the southern Karoo.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_1_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260217T113000Z
-DTEND:20260217T140000Z
-SUMMARY:Annular Solar Eclipse (Ring of Fire)
-LOCATION:Amundsen-Scott Station, Antarctica
-GEO:-90.0000;0.0000
-DESCRIPTION:Rare solar alignment over remote Antarctic ice sheets.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_2_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260217T150000Z
-DTEND:20260217T170000Z
-SUMMARY:Partial Solar Eclipse (Edge View)
-LOCATION:Ushuaia, Tierra del Fuego, Argentina
-GEO:-54.8019;-68.3030
-DESCRIPTION:Southernmost tip of South America captures a partial view of the annular eclipse.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_3_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260320T090000Z
-DTEND:20260320T120000Z
-SUMMARY:March Equinox & Galaxy Viewing
-LOCATION:Aoraki Mount Cook Dark Sky Reserve, New Zealand
-GEO:-43.7335;170.0955
-DESCRIPTION:Long night equinox window optimal for galactic core panoramas.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_4_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260506T020000Z
-DTEND:20260506T090000Z
-SUMMARY:Eta Aquariids Meteor Shower Peak
-LOCATION:Siding Spring Observatory, Australia
-GEO:-31.2748;149.0683
-DESCRIPTION:Favorable Southern Hemisphere positioning for premium Halley's debris count.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_5_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260728T180000Z
-DTEND:20260729T020000Z
-SUMMARY:Southern Delta Aquariids Peak
-LOCATION:Atacama Desert, Chile
-GEO:-23.8634;-69.1411
-DESCRIPTION:Crisp high-altitude desert viewing for southern meteor shower.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_6_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20260925T160000Z
-DTEND:20260926T040000Z
-SUMMARY:Neptune at Opposition
-LOCATION:La Silla Observatory, Chile
-GEO:-29.2612;-70.7323
-DESCRIPTION:Neptune at its absolute brightest, requires telescope or large binoculars.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_7_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20261004T180000Z
-DTEND:20261005T060000Z
-SUMMARY:Saturn at Opposition
-LOCATION:NamibRand Nature Reserve, Namibia
-GEO:-24.9652;15.9056
-DESCRIPTION:Pristine dark sky viewing for planetary rings and details.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_8_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20261125T120000Z
-DTEND:20261126T040000Z
-SUMMARY:Uranus at Opposition
-LOCATION:Woomera, South Australia
-GEO:-31.1996;136.8253
-DESCRIPTION:Uranus reaches peak luminosity under desolate desert skies.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_9_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20270206T150000Z
-DTEND:20270206T180000Z
-SUMMARY:Annular Solar Eclipse (2027)
-LOCATION:Patagonia Region, Argentina
-GEO:-46.5000;-70.0000
-DESCRIPTION:Annular 'Ring of Fire' cuts across South America.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_10_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20270211T120000Z
-DTEND:20270212T060000Z
-SUMMARY:Jupiter at Opposition (2027)
-LOCATION:Cerro Tololo Inter-American Observatory, Chile
-GEO:-30.1690;-70.8063
-DESCRIPTION:Perfect overhead views of giant planet opposition from Southern latitudes.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_11_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20270220T010000Z
-DTEND:20270220T040000Z
-SUMMARY:Penumbral Lunar Eclipse
-LOCATION:Melbourne, Victoria, Australia
-GEO:-37.8136;144.9631
-DESCRIPTION:Early morning penumbral eclipse viewing.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_12_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20270718T190000Z
-DTEND:20270718T223000Z
-SUMMARY:Penumbral Lunar Eclipse (Winter)
-LOCATION:Johannesburg, South Africa
-GEO:-26.2041;28.0473
-DESCRIPTION:Midwinter clear night celestial observation.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_13_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20270802T093000Z
-DTEND:20270802T110000Z
-SUMMARY:The Great Total Solar Eclipse of 2027
-LOCATION:Luxor, Egypt
-GEO:25.6872;32.6396
-DESCRIPTION:Maximum totality length over 6 minutes. Ultimate eclipse observation point.
-STATUS:CONFIRMED
-END:VEVENT
-BEGIN:VEVENT
-UID:Southern_Hemisphere_14_20262027@astro.calendar
-DTSTAMP:20260828T000000Z
-DTSTART:20271213T120000Z
-DTEND:20271214T020000Z
-SUMMARY:Geminids Meteor Shower Southern View
-LOCATION:Lake Tekapo, New Zealand
-GEO:-44.0047;170.4771
-DESCRIPTION:Summertime meteor shower watching away from light pollution.
-STATUS:CONFIRMED
-END:VEVENT
 END:VCALENDAR`
     };
 
     function parseICSString(text) {
       const blocks = text.split('BEGIN:VEVENT');
       blocks.shift();
+
+      const starredIds = JSON.parse(localStorage.getItem('orbit_starred_ids') || '[]');
+      const dismissedIds = JSON.parse(localStorage.getItem('orbit_dismissed_ids') || '[]');
+
       return blocks.map((b, idx) => {
+        const uidMatch = b.match(/UID:(.*)/);
         const sum = b.match(/SUMMARY:(.*)/);
         const dt = b.match(/DTSTART.*:(.*)/);
         const loc = b.match(/LOCATION:(.*)/);
         const geo = b.match(/GEO:(.*)/);
         const desc = b.match(/DESCRIPTION:(.*)/);
+
+        const stableId = uidMatch ? uidMatch[1].trim() : `target-${idx}`;
 
         let lat = 42.98, lng = -81.24;
         if (geo) {
@@ -1561,7 +1401,7 @@ END:VCALENDAR`
         }
 
         return {
-          id: `target-${idx}-${Date.now()}`,
+          id: stableId,
           title: title,
           category: category,
           date: isoDate,
@@ -1575,8 +1415,8 @@ END:VCALENDAR`
           gearReq: gearReq,
           visibility: visibility,
           details: description,
-          starred: idx === 0,
-          dismissed: false
+          starred: starredIds.includes(stableId),
+          dismissed: dismissedIds.includes(stableId)
         };
       });
     }
@@ -1599,6 +1439,11 @@ END:VCALENDAR`
 
     function saveState() {
       localStorage.setItem('orbit_events', JSON.stringify(state.events));
+
+      const starredIds = state.events.filter(e => e.starred).map(e => e.id);
+      const dismissedIds = state.events.filter(e => e.dismissed).map(e => e.id);
+      localStorage.setItem('orbit_starred_ids', JSON.stringify(starredIds));
+      localStorage.setItem('orbit_dismissed_ids', JSON.stringify(dismissedIds));
     }
 
     function switchTab(id, btn) {
@@ -1811,10 +1656,7 @@ END:VCALENDAR`
     }
 
     function toggleStar(id) {
-      const evt = state.events.find(e => e.id === id);
-      if (!evt) return;
-
-      evt.starred = !evt.starred;
+      state.events = state.events.map(e => e.id === id ? { ...e, starred: !e.starred } : e);
       saveState();
       renderEvents();
     }
@@ -2127,7 +1969,6 @@ END:VCALENDAR`
           this.wobbleSpeed = Math.random() * 0.04 + 0.02;
           this.opacity = Math.random() * 0.4 + 0.2;
         } else if (this.type === 'liquid-gold') {
-          // Shimmering metallic flakes with glints
           this.y = Math.random() * canvas.height;
           this.size = Math.random() * 4 + 2;
           this.vx = (Math.random() - 0.5) * 0.7;
@@ -2137,7 +1978,6 @@ END:VCALENDAR`
           this.glint = Math.random() > 0.65;
           this.opacity = Math.random() * 0.6 + 0.3;
         } else if (this.type === 'mellow-jade') {
-          // Floating 3D Emerald Crystal Shards
           this.y = Math.random() * canvas.height;
           this.size = Math.random() * 7 + 4;
           this.vx = (Math.random() - 0.5) * 0.4;
@@ -2208,7 +2048,6 @@ END:VCALENDAR`
           ctx.translate(this.x, this.y);
           ctx.rotate(this.sparkle);
 
-          // Specular Star Flare
           if (this.glint && Math.sin(this.sparkle) > 0.6) {
             ctx.beginPath();
             ctx.moveTo(0, -this.size * 2);
@@ -2220,7 +2059,6 @@ END:VCALENDAR`
             ctx.stroke();
           }
 
-          // Metallic Gold Core
           ctx.beginPath();
           ctx.rect(-this.size/2, -this.size/2, this.size, this.size);
           ctx.fillStyle = `rgba(251, 191, 36, ${currentAlpha})`;
@@ -2228,7 +2066,6 @@ END:VCALENDAR`
           ctx.shadowColor = '#fbbf24';
           ctx.fill();
         } else if (this.type === 'mellow-jade') {
-          // Multi-faceted Crystal Shard
           const currentAlpha = this.opacity * (0.6 + 0.4 * Math.sin(this.shimmer));
           ctx.translate(this.x, this.y);
           ctx.rotate(this.rot);
@@ -2244,7 +2081,6 @@ END:VCALENDAR`
           ctx.shadowColor = '#34d399';
           ctx.fill();
 
-          // Internal Facet Light Streak
           ctx.beginPath();
           ctx.moveTo(0, -this.size);
           ctx.lineTo(0, this.size);
